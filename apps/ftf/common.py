@@ -5,6 +5,9 @@ These are fixtures that every app needs so probably you will not be editing this
 import os
 import sys
 import logging
+
+from py4web.utils.form import FormStyleBootstrap4
+
 from py4web import Session, Cache, Translator, Flash, DAL, Field, action
 from py4web.utils.mailer import Mailer
 from py4web.utils.auth import Auth
@@ -87,6 +90,7 @@ auth.param.login_expiration_time = 3600
 auth.param.password_complexity = {"entropy": 50}
 auth.param.block_previous_password_num = 3
 auth.param.default_login_enabled = settings.DEFAULT_LOGIN_ENABLED
+auth.param.formstyle = FormStyleBootstrap4
 auth.define_tables()
 auth.fix_actions()
 
