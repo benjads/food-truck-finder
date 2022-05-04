@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="[[=URL('static')]]/">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="data:image/x-icon;base64,AAABAAEAAQEAAAEAIAAwAAAAFgAAACgAAAABAAAAAgAAAAEAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAA=="
+          rel="shortcut icon"/>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+    <link href="css/ftf-style.css" rel="stylesheet">
+    <style>.py4web-validation-error {
+        font-size: 0.8em;
+        color: #ff0000
+    }</style>
+    [[block page_head]]<!-- individual pages can customize header here --> [[end]]
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #FE4A49;">
+    <div class="container">
+        <a class="navbar-brand" href="[[=URL('index')]]">Food Truck Finder</a>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a aria-current="page" class="nav-link active" href="#">Home</a>
+                </li>
+            </ul>
+            [[if globals().get('user'):]]
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="navbarScrollingDropdown" role="button">
+                        Hello, [[=globals().get('user',{}).get('first_name')]]
+                    </a>
+                    <ul aria-labelledby="navbarScrollingDropdown" class="dropdown-menu">
+                        <li><a class="dropdown-item" href="[[=URL('auth/logout')]]">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+            [[else:]]
+            <a href="[[=URL('auth/login')]]">
+                <button class="btn btn-light" type="button">Login</button>
+            </a>
+            [[pass]]
+        </div>
+    </div>
+</nav>
+
+<main>
+    [[include]]
+</main>
+
+<footer>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #424B54;">
+        <div class="container">
+            <a class="navbar-brand">
+                <img alt="FTF Logo" class="img-fluid" id="footer-logo" src="../static/img/ftf_logo_transparent.png">
+            </a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                <li class="nav-item">
+                    <a aria-current="page" class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a aria-current="page" class="nav-link active" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a aria-current="page" class="nav-link active" href="#">Create Account</a>
+                </li>
+            </ul>
+            <div class="text-white">
+                © Copyright 2022 Food Truck Finder
+            </div>
+        </div>
+    </nav>
+</footer>
+
+</body>
+<!-- You've gotta have utils.js -->
+<script src="js/utils.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+[[block page_scripts]]<!-- individual pages can add scripts here --> [[end]]
+</html>

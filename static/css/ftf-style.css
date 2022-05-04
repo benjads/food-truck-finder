@@ -1,0 +1,8 @@
+#footer-logo {
+    max-height: 6rem;
+}
+
+/* Login */
+#auth-container div a {
+    padding: 0 1rem 0 1rem;
+}
