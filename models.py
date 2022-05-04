@@ -27,4 +27,15 @@ db.define_table(
 )
 db.food_truck.id.readable = db.food_truck.id.writable = False
 
+# Food truck hours
+db.define_table(
+    'food_truck_hours',
+    Field('food_truck_id', 'reference food_truck', ondelete='CASCADE'),
+    Field('dotw', requires=IS_NOT_EMPTY()),  # day of the week
+    Field('open_time', requires=IS_NOT_EMPTY()),
+    Field('close_time')
+)
+
+db.food_truck_hours.id.readable = db.food_truck_hours.id.writable = False
+
 db.commit()
