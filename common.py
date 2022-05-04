@@ -12,7 +12,8 @@ from py4web.utils.auth import Auth
 from py4web.utils.downloader import downloader
 from pydal.tools.tags import Tags
 from py4web.utils.factories import ActionFactory
-from py4web.utils.form import FormStyleBulma
+from py4web.utils.form import FormStyleBootstrap4
+from pydal.validators import *
 from . import settings
 
 # #######################################################
@@ -99,6 +100,11 @@ auth_button_classes = {
     "submit": "button is-primary",
 }
 
+# Add phone number field
+auth.extra_auth_user_fields = [
+    Field('phone_number', requires=IS_NOT_EMPTY())
+]
+
 auth.use_username = False
 auth.param.button_classes = auth_button_classes
 auth.param.registration_requires_confirmation = False
@@ -108,7 +114,10 @@ auth.param.login_expiration_time = 3600
 # FIXME: Readd for production.
 auth.param.password_complexity = {"entropy": 2}
 auth.param.block_previous_password_num = 3
-auth.param.formstyle = FormStyleBulma
+
+# Set form style to Bootstrap
+auth.param.formstyle = FormStyleBootstrap4
+
 auth.define_tables()
 
 # #######################################################
