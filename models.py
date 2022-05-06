@@ -10,11 +10,11 @@ from pydal.validators import *
 def get_user_email():
     return auth.current_user.get('email') if auth.current_user else None
 
-
 def get_time():
     return datetime.datetime.utcnow()
 
 
+# Table for a single food truck
 db.define_table(
     'food_truck',
     # food truck ID
@@ -27,7 +27,7 @@ db.define_table(
 )
 db.food_truck.id.readable = db.food_truck.id.writable = False
 
-# Food truck hours
+# Food truck hours for that single food truck
 db.define_table(
     'food_truck_hours',
     Field('food_truck_id', 'reference food_truck', ondelete='CASCADE'),

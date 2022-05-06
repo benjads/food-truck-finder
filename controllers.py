@@ -41,3 +41,33 @@ def index():
         # COMPLETE: return here any signed URLs you need.
         my_callback_url=URL('my_callback', signer=url_signer),
     )
+
+
+# Create food truck listing form (GET only)
+@action('add-listing')
+@action.uses('add_listing.html', db, session, auth.user, url_signer)
+def add_listing():
+    return dict()
+
+
+# The POST endpoint where the add listing form submits to
+@action('submit-listing')
+@action.uses(db, session, auth.user, url_signer.verify())
+def submit_listing():
+    # How do we get the POST body?
+    redirect(URL('index'))
+
+
+@action('manage-listings')
+@action.uses('manage_listings.html', db, session, auth.user, url_signer)
+def manage_listing():
+    return dict()
+
+# The endpoint for the customer to delete a food truck listing
+@action('delete-listing/<food_truck_id:int>')
+@action.uses(db, session, auth.user, url_signer.verify())
+def delete_listing(food_truck_id=None):
+    assert food_truck_id is not None
+    db(db.food_truck.id == food_truck_id).delete()
+    # How do we get the POST body?
+    redirect(URL('manage-listing'))

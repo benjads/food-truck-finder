@@ -92,12 +92,12 @@ auth_messages['buttons']['lost-password'] = "Lost password"
 
 # And button classes.
 auth_button_classes = {
-    "lost-password": "button is-danger is-light",
-    "register": "button is-info is-light",
-    "request": "button is-primary",
-    "sign-in": "button is-primary",
-    "sign-up": "button is-success",
-    "submit": "button is-primary",
+    "lost-password": "btn btn-primary mx-2",
+    "register": "btn btn-primary mx-2",
+    "request": "btn btn-primary mx-2",
+    "sign-in": "btn btn-primary mx-2",
+    "sign-up": "btn btn-primary mx-2",
+    "submit": "btn btn-primary mx-2",
 }
 
 # Add phone number field

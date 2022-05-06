@@ -43,9 +43,10 @@
                 </li>
             </ul>
             [[else:]]
-            <a href="[[=URL('auth/login')]]">
-                <button class="btn btn-light" type="button">Login</button>
-            </a>
+            <div class="py-3">
+                <a class="btn btn-light" role="button" href="[[=URL('auth/login')]]">Login</a>
+                <a class="btn btn-light" role="button" href="[[=URL('auth/register')]]">Sign Up</a>
+            </div>
             [[pass]]
         </div>
     </div>
@@ -63,10 +64,13 @@
             </a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
                 <li class="nav-item">
-                    <a aria-current="page" class="nav-link active" href="#">Home</a>
+                    <a aria-current="page" class="nav-link active" href="[[=URL('index')]]">Home</a>
                 </li>
                 <li class="nav-item">
                     <a aria-current="page" class="nav-link active" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a aria-current="page" class="nav-link active" href="#">FAQ & Privacy</a>
                 </li>
                 <li class="nav-item">
                     <a aria-current="page" class="nav-link active" href="#">Create Account</a>
