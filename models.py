@@ -19,13 +19,17 @@ db.define_table(
     'food_truck',
     # food truck ID
     Field('availability', requires=IS_NOT_EMPTY()),
-    Field('location', requires=IS_NOT_EMPTY()),
-    Field('food_type', requires=IS_NOT_EMPTY()),
+    Field('address', requires=IS_NOT_EMPTY()),
+    Field('cuisine_type', requires=IS_NOT_EMPTY()),
     Field('phone_number'),  # optional
     Field('email'),  # optional
     Field('website')  # optional (can be link to website, instagram, etc)
 )
 db.food_truck.id.readable = db.food_truck.id.writable = False
+# db.food_truck.availability.readable = db.food_truck.availability.writable = False
+# db.food_truck.address.readable = db.food_truck.address.writable = False
+# db.food_truck.cuisine_type.readable = db.food_truck.cuisine_type.writable = False
+
 
 # Food truck hours for that single food truck
 db.define_table(

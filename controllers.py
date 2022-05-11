@@ -25,11 +25,14 @@ session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
 
-from py4web import action, request, abort, redirect, URL
+from py4web import action, request, abort, redirect, URL, Field
 from yatl.helpers import A
+
+from py4web.utils.form import Form, FormStyleBootstrap4
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email
+from pydal.validators import *
 
 url_signer = URLSigner(session)
 
@@ -42,20 +45,20 @@ def index():
         my_callback_url=URL('my_callback', signer=url_signer),
     )
 
-
-# Create food truck listing form (GET only)
-@action('add-listing')
-@action.uses('add_listing.html', db, session, auth.user, url_signer)
-def add_listing():
+@action('about-us')
+@action.uses('about-us.html', db, auth, url_signer)
+def index():
     return dict()
 
-
-# The POST endpoint where the add listing form submits to
-@action('submit-listing')
-@action.uses(db, session, auth.user, url_signer.verify())
-def submit_listing():
-    # How do we get the POST body?
-    redirect(URL('index'))
+# Create food truck listing form
+@action('add-listing', method=["GET", "POST"])
+@action.uses('add-listing.html', db, session, auth.user, url_signer)
+def add_listing():
+    form = Form(db.food_truck, csrf_session=session, formstyle=FormStyleBootstrap4)
+    if form.accepted:
+        redirect(URL('index'))
+    # Either this is a GET request, or this is a POST but not accepted = with errors.
+    return dict(form=form)
 
 
 @action('manage-listings')
