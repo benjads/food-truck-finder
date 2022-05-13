@@ -36,7 +36,7 @@ from pydal.validators import *
 
 url_signer = URLSigner(session)
 
-
+# Main webapge End points  ##############################
 @action('index')
 @action.uses('index.html', db, auth, url_signer)
 def index():
@@ -50,6 +50,8 @@ def index():
 def index():
     return dict()
 
+
+# Food Truck Listing End Points #########################################
 # Create food truck listing form
 @action('add-listing', method=["GET", "POST"])
 @action.uses('add-listing.html', db, session, auth.user, url_signer)
@@ -60,11 +62,18 @@ def add_listing():
     # Either this is a GET request, or this is a POST but not accepted = with errors.
     return dict(form=form)
 
-
 @action('manage-listings')
-@action.uses('manage_listings.html', db, session, auth.user, url_signer)
+@action.uses('manage-listings.html', db, session, auth.user, url_signer)
 def manage_listing():
     return dict()
+
+@action('edit-listings')
+@action.uses('edit-listings.html', db, session, auth.user, url_signer)
+def edit_listing():
+    form = Form(db.food_truck, csrf_session=session, formstyle=FormStyleBootstrap4)
+    if form.accepted:
+        redirect(URL('manage-listings'))
+    return dict(form=form)
 
 # The endpoint for the customer to delete a food truck listing
 @action('delete-listing/<food_truck_id:int>')
