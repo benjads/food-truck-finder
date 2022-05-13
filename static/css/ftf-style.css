@@ -1,3 +1,7 @@
 #footer-logo {
     max-height: 6rem;
 }
+
+#top-nav {
+    min-height: 5rem;
+}
