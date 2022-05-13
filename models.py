@@ -19,6 +19,7 @@ db.define_table(
     'food_truck',
     # food truck ID
     Field('availability', requires=IS_NOT_EMPTY()),
+    Field('name', requires=IS_NOT_EMPTY()),
     Field('address', requires=IS_NOT_EMPTY()),
     Field('cuisine_type', requires=IS_NOT_EMPTY()),
     Field('phone_number'),  # optional

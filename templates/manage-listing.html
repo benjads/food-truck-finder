@@ -1,2 +1,30 @@
 [[extend 'layout.html']]
+<section class="section">
+  <div class="title">Your Listings</div>
 
+  <div class="container">
+    <table class="table is-striped is-fullwidth">
+      <tr>
+        <th>Food Trucks</th>
+        <th></th>
+      </tr>
+      [[for truck in trucks:]]
+      <tr>
+        <td>[[=truck.name]]</td>
+        <td>
+          <a class="button is-warning" href="[[=URL('edit-listings', truck['id'], signer=url_signer)]]">
+            <span class="icon"><i class="fa fa-edit"></i></span>
+          </a>
+          <a class="button is-danger" href="[[=URL('delete-listings', truck['id'], signer=url_signer)]]">
+            <span class="icon"><i class="fa fa-fw fa-trash"></i></span>
+          </a>
+        </td>
+      </tr>
+
+      [[pass]]
+    </table>
+    <a class="button is-primary" href="[[=URL('add-listing', signer=url_signer)]]">
+      <span>Add Listing</span>
+    </a>
+  </div>
+</section>
