@@ -65,7 +65,8 @@ def add_listing():
 @action('manage-listings')
 @action.uses('manage-listings.html', db, session, auth.user, url_signer)
 def manage_listing():
-    return dict()
+    trucks = db(db.food_truck.email == get_user_email()).select().as_list()
+    return dict(trucks=trucks, url_signer=url_signer)
 
 @action('edit-listings')
 @action.uses('edit-listings.html', db, session, auth.user, url_signer)
