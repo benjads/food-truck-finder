@@ -58,19 +58,20 @@ def index():
 def add_listing():
     form = Form(db.food_truck, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
-        redirect(URL('index'))
+        redirect(URL('manage-listings'))
     # Either this is a GET request, or this is a POST but not accepted = with errors.
     return dict(form=form)
 
 @action('manage-listings')
 @action.uses('manage-listings.html', db, session, auth.user, url_signer)
 def manage_listing():
-    trucks = db(db.food_truck.email == get_user_email()).select().as_list()
+    trucks = db(db.food_truck.created_by == get_user_email()).select()
     return dict(trucks=trucks, url_signer=url_signer)
 
-@action('edit-listings')
-@action.uses('edit-listings.html', db, session, auth.user, url_signer)
-def edit_listing():
+@action('edit-listing/<food_truck_id:int>', method=["GET", "POST"])
+@action.uses('edit-listing.html', db, session, auth.user, url_signer)
+def edit_listing(food_truck_id=None):
+    assert food_truck_id is not None
     form = Form(db.food_truck, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
         redirect(URL('manage-listings'))
@@ -83,4 +84,4 @@ def delete_listing(food_truck_id=None):
     assert food_truck_id is not None
     db(db.food_truck.id == food_truck_id).delete()
     # How do we get the POST body?
-    redirect(URL('manage-listing'))
+    redirect(URL('manage-listings'))

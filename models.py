@@ -18,15 +18,17 @@ def get_time():
 db.define_table(
     'food_truck',
     # food truck ID
-    Field('availability', requires=IS_NOT_EMPTY()),
     Field('name', requires=IS_NOT_EMPTY()),
+    Field('availability', requires=IS_NOT_EMPTY()),
     Field('address', requires=IS_NOT_EMPTY()),
     Field('cuisine_type', requires=IS_NOT_EMPTY()),
     Field('phone_number'),  # optional
     Field('email'),  # optional
-    Field('website')  # optional (can be link to website, instagram, etc)
+    Field('website'),  # optional (can be link to website, instagram, etc)
+    Field('created_by', default=get_user_email), #links the foodtruck to email it is created by
 )
 db.food_truck.id.readable = db.food_truck.id.writable = False
+db.food_truck.created_by.readable = db.food_truck.created_by.writable = False
 # db.food_truck.availability.readable = db.food_truck.availability.writable = False
 # db.food_truck.address.readable = db.food_truck.address.writable = False
 # db.food_truck.cuisine_type.readable = db.food_truck.cuisine_type.writable = False
