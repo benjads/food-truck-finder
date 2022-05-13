@@ -15,7 +15,9 @@ let init = (app) => {
     app.enumerate = (a) => {
         // This adds an _idx field to each element of the array.
         let k = 0;
-        a.map((e) => {e._idx = k++;});
+        a.map((e) => {
+            e._idx = k++;
+        });
         return a;
     };
 
@@ -50,10 +52,17 @@ init(app);
 let map;
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 8,
-  });
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: {lat: 36.968, lng: -122.057},
+        zoom: 14,
+    });
+    map.setOptions({
+        styles:
+            {
+                featureType: "poi.business",
+                stylers: [{visibility: "off"}],
+            }
+    })
 }
 
 window.initMap = initMap;
