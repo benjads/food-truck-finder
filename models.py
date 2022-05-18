@@ -28,6 +28,7 @@ db.define_table(
     Field('created_by', default=get_user_email), #links the foodtruck to email it is created by
 )
 db.food_truck.id.readable = db.food_truck.id.writable = False
+db.food_truck.availability.readable = db.food_truck.availability.writable = False
 db.food_truck.created_by.readable = db.food_truck.created_by.writable = False
 # db.food_truck.availability.readable = db.food_truck.availability.writable = False
 # db.food_truck.address.readable = db.food_truck.address.writable = False

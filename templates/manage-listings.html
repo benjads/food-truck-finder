@@ -32,8 +32,11 @@
           <td>[[=truck.address]]</td>
            <!-- Edit button -->
           <td>
-            <button type="button" class="btn btn-primary" href="#">
-              Edit
+            <a class="btn btn-primary" href="[[=URL('edit-listing', truck.id, signer=url_signer)]]">
+              <span>Edit</span>
+            </a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Delete
             </button>
           </td>
         </tr>
@@ -41,23 +44,30 @@
       </tbody>
     </table>
 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Confirm deletion
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <!-- Add Listing Button -->
-    <button type="button" class="btn btn-primary" href="#">
-      Add Listing
-    </button>
-  </div>
-
-  <!--
-  <a class="button is-warning" href="[[=URL('edit-listing', truck.id, signer=url_signer)]]">
-    <span class="icon"><i class="fa fa-edit"></i></span>
-  </a>
-  <a class="button is-danger" href="[[=URL('delete-listing', truck.id, signer=url_signer)]]">
-    <span class="icon"><i class="fa fa-trash"></i></span>
-  </a>
-    <a class="button is-primary" href="[[=URL('add-listing', signer=url_signer)]]">
-    <span>Add Listing</span>
-  </a>
-  -->
+    <a class="btn btn-outline-info" href="[[=URL('add-listing', signer=url_signer)]]">
+      <span>Add Listing</span>
+    </a>
 
   </div>
+
 </section>

@@ -62,20 +62,29 @@ def add_listing():
     # Either this is a GET request, or this is a POST but not accepted = with errors.
     return dict(form=form)
 
+# End point to see all of your listings/food trucks
 @action('manage-listings')
 @action.uses('manage-listings.html', db, session, auth.user, url_signer)
 def manage_listing():
     trucks = db(db.food_truck.created_by == get_user_email()).select()
     return dict(trucks=trucks, url_signer=url_signer)
 
+# End point to edit 1 specific listing/food truck
 @action('edit-listing/<food_truck_id:int>', method=["GET", "POST"])
 @action.uses('edit-listing.html', db, session, auth.user, url_signer)
 def edit_listing(food_truck_id=None):
     assert food_truck_id is not None
-    form = Form(db.food_truck, csrf_session=session, formstyle=FormStyleBootstrap4)
+
+    curr = db.food_truck[food_truck_id]
+    if curr is None:
+        redirect(URL('index'))
+
+    form = Form(db.food_truck, record=curr, deletable=False, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
         redirect(URL('manage-listings'))
-    return dict(form=form)
+    return dict(form=form,
+                url_signer=url_signer,
+                food_truck_id=food_truck_id)
 
 # The endpoint for the customer to delete a food truck listing
 @action('delete-listing/<food_truck_id:int>')
