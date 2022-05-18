@@ -48,6 +48,7 @@ let init = (app) => {
 // putting all the code i
 init(app);
 
+/* Google Map */
 
 let map;
 

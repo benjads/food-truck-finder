@@ -1,10 +1,155 @@
 <style>
-    #map {
+    #map-container {
         height: calc(100vh - 6rem);
+        position: relative;
+    }
+
+    #map {
+        height: 100%;
+    }
+
+    #map-overlay {
+        position: absolute;
+        top: 4rem;
+        right: 4rem;
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.8);
+        max-height: 30rem;
+        overflow-y: scroll;
+        overflow-x: clip;
+    }
+
+    .ft-listing {
+        max-width: 540px;
+    }
+
+    .ft-listing-bottom {
+        position: absolute;
+        bottom: 1rem;
+        width: 100%;
+    }
+
+    .ft-hours tbody tr th {
+        padding-right: 2rem;
     }
 </style>
 
-<div id="map"></div>
+<div id="map-container">
+    <div id="map"></div>
+
+    <div id="map-overlay">
+
+        <div class="ft-listing card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img alt="Toby's Tacos Truck" class="img-fluid rounded-start"
+                         src="https://via.placeholder.com/300"/>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Toby's Tacos</h5>
+
+                        <p class="card-text fw-light fst-italic">Mexican, Vegan</p>
+
+                        <div class="row justify-content-between">
+                            <div class="col">
+                                <p class="text-danger">Closes Soon</p>
+                            </div>
+                            <div class="col text-right">
+                                <p class="text-end">0.5mi</p>
+                            </div>
+                        </div>
+
+                        <table class="ft-hours">
+                            <tbody>
+                            <tr>
+                                <th>Monday</th>
+                                <td>11:00am - 10:00pm</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday</th>
+                                <td>11:00am - 10:00pm</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday</th>
+                                <td>11:00am - 10:00pm</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday</th>
+                                <td>11:00am - 10:00pm</td>
+                            </tr>
+                            <tr>
+                                <th>Friday</th>
+                                <td>11:00am - 10:00pm</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday</th>
+                                <td>11:00am - 10:00pm</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday</th>
+                                <td>11:00am - 10:00pm</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ft-listing card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img alt="Toby's Tacos Truck" class="img-fluid rounded-start"
+                         src="https://via.placeholder.com/300"/>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Toby's Tacos</h5>
+                        <p class="card-text fw-light fst-italic">Mexican, Vegan</p>
+                        <div class="row justify-content-between ft-listing-bottom">
+                            <div class="col">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="col">
+                                <p>0.5mi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ft-listing card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img alt="Toby's Tacos Truck" class="img-fluid rounded-start"
+                         src="https://via.placeholder.com/300"/>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Toby's Tacos</h5>
+                        <p class="card-text fw-light fst-italic">Mexican, Vegan</p>
+                        <div class="row justify-content-between ft-listing-bottom">
+                            <div class="col">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="col">
+                                <p>0.5mi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
 
 <script
         defer
