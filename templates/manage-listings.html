@@ -35,17 +35,14 @@
             <a class="btn btn-primary" href="[[=URL('edit-listing', truck.id, signer=url_signer)]]">
               <span>Edit</span>
             </a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#truck-del-[[=truck.id]]">
               Delete
             </button>
           </td>
         </tr>
-      [[pass]]
-      </tbody>
-    </table>
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- Modal -->
+  <div class="modal fade" id="truck-del-[[=truck.id]]" tabindex="-1" aria-labelledby="truck-del-[[=truck.id]]" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -53,15 +50,20 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Confirm deletion
+          This action cannot be undone.
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a class="btn btn-danger" href="[[=URL('delete-listing', truck.id, signer=url_signer)]]">
+            <span>Delete</span>
+          </a>
         </div>
       </div>
     </div>
   </div>
+      [[pass]]
+      </tbody>
+    </table>
 
     <!-- Add Listing Button -->
     <a class="btn btn-outline-info" href="[[=URL('add-listing', signer=url_signer)]]">

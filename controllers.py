@@ -31,10 +31,11 @@ from yatl.helpers import A
 from py4web.utils.form import Form, FormStyleBootstrap4
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
-from .models import get_user_email
+from .models import get_user_email, get_user
 from pydal.validators import *
 
 url_signer = URLSigner(session)
+
 
 # Main webapge End points  ##############################
 @action('index')
@@ -44,6 +45,7 @@ def index():
         # COMPLETE: return here any signed URLs you need.
         my_callback_url=URL('my_callback', signer=url_signer),
     )
+
 
 @action('about-us')
 @action.uses('about-us.html', db, auth, url_signer)
@@ -62,12 +64,15 @@ def add_listing():
     # Either this is a GET request, or this is a POST but not accepted = with errors.
     return dict(form=form)
 
+
 # End point to see all of your listings/food trucks
 @action('manage-listings')
 @action.uses('manage-listings.html', db, session, auth.user, url_signer)
 def manage_listing():
     trucks = db(db.food_truck.created_by == get_user_email()).select()
+    print(trucks)
     return dict(trucks=trucks, url_signer=url_signer)
+
 
 # End point to edit 1 specific listing/food truck
 @action('edit-listing/<food_truck_id:int>', method=["GET", "POST"])
@@ -86,6 +91,7 @@ def edit_listing(food_truck_id=None):
                 url_signer=url_signer,
                 food_truck_id=food_truck_id)
 
+
 # The endpoint for the customer to delete a food truck listing
 @action('delete-listing/<food_truck_id:int>')
 @action.uses(db, session, auth.user, url_signer.verify())
@@ -94,3 +100,55 @@ def delete_listing(food_truck_id=None):
     db(db.food_truck.id == food_truck_id).delete()
     # How do we get the POST body?
     redirect(URL('manage-listings'))
+
+
+# The endpoint for the customer to add a review
+@action('add-review/<food_truck_id:int>', method=["GET", "POST"])
+@action.uses('add-review.html', db, session, auth.user, url_signer.verify())
+def add_review(food_truck_id=None):
+    assert food_truck_id is not None
+
+    # Check if food_truck_id is valid in db
+    truck = db.food_truck[food_truck_id]
+    assert truck is not None
+
+    form = Form([
+        Field('stars'),
+        Field('text')
+    ], csrf_session=session, formstyle=FormStyleBootstrap4)
+
+    if form.accepted:
+        db.review.insert(
+            food_truck_id=food_truck_id,
+            created_by=get_user(),
+            stars=form.vars["stars"],
+            text=form.vars["text"]
+        )
+        redirect(URL('index'))
+
+    # Either this is a GET request, or this is a POST but not accepted = with errors.
+    return dict(form=form, url_signer=url_signer)
+
+# The endpoint for a customer to edit their review
+@action('edit-review/<review_id:int>', method=["GET", "POST"])
+@action.uses('edit-review.html', db, session, auth.user, url_signer.verify())
+def edit_review(review_id=None):
+    assert review_id is not None
+
+    curr = db.review[review_id]
+    if curr is None:
+        redirect(URL('index'))
+
+    form = Form(db.review, record=curr, deletable=False, csrf_session=session, formstyle=FormStyleBootstrap4)
+    if form.accepted:
+        redirect(URL('index'))
+
+    return dict(form=form,
+                url_signer=url_signer)
+
+
+@action('delete-review/<review_id:int>')
+@action.uses(db, session, auth.user, url_signer)
+def delete_review(review_id=None):
+    assert review_id is not None
+    pass
