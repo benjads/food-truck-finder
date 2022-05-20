@@ -53,17 +53,16 @@ init(app);
 let map;
 
 function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
+    let map = new google.maps.Map(document.getElementById("map"), {
         center: {lat: 36.968, lng: -122.057},
         zoom: 14,
     });
-    map.setOptions({
-        styles:
-            {
-                featureType: "poi.business",
-                stylers: [{visibility: "off"}],
-            }
-    })
+
+    let marker1 = new google.maps.Marker({
+        position: {lat: 36.960134, lng: -122.0177475},
+        map,
+        title: "Hello World!",
+    });
 }
 
 window.initMap = initMap;
