@@ -131,11 +131,46 @@
                         </div>
 
                         <h5>Reviews (4)</h5>
-                        <div class="mb-3 text-center">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                        <div class="section" id="vue-target">
+                            <div v-if="add_mode" class="container block">
+                                <div class="title">Reviews </div>
+                                <div class="form">
+                                    <div class="field">
+                                        <div class="control">
+                                            <textarea class="textarea" v-model="add_text" placeholder="Leave a Review..."></textarea>
+                                        </div>
                                     </div>
+                                    <div class="field">
+                                        <div class="control">
+                                            <input type="submit" @click="add_review" value="Post" class="button is-primary">
+                                            <input type="submit" @click="set_add_status(false)" value="Cancel" class="button is-warning">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container block">
+                                <h1 class="title">Posts</h1>
+                                <button @click="set_add_status(true)" class="button is-primary">
+                                  <i class="fa fa-plus fa-fw"></i> Add Post
+                                </button>
+                                <br><br>
+                                <div v-for="r in reviews.slice().reverse()" class="box">
+                                    <div class="media-content">
+                                        <div class="content">
+                                          {{r.text}}
+                                        </div>
+                                        <button @click="delete_review(r._idx)" class="button is-danger" >
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-center">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
 
                         <div>
                             <div class="card mb-3">
@@ -154,7 +189,8 @@
                                         erat. Donec non semper libero, in tempus diam. Interdum et malesuada fames ac
                                         ante ipsum primis in faucibus. Aliquam erat volutpat. Aliquam posuere bibendum
                                         lacus. Aliquam laoreet odio urna. Curabitur et fringilla velit, at venenatis
-                                        augue.</small></p>
+                                        augue.</small>
+                                    </p>
                                 </div>
                             </div>
                             <div class="card mb-3">
@@ -170,7 +206,8 @@
                                         lobortis. Nullam porttitor, diam a tempor venenatis, orci risus euismod odio,
                                         vel vulputate nibh ipsum sed enim. Pellentesque posuere ornare quam sit amet
                                         dignissim. Maecenas eros neque, pharetra vel cursus sit amet, facilisis nec
-                                        erat. Donec non semper libero, in tempus diam.</small></p>
+                                        erat. Donec non semper libero, in tempus diam.</small>
+                                    </p>
                                 </div>
                             </div>
                         </div>

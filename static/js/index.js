@@ -10,6 +10,9 @@ let init = (app) => {
     // This is the Vue data.
     app.data = {
         // Complete as you see fit.
+        reviews: [],
+        add_text: "",
+        add_mode: false,
     };
 
     app.enumerate = (a) => {
@@ -21,10 +24,76 @@ let init = (app) => {
         return a;
     };
 
+    app.add_review = function (food_truck_id, num_stars) {
+        axios.post(add_review_url,
+            {
+                text: app.vue.add_text,
+                rating: num_stars,
+                food_truck_id: food_truck_id,
+
+            }).then(function (response) {
+            app.vue.rows.push({
+                id: response.data.id,
+                text: app.vue.add_text,
+                _idx: app.vue.rows.length
+            });
+            app.enumerate(app.vue.reviews);
+            app.reset_form();
+            app.set_add_status(false);
+        });
+    };
+
+    app.delete_review = function(row_idx) {
+        let id = app.vue.reviews[row_idx].id;
+        axios.get(delete_review_url, {params: {id: id}}).then(function (response) {
+            for (let i = 0; i < app.vue.reviews.length; i++) {
+                if (app.vue.reviews[i].id === id) {
+                    app.vue.reviews.splice(i, 1);
+                    app.enumerate(app.vue.reviews);
+                    break;
+                }
+            }
+        });
+    };
+    app.reset_form = function () {
+        app.vue.add_text = "";
+    };
+    app.set_add_status = function (new_status) {
+        app.vue.add_mode = new_status;
+    };
+    app.init_reviews = (review) => {
+        // Initialize the review to have 0 stars and display
+        review.map((rev) => {
+            rev.rating = 0;
+            rev.num_stars_display = 0;
+        })
+    };
+
+    // This function will set the star rating for the
+    // app.set_star_rating = (review_idx, num_stars) => {
+    //     // Get the review in question
+    //     let review = app.vue.reviews[review_idx];
+    //     review.rating = num_stars;
+    //     // Update the tables in models with this post request with the info
+    //     axios.post(vue_set_review_url, {review_id: review.id, rating: num_stars});
+    // };
+
+    app.stars_out = (review_idx) => {
+        let rev = app.vue.reviews[review_idx];
+        rev.num_stars_display = rev.rating;
+    };
+    app.stars_over = (review_idx, num_stars) => {
+        let rev = app.vue.reviews[review_idx];
+        rev.num_stars_display = num_stars;
+    };
 
     // This contains all the methods.
     app.methods = {
-        // Complete as you see fit.
+        stars_out: app.stars_out,
+        stars_over: app.stars_over,
+        // set_star_rating: app.set_star_rating,
+        add_review: app.add_review,
+        delete_review: app.delete_review,
     };
 
     // This creates the Vue instance.
@@ -38,6 +107,17 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
+
+        // Do a get request on the reviews
+        axios.get(load_reviews_url).then((result) => {
+            let reviews = result.data.reviews;
+            // Add a '_idx' field to each review
+            app.enumerate(reviews);
+            // Initialize the reviews
+            app.init_reviews(reviews);
+            app.vue.reviews = reviews;
+        });
+
     };
 
     // Call to the initializer.

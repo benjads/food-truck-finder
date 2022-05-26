@@ -54,7 +54,7 @@ db.define_table(
     Field('food_truck_id', 'reference food_truck', ondelete='CASCADE'),
     Field('stars', 'integer', IS_INT_IN_RANGE(0, 5), requires=IS_NOT_EMPTY()),  # The star rating 0-5
     Field('text', requires=IS_NOT_EMPTY()),  # The review
-    Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE')
+    Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user)
 )
 db.review.id.readable = db.review.id.writable = False
 db.review.food_truck_id.readable = db.review.food_truck_id.writable = False

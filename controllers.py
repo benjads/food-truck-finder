@@ -34,24 +34,29 @@ from py4web.utils.url_signer import URLSigner
 from .models import get_user_email, get_user
 from pydal.validators import *
 
+# For search bar functionality
+import uuid
+import random
+
 url_signer = URLSigner(session)
 
 
-# Main webapge End points  ##############################
+# Main webpage End points  ##############################
 @action('index')
 @action.uses('index.html', db, auth, url_signer)
 def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
+        add_review_url=URL('add_review', signer=url_signer),
+        delete_review_url=URL('delete_review', signer=url_signer),
+        load_reviews_url=URL('load_reviews', signer=url_signer),
         my_callback_url=URL('my_callback', signer=url_signer),
     )
-
 
 @action('about-us')
 @action.uses('about-us.html', db, auth, url_signer)
 def index():
     return dict()
-
 
 # Food Truck Listing End Points #########################################
 # Create food truck listing form
@@ -101,54 +106,54 @@ def delete_listing(food_truck_id=None):
     # How do we get the POST body?
     redirect(URL('manage-listings'))
 
-
-# The endpoint for the customer to add a review
-@action('add-review/<food_truck_id:int>', method=["GET", "POST"])
-@action.uses('add-review.html', db, session, auth.user, url_signer.verify())
-def add_review(food_truck_id=None):
+# View all reviews for a food truck listing
+@action('view-reviews/<food_truck_id:int>')
+@action.uses('view-reviews.html', db, session)
+def view_reviews(food_truck_id=None):
     assert food_truck_id is not None
-
-    # Check if food_truck_id is valid in db
-    truck = db.food_truck[food_truck_id]
-    assert truck is not None
-
-    form = Form([
-        Field('stars'),
-        Field('text')
-    ], csrf_session=session, formstyle=FormStyleBootstrap4)
-
-    if form.accepted:
-        db.review.insert(
-            food_truck_id=food_truck_id,
-            created_by=get_user(),
-            stars=form.vars["stars"],
-            text=form.vars["text"]
-        )
-        redirect(URL('index'))
-
-    # Either this is a GET request, or this is a POST but not accepted = with errors.
-    return dict(form=form, url_signer=url_signer)
-
-# The endpoint for a customer to edit their review
-@action('edit-review/<review_id:int>', method=["GET", "POST"])
-@action.uses('edit-review.html', db, session, auth.user, url_signer.verify())
-def edit_review(review_id=None):
-    assert review_id is not None
-
-    curr = db.review[review_id]
+    curr = db.food_truck[food_truck_id]
     if curr is None:
         redirect(URL('index'))
 
-    form = Form(db.review, record=curr, deletable=False, csrf_session=session, formstyle=FormStyleBootstrap4)
-    if form.accepted:
-        redirect(URL('index'))
+    reviews = db(db.review).select()
+    return dict(reviews=reviews)
 
-    return dict(form=form,
-                url_signer=url_signer)
+# This is our very first API function.
+@action('load_reviews')
+@action.uses(url_signer.verify(), db, auth.user)
+def load_reviews():
+    reviews = db(db.review).select().as_list()
+    return dict(reviews=reviews)
+
+# The endpoint for the customer to add a review
+@action('add-review', method=[ "POST"])
+@action.uses('add-review.html', db, auth.user, url_signer.verify())
+def add_review():
+    id = db.review.insert(
+        food_truck_id=request.json.get('food_truck_id'),
+        text=request.json.get('text'),
+        stars=request.json.get('rating'),
+        created_by=get_user()
+    )
+    return dict(id=id)
+
+    # Either this is a GET request, or this is a POST but not accepted = with errors.
+    # return dict(form=form, url_signer=url_signer)
 
 
 @action('delete-review/<review_id:int>')
-@action.uses(db, session, auth.user, url_signer)
+@action.uses(db, auth.user, url_signer.verify())
 def delete_review(review_id=None):
     assert review_id is not None
+    db(db.review.id == review_id).delete()
     pass
+
+
+# Vue End Point : Returns the reviews Database Table
+@action('vue_get_reviews')
+@action.uses(db, session, auth.user, url_signer.verify())
+def vue_get_reviews():
+    # Returns the reviews db table as a list
+    reviews = db(db.reviews).select().as_list()
+    return dict(reviews=reviews)
+
