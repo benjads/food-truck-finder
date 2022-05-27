@@ -1,3 +1,7 @@
+[v-cloak] {
+    display: none;
+}
+
 #footer-logo {
     max-height: 6rem;
 }

@@ -47,6 +47,7 @@ url_signer = URLSigner(session)
 def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
+        load_trucks_url=URL('load-trucks', signer=url_signer),
         add_review_url=URL('add_review', signer=url_signer),
         delete_review_url=URL('delete_review', signer=url_signer),
         load_reviews_url=URL('load_reviews', signer=url_signer),
@@ -75,7 +76,7 @@ def add_listing():
 @action.uses('manage-listings.html', db, session, auth.user, url_signer)
 def manage_listing():
     trucks = db(db.food_truck.created_by == get_user_email()).select()
-    print(trucks)
+
     return dict(trucks=trucks, url_signer=url_signer)
 
 
@@ -106,29 +107,24 @@ def delete_listing(food_truck_id=None):
     # How do we get the POST body?
     redirect(URL('manage-listings'))
 
-# View all reviews for a food truck listing
-@action('view-reviews/<food_truck_id:int>')
-@action.uses('view-reviews.html', db, session)
-def view_reviews(food_truck_id=None):
-    assert food_truck_id is not None
-    curr = db.food_truck[food_truck_id]
-    if curr is None:
-        redirect(URL('index'))
-
-    reviews = db(db.review).select()
-    return dict(reviews=reviews)
+@action('load-trucks')
+@action.uses(db, url_signer.verify())
+def load_trucks():
+    trucks = db(db.food_truck).select().as_list()
+    return dict(trucks=trucks)
 
 # This is our very first API function.
 @action('load_reviews')
-@action.uses(url_signer.verify(), db, auth.user)
+@action.uses(url_signer.verify(), db, auth)
 def load_reviews():
     reviews = db(db.review).select().as_list()
     return dict(reviews=reviews)
 
 # The endpoint for the customer to add a review
-@action('add-review', method=[ "POST"])
+@action('add-review/<food_truck_id:int>', method=[ "POST"])
 @action.uses('add-review.html', db, auth.user, url_signer.verify())
-def add_review():
+def add_review(food_truck_id=None):
+    assert food_truck_id is not None
     id = db.review.insert(
         food_truck_id=request.json.get('food_truck_id'),
         text=request.json.get('text'),
@@ -146,7 +142,7 @@ def add_review():
 def delete_review(review_id=None):
     assert review_id is not None
     db(db.review.id == review_id).delete()
-    pass
+    return
 
 
 # Vue End Point : Returns the reviews Database Table

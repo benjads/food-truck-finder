@@ -10,11 +10,11 @@
 
     #map-overlay {
         position: absolute;
-        top: 4rem;
+        top: 3rem;
         right: 4rem;
         padding: 2rem;
         background-color: rgba(255, 255, 255, 0.8);
-        max-height: 30rem;
+        height: 80%;
         overflow-y: scroll;
         overflow-x: clip;
     }
@@ -37,240 +37,223 @@
 <div id="map-container">
     <div id="map"></div>
 
-    <div id="map-overlay">
-
-        <div class="ft-listing card mb-3">
-            <div class="row g-0">
-                <div class="col-md-3">
-                    <img alt="Toby's Tacos Truck" class="img-fluid rounded-start"
-                         src="https://via.placeholder.com/300"/>
-                </div>
-                <div class="col-md-9">
-                    <div class="card-body">
-                        <h5 class="card-title">Toby's Tacos</h5>
-
-                        <p class="card-text fw-light fst-italic">Mexican, Vegan</p>
-
-                        <div class="row justify-content-between">
-                            <div class="col">
-                                <p class="text-danger">Closes Soon</p>
-                            </div>
-                            <div class="col text-right">
-                                <p class="text-end">0.5mi</p>
-                            </div>
+    <div id="vue-target" v-cloak>
+        <div id="map-overlay">
+            <div v-for="t in trucks">
+                <div @click="toggle_expand_truck(t._idx)" class="ft-listing card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img class="img-fluid rounded-start"
+                                 src="https://via.placeholder.com/300"/>
                         </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ t.name }}</h5>
+                                <p class="card-text fw-light fst-italic">{{ t.cuisine_type }}</p>
+                                <div class="row justify-content-between ft-listing-bottom">
+                                    <div class="col">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="col">
+                                        <p>0.5mi</p>
+                                    </div>
+                                </div>
 
-                        <h5>Hours & Location</h5>
+                                <div v-if="t.expanded">
+                                    <h5>Hours & Location</h5>
 
-                        <table class="ft-hours mb-4">
-                            <tbody>
-                            <tr>
-                                <th>Monday</th>
-                                <td>11:00am - 10:00pm</td>
-                            </tr>
-                            <tr>
-                                <th>Tuesday</th>
-                                <td>11:00am - 10:00pm</td>
-                            </tr>
-                            <tr>
-                                <th>Wednesday</th>
-                                <td>11:00am - 10:00pm</td>
-                            </tr>
-                            <tr>
-                                <th>Thursday</th>
-                                <td>11:00am - 10:00pm</td>
-                            </tr>
-                            <tr>
-                                <th>Friday</th>
-                                <td>11:00am - 10:00pm</td>
-                            </tr>
-                            <tr>
-                                <th>Saturday</th>
-                                <td>11:00am - 10:00pm</td>
-                            </tr>
-                            <tr>
-                                <th>Sunday</th>
-                                <td>11:00am - 10:00pm</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    <table class="ft-hours mb-4">
+                                        <tbody>
+                                        <tr>
+                                            <th>Monday</th>
+                                            <td>11:00am - 10:00pm</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tuesday</th>
+                                            <td>11:00am - 10:00pm</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Wednesday</th>
+                                            <td>11:00am - 10:00pm</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Thursday</th>
+                                            <td>11:00am - 10:00pm</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Friday</th>
+                                            <td>11:00am - 10:00pm</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Saturday</th>
+                                            <td>11:00am - 10:00pm</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sunday</th>
+                                            <td>11:00am - 10:00pm</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
 
-                        <h6 class="text-center pb-3">2552 Mission St
-                            <br>Santa Cruz, CA 95060</h6>
+                                    <h6 class="text-center pb-3">{{ t.address }}</h6>
 
-                        <h5>Photos</h5>
-                        <div class="pb-3">
-                            <div class="row gx-0">
-                                <div class="col-4">
-                                    <img class="img-fluid"
-                                         src="https://via.placeholder.com/300"/>
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid"
-                                         src="https://via.placeholder.com/300"/>
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid"
-                                         src="https://via.placeholder.com/300"/>
-                                </div>
-                            </div>
-                            <div class="row gx-0">
-                                <div class="col-4">
-                                    <img class="img-fluid"
-                                         src="https://via.placeholder.com/300"/>
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid"
-                                         src="https://via.placeholder.com/300"/>
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-fluid"
-                                         src="https://via.placeholder.com/300"/>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h5>Reviews (4)</h5>
-                        <div class="section" id="vue-target">
-                            <div v-if="add_mode" class="container block">
-                                <div class="title">Reviews </div>
-                                <div class="form">
-                                    <div class="field">
-                                        <div class="control">
-                                            <textarea class="textarea" v-model="add_text" placeholder="Leave a Review..."></textarea>
+                                    <h5>Photos</h5>
+                                    <div class="pb-3">
+                                        <div class="row gx-0">
+                                            <div class="col-4">
+                                                <img class="img-fluid"
+                                                     src="https://via.placeholder.com/300"/>
+                                            </div>
+                                            <div class="col-4">
+                                                <img class="img-fluid"
+                                                     src="https://via.placeholder.com/300"/>
+                                            </div>
+                                            <div class="col-4">
+                                                <img class="img-fluid"
+                                                     src="https://via.placeholder.com/300"/>
+                                            </div>
+                                        </div>
+                                        <div class="row gx-0">
+                                            <div class="col-4">
+                                                <img class="img-fluid"
+                                                     src="https://via.placeholder.com/300"/>
+                                            </div>
+                                            <div class="col-4">
+                                                <img class="img-fluid"
+                                                     src="https://via.placeholder.com/300"/>
+                                            </div>
+                                            <div class="col-4">
+                                                <img class="img-fluid"
+                                                     src="https://via.placeholder.com/300"/>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="field">
-                                        <div class="control">
-                                            <input type="submit" @click="add_review" value="Post" class="button is-primary">
-                                            <input type="submit" @click="set_add_status(false)" value="Cancel" class="button is-warning">
+
+                                    <h5>Reviews (4)</h5>
+                                    <div class="section" id="vue-target">
+                                        <div v-if="add_mode" class="container block">
+                                            <div class="title">Reviews</div>
+                                            <div class="form">
+                                                <div class="field">
+                                                    <div class="control">
+                                                <textarea class="textarea" v-model="add_text"
+                                                          placeholder="Leave a Review..."></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <input type="submit" @click="add_review" value="Post"
+                                                               class="button is-primary">
+                                                        <input type="submit" @click="set_add_status(false)"
+                                                               value="Cancel"
+                                                               class="button is-warning">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                    <div class="container block">-->
+                                        <!--                                        <h1 class="title">Posts</h1>-->
+                                        <!--                                        <button @click="set_add_status(true)" class="button is-primary">-->
+                                        <!--                                            <i class="fa fa-plus fa-fw"></i> Add Post-->
+                                        <!--                                        </button>-->
+                                        <!--                                        <br><br>-->
+                                        <!--                                        <div v-for="r in reviews.slice().reverse()" class="box">-->
+                                        <!--                                            <div class="media-content">-->
+                                        <!--                                                <div class="content">-->
+                                        <!--                                                    {{ r.text }}-->
+                                        <!--                                                </div>-->
+                                        <!--                                                <button @click="delete_review(r._idx)" class="button is-danger">-->
+                                        <!--                                                    <i class="fa fa-trash"></i>-->
+                                        <!--                                                </button>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </div>-->
+                                        <!--                                    </div>-->
+                                    </div>
+                                    <div class="mb-3 text-center">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+
+                                    <div>
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Ethan M.</h5>
+                                                <div class="mb-2">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <p class="card-text text-small"><small>Lorem ipsum dolor sit amet,
+                                                    consectetur
+                                                    adipiscing elit.
+                                                    Aliquam fringilla interdum ipsum sed lobortis. Sed pulvinar mi sed
+                                                    porta
+                                                    lobortis. Nullam porttitor, diam a tempor venenatis, orci risus
+                                                    euismod
+                                                    odio,
+                                                    vel vulputate nibh ipsum sed enim. Pellentesque posuere ornare quam
+                                                    sit
+                                                    amet
+                                                    dignissim. Maecenas eros neque, pharetra vel cursus sit amet,
+                                                    facilisis
+                                                    nec
+                                                    erat. Donec non semper libero, in tempus diam. Interdum et malesuada
+                                                    fames
+                                                    ac
+                                                    ante ipsum primis in faucibus. Aliquam erat volutpat. Aliquam
+                                                    posuere
+                                                    bibendum
+                                                    lacus. Aliquam laoreet odio urna. Curabitur et fringilla velit, at
+                                                    venenatis
+                                                    augue.</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Sarah P.</h5>
+                                                <div class="mb-2">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <p class="card-text text-small"><small>Lorem ipsum dolor sit amet,
+                                                    consectetur
+                                                    adipiscing elit.
+                                                    Aliquam fringilla interdum ipsum sed lobortis. Sed pulvinar mi sed
+                                                    porta
+                                                    lobortis. Nullam porttitor, diam a tempor venenatis, orci risus
+                                                    euismod
+                                                    odio,
+                                                    vel vulputate nibh ipsum sed enim. Pellentesque posuere ornare quam
+                                                    sit
+                                                    amet
+                                                    dignissim. Maecenas eros neque, pharetra vel cursus sit amet,
+                                                    facilisis
+                                                    nec
+                                                    erat. Donec non semper libero, in tempus diam.</small>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="container block">
-                                <h1 class="title">Posts</h1>
-                                <button @click="set_add_status(true)" class="button is-primary">
-                                  <i class="fa fa-plus fa-fw"></i> Add Post
-                                </button>
-                                <br><br>
-                                <div v-for="r in reviews.slice().reverse()" class="box">
-                                    <div class="media-content">
-                                        <div class="content">
-                                          {{r.text}}
-                                        </div>
-                                        <button @click="delete_review(r._idx)" class="button is-danger" >
-                                            <i class="fa fa-trash"></i>
-                                        </button>
+
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-small btn-primary">Add Review</button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="mb-3 text-center">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-
-                        <div>
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Ethan M.</h5>
-                                    <div class="mb-2">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <p class="card-text text-small"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Aliquam fringilla interdum ipsum sed lobortis. Sed pulvinar mi sed porta
-                                        lobortis. Nullam porttitor, diam a tempor venenatis, orci risus euismod odio,
-                                        vel vulputate nibh ipsum sed enim. Pellentesque posuere ornare quam sit amet
-                                        dignissim. Maecenas eros neque, pharetra vel cursus sit amet, facilisis nec
-                                        erat. Donec non semper libero, in tempus diam. Interdum et malesuada fames ac
-                                        ante ipsum primis in faucibus. Aliquam erat volutpat. Aliquam posuere bibendum
-                                        lacus. Aliquam laoreet odio urna. Curabitur et fringilla velit, at venenatis
-                                        augue.</small>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sarah P.</h5>
-                                    <div class="mb-2">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <p class="card-text text-small"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Aliquam fringilla interdum ipsum sed lobortis. Sed pulvinar mi sed porta
-                                        lobortis. Nullam porttitor, diam a tempor venenatis, orci risus euismod odio,
-                                        vel vulputate nibh ipsum sed enim. Pellentesque posuere ornare quam sit amet
-                                        dignissim. Maecenas eros neque, pharetra vel cursus sit amet, facilisis nec
-                                        erat. Donec non semper libero, in tempus diam.</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-end">
-                            <button type="button" class="btn btn-small btn-primary">Add Review</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="ft-listing card mb-3">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img alt="Toby's Tacos Truck" class="img-fluid rounded-start"
-                         src="https://via.placeholder.com/300"/>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Toby's Tacos</h5>
-                        <p class="card-text fw-light fst-italic">Mexican, Vegan</p>
-                        <div class="row justify-content-between ft-listing-bottom">
-                            <div class="col">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="col">
-                                <p>0.5mi</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="ft-listing card mb-3">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img alt="Toby's Tacos Truck" class="img-fluid rounded-start"
-                         src="https://via.placeholder.com/300"/>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">Toby's Tacos</h5>
-                        <p class="card-text fw-light fst-italic">Mexican, Vegan</p>
-                        <div class="row justify-content-between ft-listing-bottom">
-                            <div class="col">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="col">
-                                <p>0.5mi</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
-
-
     </div>
 </div>
 
