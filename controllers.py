@@ -51,6 +51,7 @@ def index():
         add_review_url=URL('add_review', signer=url_signer),
         delete_review_url=URL('delete_review', signer=url_signer),
         load_reviews_url=URL('load_reviews', signer=url_signer),
+        search_url=URL('search', signer=url_signer),
         my_callback_url=URL('my_callback', signer=url_signer),
     )
 
@@ -152,4 +153,22 @@ def vue_get_reviews():
     # Returns the reviews db table as a list
     reviews = db(db.reviews).select().as_list()
     return dict(reviews=reviews)
+
+@action('search')
+@action.uses(db)
+def search():
+    q = request.params.get("q")
+    # imagine q = "Donuts" -> The names of the food truck
+    food_trucks = db(db.food_truck).select().as_list()
+
+    results = []
+    for truck in food_trucks:
+        # If q is a substring in the truck.name, then append that to the return that we want
+        if q in truck['name']:
+            results.append(truck['name'])
+
+    # if word in sentence.lower():
+    #     print('Word found.')
+
+    return dict(results=results)
 
