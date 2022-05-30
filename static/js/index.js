@@ -27,7 +27,7 @@ let init = (app) => {
         return a;
     };
 
-    // Function for the search bar
+    // Function for the search bar, returns the list of food truck names that the person searches for
     app.search = function () {
         // If the user searches for something, then this would return the result
         if (app.vue.query.length > 1) {

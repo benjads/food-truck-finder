@@ -154,21 +154,19 @@ def vue_get_reviews():
     reviews = db(db.reviews).select().as_list()
     return dict(reviews=reviews)
 
+# Vue End Point : returns a list of food truck names if they match the user's search term
 @action('search')
 @action.uses(db)
 def search():
+    # Get the user's search word, and db
     q = request.params.get("q")
-    # imagine q = "Donuts" -> The names of the food truck
     food_trucks = db(db.food_truck).select().as_list()
 
     results = []
     for truck in food_trucks:
-        # If q is a substring in the truck.name, then append that to the return that we want
-        if q in truck['name']:
+        # If search term is a substring in the name, then append it to the return list
+        if q.lower() in truck['name'].lower():
             results.append(truck['name'])
-
-    # if word in sentence.lower():
-    #     print('Word found.')
 
     return dict(results=results)
 

@@ -32,24 +32,26 @@
                     <a aria-current="page" class="nav-link active" href="[[=URL('index')]]">Home</a>
                 </li>
             </ul>
-
-<!--            <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-<!--                <li class="nav-item">-->
-<!--                    <div class="control block">-->
-<!--                        <input class="input" type="text" v-model="query" @keydown="search" />-->
-<!--                    </div>-->
-
-<!--                    <div v-for="r in query_results">{{r}}</div>-->
-<!--                </li>-->
-<!--            </ul>-->
-
-            <div class="section" id="vue-target" v-cloak>
-              <div class="control block">
-                <input class="input" type="text" v-model="query" @keyup="search" />
-              </div>
-
-              <div v-for="r in query_results">{{r}}</div>
-            </div>
+            <!-- Bootstrap Search bar -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item" id="vue-target">
+                    <div class="input-group rounded">
+                        <input type="search" class="form-control rounded" v-model="query" @keydown="search" placeholder="Search"/>
+                        <span class="input-group-text border-0" >
+                          <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                    <!-- The results of the search -->
+                    <div v-for="r in query_results" v-cloak>
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">{{r}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- <div v-for="r in query_results">{{r}}</div> -->
+                </li>
+            </ul>
 
             [[if globals().get('user'):]]
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
