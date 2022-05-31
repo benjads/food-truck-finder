@@ -1,35 +1,215 @@
 [[extend 'layout.html']]
 
 <style>
-  .auth-container {
-    max-width: 80%;
-    min-width: 400px;
-    margin: 20px auto 20px auto;
-    border: 1px solid #e1e1e1;
-    border-radius: 10px;
-    padding: 20px;
-  }
-  a.button {
-      margin-left: 10px;
-  }
+    .auth-container {
+        max-width: 80%;
+        min-width: 400px;
+        margin: 20px auto 20px auto;
+        border: 1px solid #e1e1e1;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    .form-group {
+        padding-bottom: 1rem;
+    }
+
+    a.button {
+        margin-left: 10px;
+    }
 </style>
 
 <div class="auth-container">
-  <h1 class="title text-center">Add a Listing</h1>
-  [[=form]]
-  <label for="Monday">Monday</label>
-  <input type="text" id="Monday" name="Open"><br>
-  <input type="checkbox" id="Monday" name="Closed"><br>
-<!--  <label for="Tuesday">Tuesday</label>-->
-<!--  <input type="text" id="Tuesday" name="Tuesday"><br><br>-->
-<!--  <label for="Wednesday">Wednesday</label>-->
-<!--  <input type="text" id="Wednesday" name="Wednesday"><br><br>-->
-<!--  <label for="Thursday">Thursday</label>-->
-<!--  <input type="text" id="Thursday" name="Thursday"><br><br>-->
-<!--  <label for="Friday">Friday</label>-->
-<!--  <input type="text" id="Friday" name="Friday"><br><br>-->
-<!--  <label for="Saturday">Saturday</label>-->
-<!--  <input type="text" id="Saturday" name="Saturday"><br><br>-->
-<!--  <label for="Sunday">Sunday</label>-->
-<!--  <input type="text" id="Sunday" name="Sunday"><br><br>-->
+    <h1 class="title text-center">Add a Listing</h1>
+    <div id="ft-form">
+        [[=form.custom.begin ]]
+        [[for key in form.custom.wrappers: ]]
+        [[ if not key.startswith('hours_'): ]]
+        <div class="form-group">
+            <label class="h4" for="no_table_[[=key ]]">[[=form.custom.labels[key] ]]</label>
+            [[=form.custom.wrappers[key] ]]
+            [[ if key in form.custom.errors: ]]
+            <p class="form-text text-danger py4web-validation-error">[[=form.custom.errors[key] ]]</p>
+            [[pass]]
+        </div>
+        [[pass]]
+        [[pass]]
+        <h4>Hours</h4>
+        <h6>Monday</h6>
+        <div class="form-row row mb-3">
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_mon_open">Open</label>
+                <input type="time" class="form-control" id="no_table_hours_mon_open" name="hours_mon_open">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_mon_close">Close</label>
+                <input type="time" class="form-control" id="no_table_hours_mon_close" name="hours_mon_close">
+            </div>
+        </div>
+        <div class="form-row row mb-3">
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_tue_open">Open</label>
+                <input type="time" class="form-control" id="no_table_hours_tue_open" name="hours_tue_open">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_tue_close">Close</label>
+                <input type="time" class="form-control" id="no_table_hours_tue_close" name="hours_tue_close">
+            </div>
+        </div>
+        <div class="form-row row mb-3">
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_wed_open">Open</label>
+                <input type="time" class="form-control" id="no_table_hours_wed_open" name="hours_wed_open">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_wed_close">Close</label>
+                <input type="time" class="form-control" id="no_table_hours_wed_close" name="hours_wed_close">
+            </div>
+        </div>
+        <div class="form-row row mb-3">
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_thu_open">Open</label>
+                <input type="time" class="form-control" id="no_table_hours_thu_open" name="hours_thu_open">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_thu_close">Close</label>
+                <input type="time" class="form-control" id="no_table_hours_thu_close" name="hours_thu_close">
+            </div>
+        </div>
+        <div class="form-row row mb-3">
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_fri_open">Open</label>
+                <input type="time" class="form-control" id="no_table_hours_fri_open" name="hours_fri_open">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_fri_close">Close</label>
+                <input type="time" class="form-control" id="no_table_hours_fri_close" name="hours_fri_close">
+            </div>
+        </div>
+        <div class="form-row row mb-3">
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_sat_open">Open</label>
+                <input type="time" class="form-control" id="no_table_hours_sat_open" name="hours_sat_open">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_sat_close">Close</label>
+                <input type="time" class="form-control" id="no_table_hours_sat_close" name="hours_sat_close">
+            </div>
+        </div>
+        <div class="form-row row mb-3">
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_sun_open">Open</label>
+                <input type="time" class="form-control" id="no_table_hours_sun_open" name="hours_sun_open">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_sun_close">Close</label>
+                <input type="time" class="form-control" id="no_table_hours_sun_close" name="hours_sun_close">
+            </div>
+        </div>
+
+
+        [[=form.custom.submit ]]
+        [[=form.custom.end ]]
+    </div>
+    <!--    <div id="dotw-supp">-->
+<!--    <h4>Hours</h4>-->
+<!--    <h6>Monday</h6>-->
+<!--    <div class="form-row row mb-3">-->
+<!--        <div class="form-group col-md-6">-->
+<!--            <label for="hours-mon-open">Open</label>-->
+<!--            <input type="time" class="form-control" id="hours-mon-open">-->
+<!--        </div>-->
+<!--        <div class="form-group col-md-6">-->
+<!--            <label for="hours-mon-close">Close</label>-->
+<!--            <input type="time" class="form-control" id="hours-mon-close">-->
+<!--        </div>-->
+<!--    </div>-->
+    <!--        <h6>Tuesday</h6>-->
+    <!--        <div class="form-row row mb-3">-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-tue-open">Open</label>-->
+    <!--                <input type="time" class="form-control" id="hours-tue-open">-->
+    <!--            </div>-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-tue-close">Close</label>-->
+    <!--                <input type="time" class="form-control" id="hours-tue-close">-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <h6>Wednesday</h6>-->
+    <!--        <div class="form-row row mb-3">-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-wed-open">Open</label>-->
+    <!--                <input type="time" class="form-control" id="hours-wed-open">-->
+    <!--            </div>-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-wed-close">Close</label>-->
+    <!--                <input type="time" class="form-control" id="hours-wed-close">-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <h6>Thursday</h6>-->
+    <!--        <div class="form-row row mb-3">-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-thu-open">Open</label>-->
+    <!--                <input type="time" class="form-control" id="hours-thu-open">-->
+    <!--            </div>-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-thu-close">Close</label>-->
+    <!--                <input type="time" class="form-control" id="hours-thu-close">-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <h6>Friday</h6>-->
+    <!--        <div class="form-row row mb-3">-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-fri-open">Open</label>-->
+    <!--                <input type="time" class="form-control" id="hours-fri-open">-->
+    <!--            </div>-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-fri-close">Close</label>-->
+    <!--                <input type="time" class="form-control" id="hours-fri-close">-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <h6>Saturday</h6>-->
+    <!--        <div class="form-row row mb-3">-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-sat-open">Open</label>-->
+    <!--                <input type="time" class="form-control" id="hours-sat-open">-->
+    <!--            </div>-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-sat-close">Close</label>-->
+    <!--                <input type="time" class="form-control" id="hours-sat-close">-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <h6>Sunday</h6>-->
+    <!--        <div class="form-row row mb-3">-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-sun-open">Open</label>-->
+    <!--                <input type="time" class="form-control" id="hours-sun-open">-->
+    <!--            </div>-->
+    <!--            <div class="form-group col-md-6">-->
+    <!--                <label for="hours-sun-close">Close</label>-->
+    <!--                <input type="time" class="form-control" id="hours-sun-close">-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 </div>
+
+<script>
+    // const ft_form = document.getElementById('ft-form').querySelector('form');
+    // const dotw = document.getElementById('dotw-supp');
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     // Move DOTW inputs
+    //     const last_fg = [...ft_form.querySelectorAll('div.form-group')].pop();
+    //     ft_form.insertBefore(dotw, last_fg);
+    // });
+    //
+    // ft_form.addEventListener('submit', function(event) {
+    //     event.preventDefault();
+    //     const dotw_inputs = dotw.querySelectorAll('input');
+    //
+    //     // Serialize inputs
+    //     let object = {};
+    //     dotw_inputs.forEach((elem) => object[elem.id] = elem.value);
+    //     let json = JSON.stringify(object);
+    //     console.log(json);
+    // });
+</script>

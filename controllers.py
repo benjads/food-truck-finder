@@ -55,18 +55,57 @@ def index():
         my_callback_url=URL('my_callback', signer=url_signer),
     )
 
+
 @action('about-us')
 @action.uses('about-us.html', db, auth, url_signer)
 def index():
     return dict()
+
 
 # Food Truck Listing End Points #########################################
 # Create food truck listing form
 @action('add-listing', method=["GET", "POST"])
 @action.uses('add-listing.html', db, session, auth.user, url_signer)
 def add_listing():
-    form = Form(db.food_truck, csrf_session=session, formstyle=FormStyleBootstrap4)
+    dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+    fields = [
+        Field('name', requires=IS_NOT_EMPTY()),
+        Field('address', requires=IS_NOT_EMPTY()),
+        Field('cuisine_type', requires=IS_NOT_EMPTY()),
+        Field('phone_number', requires=IS_NOT_EMPTY()),
+        Field('email', requires=IS_EMAIL()),
+        Field('website', requires=IS_URL())
+    ]
+    for dotw in dotws:
+        fields.append(Field('hours_' + dotw + '_open'))
+        fields.append(Field('hours_' + dotw + '_close'))
+
+    form = Form(fields, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
+        print(form.vars)
+        food_truck_id = db.food_truck.insert(
+            name=form.vars['name'],
+            address=form.vars['address'],
+            cuisine_type=form.vars['cuisine_type'],
+            phone_number=form.vars['phone_number'],
+            email=form.vars['email'],
+            website=form.vars['website']
+        )
+
+        for dotw in dotws:
+            open_time = form.vars['hours_' + dotw + '_open']
+            close_time = form.vars['hours_' + dotw + '_close']
+
+            if open_time == '' or close_time == '':
+                continue
+
+            db.food_truck_hours.insert(
+                food_truck_id=food_truck_id,
+                dotw=dotw,
+                open_time=open_time,
+                close_time=close_time
+            )
+
         redirect(URL('manage-listings'))
     # Either this is a GET request, or this is a POST but not accepted = with errors.
     return dict(form=form)
@@ -108,11 +147,13 @@ def delete_listing(food_truck_id=None):
     # How do we get the POST body?
     redirect(URL('manage-listings'))
 
+
 @action('load-trucks')
 @action.uses(db, url_signer.verify())
 def load_trucks():
     trucks = db(db.food_truck).select().as_list()
     return dict(trucks=trucks)
+
 
 # This is our very first API function.
 @action('load_reviews')
@@ -121,8 +162,9 @@ def load_reviews():
     reviews = db(db.review).select().as_list()
     return dict(reviews=reviews)
 
+
 # The endpoint for the customer to add a review
-@action('add-review/<food_truck_id:int>', method=[ "POST"])
+@action('add-review/<food_truck_id:int>', method=["POST"])
 @action.uses('add-review.html', db, auth.user, url_signer.verify())
 def add_review(food_truck_id=None):
     assert food_truck_id is not None
@@ -154,6 +196,7 @@ def vue_get_reviews():
     reviews = db(db.reviews).select().as_list()
     return dict(reviews=reviews)
 
+
 # Vue End Point : returns a list of food truck names if they match the user's search term
 @action('search')
 @action.uses(db)
@@ -169,4 +212,3 @@ def search():
             results.append(truck['name'])
 
     return dict(results=results)
-

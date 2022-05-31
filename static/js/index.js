@@ -9,13 +9,14 @@ let init = (app) => {
 
     // This is the Vue data.
     app.data = {
-        // Complete as you see fit.
         trucks: [],
 
         query: "",
         query_results: [],
         // review_add_text: "",
         // review_add_mode: false,
+
+
     };
 
     app.enumerate = (a) => {
