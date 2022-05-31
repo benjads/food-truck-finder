@@ -47,7 +47,7 @@ url_signer = URLSigner(session)
 def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
-        load_trucks_url=URL('load-trucks', signer=url_signer),
+        load_trucks_url=URL('load_trucks', signer=url_signer),
         add_review_url=URL('add_review', signer=url_signer),
         delete_review_url=URL('delete_review', signer=url_signer),
         load_reviews_url=URL('load_reviews', signer=url_signer),
@@ -107,7 +107,7 @@ def delete_listing(food_truck_id=None):
     # How do we get the POST body?
     redirect(URL('manage-listings'))
 
-@action('load-trucks')
+@action('load_trucks')
 @action.uses(db, url_signer.verify())
 def load_trucks():
     trucks = db(db.food_truck).select().as_list()
@@ -117,39 +117,33 @@ def load_trucks():
 @action('load_reviews')
 @action.uses(url_signer.verify(), db, auth)
 def load_reviews():
-    reviews = db(db.review).select().as_list()
+    truck_id = request.params.get('food_truck_id')
+    reviews = db(db.review.food_truck_id == truck_id).select().as_list()
     return dict(reviews=reviews)
 
 # The endpoint for the customer to add a review
-@action('add-review/<food_truck_id:int>', method=[ "POST"])
-@action.uses('add-review.html', db, auth.user, url_signer.verify())
-def add_review(food_truck_id=None):
-    assert food_truck_id is not None
+@action('add_review', method=[ "POST"])
+@action.uses(db, auth.user, url_signer.verify())
+def add_review():
+    r = db(db.auth_user.id == get_user()).select().first()
+    name = r.first_name + " " + r.last_name if r is not None else "Unknown"
+
     id = db.review.insert(
         food_truck_id=request.json.get('food_truck_id'),
         text=request.json.get('text'),
-        stars=request.json.get('rating'),
-        created_by=get_user()
+        created_by=get_user(),
+        name=name,
     )
-    return dict(id=id)
+    return dict(id=id, name=name)
 
     # Either this is a GET request, or this is a POST but not accepted = with errors.
     # return dict(form=form, url_signer=url_signer)
 
 
-@action('delete-review/<review_id:int>')
+@action('delete_review')
 @action.uses(db, auth.user, url_signer.verify())
-def delete_review(review_id=None):
-    assert review_id is not None
-    db(db.review.id == review_id).delete()
-    return
+def delete_review():
+    db(db.review.id == request.params.get('id')).delete()
+    return "ok"
 
-
-# Vue End Point : Returns the reviews Database Table
-@action('vue_get_reviews')
-@action.uses(db, session, auth.user, url_signer.verify())
-def vue_get_reviews():
-    # Returns the reviews db table as a list
-    reviews = db(db.reviews).select().as_list()
-    return dict(reviews=reviews)
 

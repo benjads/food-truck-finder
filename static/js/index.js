@@ -11,8 +11,8 @@ let init = (app) => {
     app.data = {
         // Complete as you see fit.
         trucks: [],
-        // review_add_text: "",
-        // review_add_mode: false,
+        review_add_text: "",
+        review_add_mode: false,
     };
 
     app.enumerate = (a) => {
@@ -28,43 +28,45 @@ let init = (app) => {
     Reviews
      */
 
-    // app.add_review = function (food_truck_id, num_stars) {
-    //     axios.post(add_review_url,
-    //         {
-    //             text: app.vue.add_text,
-    //             rating: num_stars,
-    //             food_truck_id: food_truck_id,
-    //
-    //         }).then(function (response) {
-    //         app.vue.rows.push({
-    //             id: response.data.id,
-    //             text: app.vue.add_text,
-    //             _idx: app.vue.rows.length
-    //         });
-    //         app.enumerate(app.vue.reviews);
-    //         app.reset_form();
-    //         app.set_add_status(false);
-    //     });
-    // };
-    //
-    // app.delete_review = function(row_idx) {
-    //     let id = app.vue.reviews[row_idx].id;
-    //     axios.get(delete_review_url, {params: {id: id}}).then(function (response) {
-    //         for (let i = 0; i < app.vue.reviews.length; i++) {
-    //             if (app.vue.reviews[i].id === id) {
-    //                 app.vue.reviews.splice(i, 1);
-    //                 app.enumerate(app.vue.reviews);
-    //                 break;
-    //             }
-    //         }
-    //     });
-    // };
-    // app.reset_form = function () {
-    //     app.vue.add_text = "";
-    // };
-    // app.set_add_status = function (new_status) {
-    //     app.vue.add_mode = new_status;
-    // };
+    app.add_review = function (t_idx) {
+        let truck = app.vue.trucks[t_idx];
+        axios.post(add_review_url,
+            {   
+                food_truck_id: truck.id,
+                text: app.vue.review_add_text,
+                // rating: num_stars,
+            }).then(function (response) {
+                truck.reviews.push({
+                    id: response.data.id,
+                    name: response.data.name,
+                    text: app.vue.review_add_text,
+                    _idx: truck.reviews.length
+                });
+                app.enumerate(truck.reviews);
+                app.reset_form();
+                app.set_add_status(false);
+            });
+    };
+    
+    app.delete_review = function(t_idx, r_idx) {
+        let truck = app.vue.trucks[t_idx];
+        let id = truck.reviews[r_idx].id;
+        axios.get(delete_review_url, {params: {id: id}}).then(function (response) {
+            for (let i = 0; i < truck.reviews.length; i++) {
+                if (truck.reviews[i].id === id) {
+                    truck.reviews.splice(i, 1);
+                    app.enumerate(truck.reviews);
+                    break;
+                }
+            }
+        });
+    };
+    app.reset_form = function () {
+        app.vue.review_add_text = "";
+    };
+    app.set_add_status = function (new_status) {
+        app.vue.review_add_mode = new_status;
+    };
     // app.init_reviews = (review) => {
     //     // Initialize the review to have 0 stars and display
     //     review.map((rev) => {
@@ -105,15 +107,16 @@ let init = (app) => {
 
     app.toggle_expand_truck = (idx) => {
         let truck = app.vue.trucks[idx];
-        truck.expanded = !truck.expanded;
+        truck.expanded = true;
     };
 
     // This contains all the methods.
     app.methods = {
         // stars_out: app.stars_out,
         // stars_over: app.stars_over,
-        // add_review: app.add_review,
-        // delete_review: app.delete_review,
+        add_review: app.add_review,
+        set_add_status: app.set_add_status,
+        delete_review: app.delete_review,
         toggle_expand_truck: app.toggle_expand_truck,
     };
 
@@ -138,7 +141,15 @@ let init = (app) => {
             //console.log(app.vue.trucks);
         }).then(() => {
             for (let truck of app.vue.trucks) {
-                // TODO load review for that truck
+                // load review for that truck
+                let food_truck_id = truck.id;
+                axios.get(load_reviews_url, {params: {food_truck_id: food_truck_id}}).then((response) => {
+                    if (response.data.reviews != []){
+                        console.log(response.data.reviews)
+                    }
+                    truck.reviews = response.data.reviews;
+                    
+                })
             }
         });
     };
