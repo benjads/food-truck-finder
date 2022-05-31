@@ -65,7 +65,7 @@ def index():
 # Food Truck Listing End Points #########################################
 # Create food truck listing form
 @action('add-listing', method=["GET", "POST"])
-@action.uses('add-listing.html', db, session, auth.user, url_signer)
+@action.uses('edit-listing.html', db, session, auth.user, url_signer)
 def add_listing():
     dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
     fields = [
@@ -82,7 +82,6 @@ def add_listing():
 
     form = Form(fields, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
-        print(form.vars)
         food_truck_id = db.food_truck.insert(
             name=form.vars['name'],
             address=form.vars['address'],
@@ -108,7 +107,7 @@ def add_listing():
 
         redirect(URL('manage-listings'))
     # Either this is a GET request, or this is a POST but not accepted = with errors.
-    return dict(form=form)
+    return dict(action_name='Add', form=form)
 
 
 # End point to see all of your listings/food trucks
@@ -130,12 +129,55 @@ def edit_listing(food_truck_id=None):
     if curr is None:
         redirect(URL('index'))
 
-    form = Form(db.food_truck, record=curr, deletable=False, csrf_session=session, formstyle=FormStyleBootstrap4)
+    dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+    fields = [
+        Field('name', requires=IS_NOT_EMPTY()),
+        Field('address', requires=IS_NOT_EMPTY()),
+        Field('cuisine_type', requires=IS_NOT_EMPTY()),
+        Field('phone_number', requires=IS_NOT_EMPTY()),
+        Field('email', requires=IS_EMAIL()),
+        Field('website', requires=IS_URL())
+    ]
+    for dotw in dotws:
+        fields.append(Field('hours_' + dotw + '_open'))
+        fields.append(Field('hours_' + dotw + '_close'))
+
+    record = curr
+    hours_records = db(db.food_truck_hours.food_truck_id == curr.id).select()
+    for hours_record in hours_records:
+        record['hours_' + hours_record.dotw + '_open'] = hours_record.open_time
+        record['hours_' + hours_record.dotw + '_close'] = hours_record.close_time
+
+    form = Form(fields, record=curr, deletable=False, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
+        food_truck_id = db.food_truck.update_or_insert(
+            curr.id,
+            name=form.vars['name'],
+            address=form.vars['address'],
+            cuisine_type=form.vars['cuisine_type'],
+            phone_number=form.vars['phone_number'],
+            email=form.vars['email'],
+            website=form.vars['website']
+        )
+
+        for dotw in dotws:
+            open_time = form.vars['hours_' + dotw + '_open']
+            close_time = form.vars['hours_' + dotw + '_close']
+
+            if open_time == '' or close_time == '':
+                continue
+
+            db.food_truck_hours.update_or_insert(
+                ((db.food_truck_hours.food_truck_id == curr.id) & (db.food_truck_hours.dotw == dotw)),
+                food_truck_id=curr.id,
+                dotw=dotw,
+                open_time=open_time,
+                close_time=close_time
+            )
+
         redirect(URL('manage-listings'))
-    return dict(form=form,
-                url_signer=url_signer,
-                food_truck_id=food_truck_id)
+    # Either this is a GET request, or this is a POST but not accepted = with errors.
+    return dict(action_name='Edit', form=form)
 
 
 # The endpoint for the customer to delete a food truck listing
