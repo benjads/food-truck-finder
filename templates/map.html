@@ -35,7 +35,7 @@
 </style>
 
 <div id="map-container">
-    <div id="map"></div>
+    <div id="map" ></div>
 
     <div id="vue-target" v-cloak>
         <div id="map-overlay">
@@ -68,16 +68,16 @@
                                                 <div class="field">
                                                     <div class="control">
                                                         <input type="submit" @click="add_review(t._idx)" value="Post"
-                                                               class="button is-primary">
+                                                               class="btn btn-success btn-sm">
                                                         <input type="submit" @click="set_add_status(false)"
                                                                value="Cancel"
-                                                               class="button is-warning">
+                                                               class="btn btn-warning btn-sm">
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br><br>
                                         </div>
                                         <div class="container block">
-                                            <h1 class="title">Reviews</h1>
                                             <div v-for="r in t.reviews">
                                                 <div class="card mb-3">
                                                     <div class="card-body">
@@ -89,7 +89,7 @@
                                                         </div>
                                                         <p class="card-text text-small"><small>{{r.text}}</small>
                                                         </p>
-                                                        <button @click="delete_review(t._idx, r._idx)" class="button is-danger">
+                                                        <button v-if="current_user == r.created_by" @click="delete_review(t._idx, r._idx)" class="btn btn-danger btn-sm">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </div>

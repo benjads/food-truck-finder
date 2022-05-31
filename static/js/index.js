@@ -13,6 +13,7 @@ let init = (app) => {
         trucks: [],
         review_add_text: "",
         review_add_mode: false,
+        current_user: -1,
     };
 
     app.enumerate = (a) => {
@@ -39,6 +40,7 @@ let init = (app) => {
                 truck.reviews.push({
                     id: response.data.id,
                     name: response.data.name,
+                    created_by: response.data.created_by,
                     text: app.vue.review_add_text,
                     _idx: truck.reviews.length
                 });
@@ -103,11 +105,12 @@ let init = (app) => {
             truck.reviews = [];
             truck.expanded = false;
         });
+        app.vue.current_user = -1;
     }
 
     app.toggle_expand_truck = (idx) => {
         let truck = app.vue.trucks[idx];
-        truck.expanded = true;
+        truck.expanded = true; // TODO figure out how to toggle only when clicking outside of card
     };
 
     // This contains all the methods.
@@ -143,12 +146,11 @@ let init = (app) => {
             for (let truck of app.vue.trucks) {
                 // load review for that truck
                 let food_truck_id = truck.id;
-                axios.get(load_reviews_url, {params: {food_truck_id: food_truck_id}}).then((response) => {
-                    if (response.data.reviews != []){
-                        console.log(response.data.reviews)
-                    }
+                axios.get(load_reviews_url, 
+                    {params: {food_truck_id: food_truck_id}}
+                ).then( (response) => {
                     truck.reviews = response.data.reviews;
-                    
+                    app.vue.current_user = response.data.current_user;
                 })
             }
         });

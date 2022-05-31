@@ -108,7 +108,7 @@ def delete_listing(food_truck_id=None):
     redirect(URL('manage-listings'))
 
 @action('load_trucks')
-@action.uses(db, url_signer.verify())
+@action.uses(db, auth.user, url_signer.verify())
 def load_trucks():
     trucks = db(db.food_truck).select().as_list()
     return dict(trucks=trucks)
@@ -119,7 +119,7 @@ def load_trucks():
 def load_reviews():
     truck_id = request.params.get('food_truck_id')
     reviews = db(db.review.food_truck_id == truck_id).select().as_list()
-    return dict(reviews=reviews)
+    return dict(reviews=reviews, current_user=get_user())
 
 # The endpoint for the customer to add a review
 @action('add_review', method=[ "POST"])
@@ -134,7 +134,7 @@ def add_review():
         created_by=get_user(),
         name=name,
     )
-    return dict(id=id, name=name)
+    return dict(id=id, name=name, created_by=get_user())
 
     # Either this is a GET request, or this is a POST but not accepted = with errors.
     # return dict(form=form, url_signer=url_signer)
