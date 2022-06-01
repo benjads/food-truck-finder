@@ -47,18 +47,18 @@ url_signer = URLSigner(session)
 def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
-        load_trucks_url=URL('load_trucks', signer=url_signer),
-        add_review_url=URL('add_review', signer=url_signer),
-        delete_review_url=URL('delete_review', signer=url_signer),
-        load_reviews_url=URL('load_reviews', signer=url_signer),
+        load_trucks_url=URL('load-trucks', signer=url_signer),
+        add_review_url=URL('add-review', signer=url_signer),
+        delete_review_url=URL('delete-review', signer=url_signer),
+        load_reviews_url=URL('load-reviews', signer=url_signer),
         search_url=URL('search', signer=url_signer),
-        my_callback_url=URL('my_callback', signer=url_signer),
+        my_callback_url=URL('my-callback', signer=url_signer),
     )
 
 
 @action('about-us')
 @action.uses('about-us.html', db, auth, url_signer)
-def index():
+def about_us():
     return dict()
 
 
@@ -189,18 +189,14 @@ def delete_listing(food_truck_id=None):
     # How do we get the POST body?
     redirect(URL('manage-listings'))
 
-@action('load_trucks')
-@action.uses(db, auth.user, url_signer.verify())
-
 @action('load-trucks')
-@action.uses(db, url_signer.verify())
+@action.uses(db)
 def load_trucks():
     trucks = db(db.food_truck).select().as_list()
     return dict(trucks=trucks)
 
-
 # This is our very first API function.
-@action('load_reviews')
+@action('load-reviews')
 @action.uses(url_signer.verify(), db, auth)
 def load_reviews():
     truck_id = request.params.get('food_truck_id')
@@ -209,7 +205,7 @@ def load_reviews():
 
 
 # The endpoint for the customer to add a review
-@action('add_review', method=[ "POST"])
+@action('add-review', method=["POST"])
 @action.uses(db, auth.user, url_signer.verify())
 def add_review():
     r = db(db.auth_user.id == get_user()).select().first()
@@ -227,7 +223,7 @@ def add_review():
     # return dict(form=form, url_signer=url_signer)
 
 
-@action('delete_review')
+@action('delete-review')
 @action.uses(db, auth.user, url_signer.verify())
 def delete_review():
     db(db.review.id == request.params.get('id')).delete()
