@@ -35,7 +35,7 @@
 </style>
 
 <div id="map-container">
-    <div id="map" ></div>
+    <div id="map"></div>
 
     <div id="vue-target" v-cloak>
         <div id="map-overlay">
@@ -54,7 +54,6 @@
                                 <div v-if="t.expanded">
 
                                     <h5>Reviews ({{t.reviews.length}})</h5>
-<!--                                    id="vue-target"-->
                                     <div class="section">
                                         <div v-if="review_add_mode" class="container block">
                                             <br>
@@ -62,7 +61,7 @@
                                                 <div class="field">
                                                     <div class="control">
                                                         <textarea class="textarea" v-model="review_add_text"
-                                                            placeholder="Leave a Review...">
+                                                                  placeholder="Leave a Review...">
                                                         </textarea>
                                                     </div>
                                                 </div>
@@ -90,7 +89,9 @@
                                                         </div>
                                                         <p class="card-text text-small"><small>{{r.text}}</small>
                                                         </p>
-                                                        <button v-if="current_user == r.created_by" @click="delete_review(t._idx, r._idx)" class="btn btn-danger btn-sm">
+                                                        <button v-if="current_user == r.created_by"
+                                                                @click="delete_review(t._idx, r._idx)"
+                                                                class="btn btn-danger btn-sm">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
                                                     </div>
@@ -107,7 +108,9 @@
                                     </div>
 
                                     <div class="text-end">
-                                        <button @click="set_add_status(true)"type="button" class="btn btn-small btn-primary">Add Review</button>
+                                        <button @click="set_add_status(true)" type="button"
+                                                class="btn btn-small btn-primary">Add Review
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -120,6 +123,13 @@
 </div>
 
 <script
-    defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwSA0QWBxt4K01jIhJ9j5xTKXh2O4W3k&callback=initMap&v=weekly"
+        defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwSA0QWBxt4K01jIhJ9j5xTKXh2O4W3k&callback=initMap&v=weekly"
 ></script>
+[[block page_scripts]]
+<!-- Loads the index-specific js for Vue -->
+<script>
+    let file_upload_url = "[[=XML(file_upload_url)]]";
+</script>
+<script src="js/index.js"></script>
+[[end]]

@@ -45,7 +45,7 @@ let init = (app) => {
         // If the user doesn't search for anything, then don't result anything
         } else {
           app.vue.query_results = [];
-        };
+        }
     };
 
 
