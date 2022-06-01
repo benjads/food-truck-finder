@@ -9,8 +9,10 @@ let init = (app) => {
 
     // This is the Vue data.
     app.data = {
-        // Complete as you see fit.
         trucks: [],
+
+        query: "",
+        query_results: [],
         // review_add_text: "",
         // review_add_mode: false,
 
@@ -33,6 +35,20 @@ let init = (app) => {
         });
         return a;
     };
+
+    // Function for the search bar, returns the list of food truck names that the person searches for
+    app.search = function () {
+        // If the user searches for something, then this would return the result
+        if (app.vue.query.length > 1) {
+            axios.get(search_url, {params: {q: app.vue.query}}).then(function (result) {
+               app.vue.query_results = result.data.results;
+            });
+        // If the user doesn't search for anything, then don't result anything
+        } else {
+          app.vue.query_results = [];
+        };
+    };
+
 
     /*
     Reviews
@@ -165,7 +181,7 @@ let init = (app) => {
         // add_review: app.add_review,
         // delete_review: app.delete_review,
         toggle_expand_truck: app.toggle_expand_truck,
-
+        search: app.search,
         select_file: app.select_file,
         upload_file: app.upload_file,
     };

@@ -1,20 +1,70 @@
-
+[[extend 'layout.html']]
 
 <style>
-  .auth-container {
-    max-width: 80%;
-    min-width: 400px;
-    margin: 20px auto 20px auto;
-    border: 1px solid #e1e1e1;
-    border-radius: 10px;
-    padding: 20px;
-  }
-  a.button {
-      margin-left: 10px;
-  }
+    .auth-container {
+        max-width: 80%;
+        min-width: 400px;
+        margin: 20px auto 20px auto;
+        border: 1px solid #e1e1e1;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    .form-group {
+        padding-bottom: 1rem;
+    }
+
+    a.button {
+        margin-left: 10px;
+    }
 </style>
 
 <div class="auth-container">
-  <h1 class="title text-center">Edit Listing</h1>
-  [[=form]]
+    <h1 class="title text-center">[[=action_name]] a Listing</h1>
+    <div id="ft-form">
+        [[=form.custom.begin ]]
+        [[for key in form.custom.wrappers: ]]
+        [[ if not key.startswith('hours_'): ]]
+        <div class="form-group">
+            <label class="h4" for="no_table_[[=key ]]">[[=form.custom.labels[key] ]]</label>
+            [[=form.custom.wrappers[key] ]]
+            [[ if key in form.custom.errors: ]]
+            <p class="form-text text-danger py4web-validation-error">[[=form.custom.errors[key] ]]</p>
+            [[pass]]
+        </div>
+        [[pass]]
+        [[pass]]
+        <h4>Hours</h4>
+
+        [[for dotw, dotw_title in {'mon': 'Monday', 'tue': 'Tuesday', 'wed': 'Wednesday', 'thu': 'Thursday', 'fri': 'Friday', 'sat': 'Saturday', 'sun': 'Sunday'}.items(): ]]
+        <h6>[[=dotw_title]]</h6>
+        <div class="form-row row mb-3">
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_[[=dotw]]_open">Open</label>
+                [[=form.custom.widgets['hours_' + dotw + '_open']]]
+            </div>
+            <div class="form-group col-md-6">
+                <label for="no_table_hours_[[=dotw]]_close">Close</label>
+                [[=form.custom.widgets['hours_' + dotw + '_close']]]
+            </div>
+        </div>
+        [[pass]]
+
+        [[=form.custom.submit ]]
+        [[=form.custom.end ]]
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        for (let dotw of ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']) {
+            const open_input = document.getElementById('no_table_hours_' + dotw + '_open');
+            console.log(open_input);
+            const close_input = document.getElementById('no_table_hours_' + dotw + '_close');
+
+            open_input.type = 'time';
+            close_input.type = 'time';
+        }
+
+    });
+</script>
