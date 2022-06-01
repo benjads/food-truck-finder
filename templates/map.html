@@ -35,7 +35,7 @@
 </style>
 
 <div id="map-container">
-    <div id="map"></div>
+    <div id="map" ></div>
 
     <div id="vue-target" v-cloak>
         <div id="map-overlay">
@@ -50,162 +50,54 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ t.name }}</h5>
                                 <p class="card-text fw-light fst-italic">{{ t.cuisine_type }}</p>
-                                <div class="row justify-content-between ft-listing-bottom">
-                                    <div class="col">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="col">
-                                        <p>0.5mi</p>
-                                    </div>
-                                </div>
 
                                 <div v-if="t.expanded">
-                                    <h5>Hours & Location</h5>
 
-                                    <table class="ft-hours mb-4">
-                                        <tbody>
-                                        <tr>
-                                            <th>Monday</th>
-                                            <td>11:00am - 10:00pm</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Tuesday</th>
-                                            <td>11:00am - 10:00pm</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Wednesday</th>
-                                            <td>11:00am - 10:00pm</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Thursday</th>
-                                            <td>11:00am - 10:00pm</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Friday</th>
-                                            <td>11:00am - 10:00pm</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Saturday</th>
-                                            <td>11:00am - 10:00pm</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Sunday</th>
-                                            <td>11:00am - 10:00pm</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <h6 class="text-center pb-3">{{ t.address }}</h6>
-
-                                    <h5>Photos</h5>
-                                    <div class="pb-3">
-                                        <div class="row gx-0">
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="https://via.placeholder.com/300"/>
-                                            </div>
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="https://via.placeholder.com/300"/>
-                                            </div>
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="https://via.placeholder.com/300"/>
-                                            </div>
-                                        </div>
-                                        <div class="row gx-0">
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="https://via.placeholder.com/300"/>
-                                            </div>
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="https://via.placeholder.com/300"/>
-                                            </div>
-                                            <div class="col-4">
-                                                <img class="img-fluid"
-                                                     src="https://via.placeholder.com/300"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Upload Images -->
-                                    <div class="section" id="vue-target" v-cloak>
-                                        <div v-if="!selection_done" class="field has-addons block">
-                                            <p class="control">
-                                                <div class="file is-info">
-                                                    <label class="file-label">
-                                                        <input class="file-input" type="file"
-                                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-                                                            @change="select_file($event)">
-                                                        <span class="file-cta"></span>
-                                                    </label>
-                                                </div>
-                                            </p>
-                                        </div>
-                                        <template v-if="selection_done && !uploaded">
-                                            <div class="block">
-                                                <img width="100px" :src="img_url" />
-                                            </div>
-                                            <div class="block">
-                                                <button class="button is-success" :disabled="uploading" @click="upload_file">
-                                                <span class="icon is-small">
-                                                    <i v-if="!uploading" class="fa fa-upload"></i>
-                                                    <i v-if="uploading" class="fa fa-spinner fa-pulse fa-fw"></i>
-                                                </span>
-                                                <span>Upload</span>
-                                                </button>
-                                            </div>
-                                        </template>
-                                        <div v-if="uploaded">
-                                            <i class="fa fa-check"></i> Uploaded!
-                                        </div>
-                                    </div>
-                                    
-
-                                    <h5>Reviews (4)</h5>
+                                    <h5>Reviews ({{t.reviews.length}})</h5>
                                     <div class="section" id="vue-target">
-                                        <div v-if="add_mode" class="container block">
-                                            <div class="title">Reviews</div>
+                                        <div v-if="review_add_mode" class="container block">
+                                            <br>
                                             <div class="form">
                                                 <div class="field">
                                                     <div class="control">
-                                                <textarea class="textarea" v-model="add_text"
-                                                          placeholder="Leave a Review..."></textarea>
+                                                        <textarea class="textarea" v-model="review_add_text"
+                                                            placeholder="Leave a Review...">
+                                                        </textarea>
                                                     </div>
                                                 </div>
                                                 <div class="field">
                                                     <div class="control">
-                                                        <input type="submit" @click="add_review" value="Post"
-                                                               class="button is-primary">
+                                                        <input type="submit" @click="add_review(t._idx)" value="Post"
+                                                               class="btn btn-success btn-sm">
                                                         <input type="submit" @click="set_add_status(false)"
                                                                value="Cancel"
-                                                               class="button is-warning">
+                                                               class="btn btn-warning btn-sm">
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br><br>
                                         </div>
-                                        <!--                                    <div class="container block">-->
-                                        <!--                                        <h1 class="title">Posts</h1>-->
-                                        <!--                                        <button @click="set_add_status(true)" class="button is-primary">-->
-                                        <!--                                            <i class="fa fa-plus fa-fw"></i> Add Post-->
-                                        <!--                                        </button>-->
-                                        <!--                                        <br><br>-->
-                                        <!--                                        <div v-for="r in reviews.slice().reverse()" class="box">-->
-                                        <!--                                            <div class="media-content">-->
-                                        <!--                                                <div class="content">-->
-                                        <!--                                                    {{ r.text }}-->
-                                        <!--                                                </div>-->
-                                        <!--                                                <button @click="delete_review(r._idx)" class="button is-danger">-->
-                                        <!--                                                    <i class="fa fa-trash"></i>-->
-                                        <!--                                                </button>-->
-                                        <!--                                            </div>-->
-                                        <!--                                        </div>-->
-                                        <!--                                    </div>-->
+                                        <div class="container block">
+                                            <div v-for="r in t.reviews">
+                                                <div class="card mb-3">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{r.name}}</h5>
+                                                        <div class="mb-2">
+                                                            <!-- <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i> -->
+                                                        </div>
+                                                        <p class="card-text text-small"><small>{{r.text}}</small>
+                                                        </p>
+                                                        <button v-if="current_user == r.created_by" @click="delete_review(t._idx, r._idx)" class="btn btn-danger btn-sm">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="mb-3 text-center">
                                         <i class="fa fa-star"></i>
@@ -213,71 +105,8 @@
                                         <i class="fa fa-star"></i>
                                     </div>
 
-                                    <div>
-                                        <div class="card mb-3">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Ethan M.</h5>
-                                                <div class="mb-2">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <p class="card-text text-small"><small>Lorem ipsum dolor sit amet,
-                                                    consectetur
-                                                    adipiscing elit.
-                                                    Aliquam fringilla interdum ipsum sed lobortis. Sed pulvinar mi sed
-                                                    porta
-                                                    lobortis. Nullam porttitor, diam a tempor venenatis, orci risus
-                                                    euismod
-                                                    odio,
-                                                    vel vulputate nibh ipsum sed enim. Pellentesque posuere ornare quam
-                                                    sit
-                                                    amet
-                                                    dignissim. Maecenas eros neque, pharetra vel cursus sit amet,
-                                                    facilisis
-                                                    nec
-                                                    erat. Donec non semper libero, in tempus diam. Interdum et malesuada
-                                                    fames
-                                                    ac
-                                                    ante ipsum primis in faucibus. Aliquam erat volutpat. Aliquam
-                                                    posuere
-                                                    bibendum
-                                                    lacus. Aliquam laoreet odio urna. Curabitur et fringilla velit, at
-                                                    venenatis
-                                                    augue.</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="card mb-3">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Sarah P.</h5>
-                                                <div class="mb-2">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <p class="card-text text-small"><small>Lorem ipsum dolor sit amet,
-                                                    consectetur
-                                                    adipiscing elit.
-                                                    Aliquam fringilla interdum ipsum sed lobortis. Sed pulvinar mi sed
-                                                    porta
-                                                    lobortis. Nullam porttitor, diam a tempor venenatis, orci risus
-                                                    euismod
-                                                    odio,
-                                                    vel vulputate nibh ipsum sed enim. Pellentesque posuere ornare quam
-                                                    sit
-                                                    amet
-                                                    dignissim. Maecenas eros neque, pharetra vel cursus sit amet,
-                                                    facilisis
-                                                    nec
-                                                    erat. Donec non semper libero, in tempus diam.</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="text-end">
-                                        <button type="button" class="btn btn-small btn-primary">Add Review</button>
+                                        <button @click="set_add_status(true)"type="button" class="btn btn-small btn-primary">Add Review</button>
                                     </div>
                                 </div>
                             </div>
