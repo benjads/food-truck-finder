@@ -25,8 +25,8 @@ db.define_table(
     # food truck ID
     Field('name', requires=IS_NOT_EMPTY()),
     Field('address', requires=IS_NOT_EMPTY()),
-    Field('lat', requires=IS_NOT_EMPTY()),
-    Field('lng', requires=IS_NOT_EMPTY()),
+    Field('lat', 'double', requires=IS_FLOAT_IN_RANGE(-1e100, 1e100)),
+    Field('lng', 'double', requires=IS_FLOAT_IN_RANGE(-1e100, 1e100)),
     Field('cuisine_type', requires=IS_NOT_EMPTY()),
     Field('phone_number', requires=IS_NOT_EMPTY()),
     Field('email', requires=IS_EMAIL()),
