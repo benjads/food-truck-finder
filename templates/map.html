@@ -65,6 +65,21 @@
                                                         </textarea>
                                                     </div>
                                                 </div>
+                                                
+                                                <div class="field">
+                                                    <div>
+                                                        <!-- <span @mouseout="stars_out"> -->
+                                                          <span @mouseout="stars_out"
+                                                                @mouseover="stars_over(star_idx)"
+                                                                @click="set_stars(star_idx)"
+                                                                v-for="star_idx in [1, 2, 3, 4, 5]">
+                                                            <i v-if="star_idx <= review_rating_display" class="fas fa-star"></i>
+                                                            <i v-if="star_idx > review_rating_display" class="far fa-star"></i>
+                                                          </span>
+                                                        <!-- </span> -->
+                                                    </div>
+                                                </div>
+                        
                                                 <div class="field">
                                                     <div class="control">
                                                         <input type="submit" @click="add_review(t._idx)" value="Post"
@@ -81,14 +96,12 @@
                                             <div v-for="r in t.reviews">
                                                 <div class="card mb-3">
                                                     <div class="card-body">
-                                                        <h5 class="card-title">{{r.name}}</h5>
-                                                        <div class="mb-2">
-                                                            <!-- <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i> -->
-                                                        </div>
-                                                        <p class="card-text text-small"><small>{{r.text}}</small>
+                                                        <p class="card-text">{{r.text}}</p>
+                                                        <p class="card-text text-small"><small>-{{r.name}} </small>
                                                         </p>
+                                                        <div class="mb-2">
+                                                            <i v-for="star in r.stars" class="fas fa-star icon-danger"></i>                                                           
+                                                        </div>
                                                         <button v-if="current_user == r.created_by"
                                                                 @click="delete_review(t._idx, r._idx)"
                                                                 class="btn btn-danger btn-sm">
@@ -100,11 +113,6 @@
 
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="mb-3 text-center">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
                                     </div>
 
                                     <div class="text-end">

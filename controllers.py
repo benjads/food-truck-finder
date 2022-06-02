@@ -214,6 +214,7 @@ def add_review():
     id = db.review.insert(
         food_truck_id=request.json.get('food_truck_id'),
         text=request.json.get('text'),
+        stars=request.json.get('stars'),
         created_by=get_user(),
         name=name,
     )

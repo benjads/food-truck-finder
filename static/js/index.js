@@ -19,6 +19,8 @@ let init = (app) => {
         uploaded: false,
         img_url: "",
         review_add_text: "",
+        review_add_rating: 0,
+        review_rating_display: 0,
         review_add_mode: false,
         current_user: -1,
     };
@@ -59,6 +61,7 @@ let init = (app) => {
             {
                 food_truck_id: truck.id,
                 text: app.vue.review_add_text,
+                stars: app.vue.review_add_rating,
                 // rating: num_stars,
             }).then(function (response) {
                 truck.reviews.push({
@@ -66,12 +69,33 @@ let init = (app) => {
                     name: response.data.name,
                     created_by: response.data.created_by,
                     text: app.vue.review_add_text,
+                    stars: app.vue.review_add_rating,
                     _idx: truck.reviews.length
                 });
                 app.enumerate(truck.reviews);
                 app.reset_form();
                 app.set_add_status(false);
             });
+    };
+    app.set_stars = (num_stars) => {
+        app.vue.review_add_rating = num_stars;
+    };
+    app.stars_out = () => {
+        app.vue.review_rating_display = app.vue.review_add_rating;
+    };
+    app.stars_over = (num_stars) => {
+        if(num_stars != undefined){
+            app.vue.review_rating_display = num_stars;
+        }
+        
+    };
+    app.reset_form = function () {
+        app.vue.review_add_text = "";
+        app.vue.review_add_rating = 0;
+        app.vue.review_rating_display = 0;
+    };
+    app.set_add_status = function (new_status) {
+        app.vue.review_add_mode = new_status;
     };
 
     app.delete_review = function(t_idx, r_idx) {
@@ -87,39 +111,6 @@ let init = (app) => {
             }
         });
     };
-    app.reset_form = function () {
-        app.vue.review_add_text = "";
-    };
-    app.set_add_status = function (new_status) {
-        app.vue.review_add_mode = new_status;
-    };
-    // app.init_reviews = (review) => {
-    //     // Initialize the review to have 0 stars and display
-    //     review.map((rev) => {
-    //         rev.rating = 0;
-    //         rev.num_stars_display = 0;
-    //     })
-    // };
-    //
-    // // This function will set the star rating for the
-    // // app.set_star_rating = (review_idx, num_stars) => {
-    // //     // Get the review in question
-    // //     let review = app.vue.reviews[review_idx];
-    // //     review.rating = num_stars;
-    // //     // Update the tables in models with this post request with the info
-    // //     axios.post(vue_set_review_url, {review_id: review.id, rating: num_stars});
-    // // };
-    //
-    // app.stars_out = (review_idx) => {
-    //     let rev = app.vue.reviews[review_idx];
-    //     rev.num_stars_display = rev.rating;
-    // };
-    // // Function to display how many stars when hovered over the rating
-    // app.stars_over = (review_idx, num_stars) => {
-    //     let rev = app.vue.reviews[review_idx];
-    //     rev.num_stars_display = num_stars;
-    // };
-
     /*
     Food Truck AJAX
      */
@@ -179,9 +170,10 @@ let init = (app) => {
 
     // This contains all the methods.
     app.methods = {
-        // stars_out: app.stars_out,
-        // stars_over: app.stars_over,
         add_review: app.add_review,
+        set_stars: app.set_stars,
+        stars_out: app.stars_out,
+        stars_over: app.stars_over,
         set_add_status: app.set_add_status,
         delete_review: app.delete_review,
         toggle_expand_truck: app.toggle_expand_truck,
@@ -217,6 +209,7 @@ let init = (app) => {
                     {params: {food_truck_id: food_truck_id}}
                 ).then( (response) => {
                     truck.reviews = response.data.reviews;
+                    app.enumerate(truck.reviews)
                     app.vue.current_user = response.data.current_user;
                 })
             }
