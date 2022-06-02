@@ -246,3 +246,5 @@ def search():
             results.append(truck['name'])
 
     return dict(results=results)
+    
+    # lol
