@@ -128,6 +128,7 @@ let init = (app) => {
         trucks.map((truck) => {
             truck.reviews = [];
             truck.expanded = false;
+            truck.marker = null;
         });
         app.vue.current_user = -1;
     }
@@ -135,6 +136,8 @@ let init = (app) => {
     app.toggle_expand_truck = (idx) => {
         let truck = app.vue.trucks[idx];
         truck.expanded = true; // TODO figure out how to toggle only when clicking outside of card
+        map.setZoom(16);
+        map.panTo(truck.marker.position);
     };
 
     // Upload Images
@@ -212,10 +215,11 @@ let init = (app) => {
         }).then(() => {
             for (let truck of app.vue.trucks) {
                 // add marker
-                new google.maps.Marker({
+                truck.marker = new google.maps.Marker({
                     position: {lat: truck.lat, lng: truck.lng},
                     map,
                     title: truck.name,
+                    icon: 'img/ftf_marker.png',
                 });
 
                 // load review for that truck
@@ -246,6 +250,14 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         center: {lat: 36.968, lng: -122.057},
         zoom: 14,
+        styles: [
+            {
+                featureType: "poi",
+                stylers: [
+                    {visibility: "off"}
+                ]
+            }
+        ]
     });
 }
 
