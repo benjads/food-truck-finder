@@ -24,7 +24,7 @@
     <div id="ft-form">
         [[=form.custom.begin ]]
         [[for key in form.custom.wrappers: ]]
-        [[ if not key.startswith('hours_'): ]]
+        [[ if not (key.startswith('hours_') or key == 'lat' or key == 'lng'): ]]
         <div class="form-group">
             <label class="h4" for="no_table_[[=key ]]">[[=form.custom.labels[key] ]]</label>
             [[=form.custom.wrappers[key] ]]
@@ -50,21 +50,60 @@
         </div>
         [[pass]]
 
+        [[=form.custom.widgets['lat'] ]]
+        [[=form.custom.widgets['lng'] ]]
+
         [[=form.custom.submit ]]
         [[=form.custom.end ]]
     </div>
 </div>
 
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwSA0QWBxt4K01jIhJ9j5xTKXh2O4W3k&libraries=places&callback=initSearch">
+</script>
+
 <script>
+    const addressInput = document.getElementById('no_table_address');
+
+    let geocoder;
+    function initSearch() {
+        const defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(36.968, -122.057));
+        new google.maps.places.SearchBox(addressInput, {
+            bounds: defaultBounds
+        });
+        geocoder = new google.maps.Geocoder();
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
+        // Change input types
         for (let dotw of ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']) {
             const open_input = document.getElementById('no_table_hours_' + dotw + '_open');
-            console.log(open_input);
             const close_input = document.getElementById('no_table_hours_' + dotw + '_close');
 
             open_input.type = 'time';
             close_input.type = 'time';
         }
 
+        // Hide lat/lng fields
+        document.getElementById('no_table_lat').style.display = 'none';
+        document.getElementById('no_table_lng').style.display = 'none';
     });
+
+    const ftForm = document.forms[0];
+    ftForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        geocoder.geocode({'address': addressInput.value}, function (results, status) {
+            if (status === 'OK') {
+                const latField = document.getElementById('no_table_lat');
+                latField.value = results[0].geometry.location.lat();
+
+                const lngField = document.getElementById('no_table_lng');
+                lngField.value = results[0].geometry.location.lng();
+                ftForm.submit();
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    })
 </script>

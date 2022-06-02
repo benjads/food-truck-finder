@@ -71,6 +71,8 @@ def add_listing():
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
         Field('address', requires=IS_NOT_EMPTY()),
+        Field('lat', requires=IS_NOT_EMPTY()),
+        Field('lng', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_NOT_EMPTY()),
         Field('phone_number', requires=IS_NOT_EMPTY()),
         Field('email', requires=IS_EMAIL()),
@@ -85,6 +87,8 @@ def add_listing():
         food_truck_id = db.food_truck.insert(
             name=form.vars['name'],
             address=form.vars['address'],
+            lat=form.vars['lat'],
+            lng=form.vars['lng'],
             cuisine_type=form.vars['cuisine_type'],
             phone_number=form.vars['phone_number'],
             email=form.vars['email'],
@@ -133,6 +137,8 @@ def edit_listing(food_truck_id=None):
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
         Field('address', requires=IS_NOT_EMPTY()),
+        Field('lat', requires=IS_NOT_EMPTY()),
+        Field('lng', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_NOT_EMPTY()),
         Field('phone_number', requires=IS_NOT_EMPTY()),
         Field('email', requires=IS_EMAIL()),
@@ -150,10 +156,12 @@ def edit_listing(food_truck_id=None):
 
     form = Form(fields, record=curr, deletable=False, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
-        food_truck_id = db.food_truck.update_or_insert(
+        db.food_truck.update_or_insert(
             curr.id,
             name=form.vars['name'],
             address=form.vars['address'],
+            lat=form.vars['lat'],
+            lng=form.vars['lng'],
             cuisine_type=form.vars['cuisine_type'],
             phone_number=form.vars['phone_number'],
             email=form.vars['email'],
