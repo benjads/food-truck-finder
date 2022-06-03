@@ -11,7 +11,8 @@ let init = (app) => {
     app.data = {
         trucks: [],
         query: "",
-        query_results: [],
+        q_truck_results: [],
+        q_cuisine_results: [],
         // Upload Images
         selection_done: false,
         uploading: false,
@@ -40,11 +41,14 @@ let init = (app) => {
         // If the user searches for something, then this would return the result
         if (app.vue.query.length > 1) {
             axios.get(search_url, {params: {q: app.vue.query}}).then(function (result) {
-               app.vue.query_results = result.data.results;
+               app.vue.q_truck_results = result.data.truck_results;
+               app.vue.q_cuisine_results = result.data.cuisine_results;
             });
         // If the user doesn't search for anything, then don't result anything
         } else {
-          app.vue.query_results = [];
+          app.vue.q_cuisine_results = [];
+          app.vue.q_truck_results = [];
+          // app.vue.q_cu
         }
     };
 
@@ -89,7 +93,7 @@ let init = (app) => {
     };
     app.reset_form = function () {
         app.vue.review_add_text = "";
-    };
+    }
     app.set_add_status = function (new_status) {
         app.vue.review_add_mode = new_status;
     };

@@ -28,7 +28,7 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 from py4web import action, request, abort, redirect, URL, Field
 from yatl.helpers import A
 
-from py4web.utils.form import Form, FormStyleBootstrap4
+from py4web.utils.form import *
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user_email, get_user
@@ -68,10 +68,12 @@ def about_us():
 @action.uses('edit-listing.html', db, session, auth.user, url_signer)
 def add_listing():
     dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+    cuisines = ['Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',
+                'Italian', 'Mediterranean', 'Chinese', 'German', 'Indian', 'Japanese', 'Korean', 'American']
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
         Field('address', requires=IS_NOT_EMPTY()),
-        Field('cuisine_type', requires=IS_NOT_EMPTY()),
+        Field('cuisine_type', requires=IS_IN_SET(cuisines)),
         Field('phone_number', requires=IS_NOT_EMPTY()),
         Field('email', requires=IS_EMAIL()),
         Field('website', requires=IS_URL())
@@ -79,7 +81,7 @@ def add_listing():
     for dotw in dotws:
         fields.append(Field('hours_' + dotw + '_open'))
         fields.append(Field('hours_' + dotw + '_close'))
-
+    FormStyleBootstrap4.widgets['cuisine_type'] = SelectWidget()
     form = Form(fields, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
         food_truck_id = db.food_truck.insert(
@@ -130,10 +132,14 @@ def edit_listing(food_truck_id=None):
         redirect(URL('index'))
 
     dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+    # list of cuisine types here
+    cuisines = ['Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',
+                'Italian', 'Mediterranean', 'Chinese', 'German', 'Indian', 'Japanese', 'Korean', 'American']
+
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
         Field('address', requires=IS_NOT_EMPTY()),
-        Field('cuisine_type', requires=IS_NOT_EMPTY()),
+        Field('cuisine_type', requires=IS_IN_SET(cuisines)),
         Field('phone_number', requires=IS_NOT_EMPTY()),
         Field('email', requires=IS_EMAIL()),
         Field('website', requires=IS_URL())
@@ -141,13 +147,16 @@ def edit_listing(food_truck_id=None):
     for dotw in dotws:
         fields.append(Field('hours_' + dotw + '_open'))
         fields.append(Field('hours_' + dotw + '_close'))
+    # iterate over our cuisine list, append
+    # for cuisine in cuisines:
+    #     fields.append(Field(cuisine))
 
     record = curr
     hours_records = db(db.food_truck_hours.food_truck_id == curr.id).select()
     for hours_record in hours_records:
         record['hours_' + hours_record.dotw + '_open'] = hours_record.open_time
         record['hours_' + hours_record.dotw + '_close'] = hours_record.close_time
-
+    FormStyleBootstrap4.widgets['cuisine_type'] = SelectWidget()
     form = Form(fields, record=curr, deletable=False, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
         food_truck_id = db.food_truck.update_or_insert(
@@ -238,13 +247,17 @@ def search():
     # Get the user's search word, and db
     q = request.params.get("q")
     food_trucks = db(db.food_truck).select().as_list()
+    # cuisine_trucks = db(db.food_truck).select().as_list()
 
-    results = []
+    truck_results = []
+    cuisine_results = []
     for truck in food_trucks:
         # If search term is a substring in the name, then append it to the return list
         if q.lower() in truck['name'].lower():
-            results.append(truck['name'])
+            truck_results.append(truck['name'])
+        # If the search term matches with the cuisine type, then append it to the list
+        if q.lower() in truck['cuisine_type'].lower():
+            cuisine_results.append(truck['cuisine_type'])
 
-    return dict(results=results)
+    return dict(truck_results=truck_results, cuisine_results=cuisine_results)
     
-    # lol
