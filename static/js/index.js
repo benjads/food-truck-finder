@@ -11,7 +11,8 @@ let init = (app) => {
     app.data = {
         trucks: [],
         query: "",
-        query_results: [],
+        q_truck_results: [],
+        q_cuisine_results: [],
         expanded: -1,
         // Upload Images
         selection_done: false,
@@ -44,11 +45,13 @@ let init = (app) => {
         // If the user searches for something, then this would return the result
         if (app.vue.query.length > 1) {
             axios.get(search_url, {params: {q: app.vue.query}}).then(function (result) {
-               app.vue.query_results = result.data.results;
+               app.vue.q_truck_results = result.data.truck_results;
+               app.vue.q_cuisine_results = result.data.cuisine_results;
             });
         // If the user doesn't search for anything, then don't result anything
         } else {
-          app.vue.query_results = [];
+            app.vue.q_truck_results = [];
+            app.vue.q_cuisine_results = [];
         }
     };
 
@@ -90,7 +93,7 @@ let init = (app) => {
         if(num_stars != undefined){
             app.vue.review_rating_display = num_stars;
         }
-        
+
     };
     app.get_avg_rating = (t_idx) => {
         let reviews = app.vue.trucks[t_idx].reviews;
@@ -98,7 +101,7 @@ let init = (app) => {
             return 0
         }
         let avg = 0;
-        
+
         for(let review of reviews){
             avg += review.stars;
         }
@@ -218,13 +221,13 @@ let init = (app) => {
             app.enumerate(trucks);
             app.complete_truck(trucks);
             app.vue.trucks = trucks;
-            
+
             //console.log(app.vue.trucks);
         }).then(() => {
             for (let truck of app.vue.trucks) {
                 // load review for that truck
                 let food_truck_id = truck.id;
-                
+
                 axios.get(load_reviews_url,
                     {params: {food_truck_id: food_truck_id}}
                 ).then( (response) => {
@@ -233,7 +236,7 @@ let init = (app) => {
                     truck.avg_rating = app.get_avg_rating(truck._idx);
                     app.vue.current_user = response.data.current_user;
                 })
-                
+
             }
         });
     };
