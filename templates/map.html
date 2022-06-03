@@ -84,7 +84,7 @@
                                                         <img width="400" :src="img_url" />
                                                     </div>
                                                     <div class="block">
-                                                        <button class="button is-success" :disabled="uploading" @click="upload_file">
+                                                        <button class="button is-success" :disabled="uploading" @click="upload_file(t._idx)">
                                                         <span class="icon is-small">
                                                             <i v-if="!uploading" class="fa fa-upload"></i>
                                                             <i v-if="uploading" class="fa fa-spinner fa-pulse fa-fw"></i>
