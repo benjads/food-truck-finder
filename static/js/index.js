@@ -46,9 +46,8 @@ let init = (app) => {
             });
         // If the user doesn't search for anything, then don't result anything
         } else {
-          app.vue.q_cuisine_results = [];
-          app.vue.q_truck_results = [];
-          // app.vue.q_cu
+            app.vue.q_truck_results = [];
+            app.vue.q_cuisine_results = [];
         }
     };
 

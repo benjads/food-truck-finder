@@ -249,15 +249,15 @@ def search():
     food_trucks = db(db.food_truck).select().as_list()
     # cuisine_trucks = db(db.food_truck).select().as_list()
 
-    truck_results = []
-    cuisine_results = []
+    truck_results = []  # List for food truck names if the truck name matches
+    cuisine_results = []  # List for food truck names if the cuisine type matches
     for truck in food_trucks:
         # If search term is a substring in the name, then append it to the return list
         if q.lower() in truck['name'].lower():
             truck_results.append(truck['name'])
         # If the search term matches with the cuisine type, then append it to the list
         if q.lower() in truck['cuisine_type'].lower():
-            cuisine_results.append(truck['cuisine_type'])
+            cuisine_results.append(truck['name'])
 
     return dict(truck_results=truck_results, cuisine_results=cuisine_results)
     
