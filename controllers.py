@@ -53,6 +53,7 @@ def index():
         load_reviews_url=URL('load-reviews', signer=url_signer),
         search_url=URL('search', signer=url_signer),
         my_callback_url=URL('my-callback', signer=url_signer),
+        file_upload_url = URL('file_upload', signer=url_signer)
     )
 
 
@@ -246,3 +247,14 @@ def search():
             results.append(truck['name'])
 
     return dict(results=results)
+
+@action('file_upload', method="PUT")
+@action.uses()
+def file_upload():
+    file_name = request.params.get("file_name")
+    file_type = request.params.get("file_type")
+    uploaded_file = request.body # This is a file
+    # Diagnostics
+    print("Uploaded", file_name, "of type", file_type)
+    print("Content:", uploaded_file.read())
+    return "ok"

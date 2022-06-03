@@ -12,15 +12,14 @@ let init = (app) => {
         trucks: [],
         query: "",
         query_results: [],
-        // Upload Images
-        selection_done: false,
-        uploading: false,
-        uploaded_file: "",
-        uploaded: false,
-        img_url: "",
         review_add_text: "",
         review_add_mode: false,
         current_user: -1,
+        selection_done: false, // Upload images
+        uploading: false, // Upload images
+        uploaded_file: "", // Upload images
+        uploaded: false, // Upload images
+        img_url: "", // Upload images
     };
 
     // Upload Images: This tis the file selected for upload
@@ -175,7 +174,6 @@ let init = (app) => {
             req.send(app.file);
         }
     };
-
 
     // This contains all the methods.
     app.methods = {

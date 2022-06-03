@@ -24,6 +24,7 @@ db.define_table(
     'food_truck',
     # food truck ID
     Field('name', requires=IS_NOT_EMPTY()),
+    Field('thumbnail'), # Image of food truck for listing
     Field('address', requires=IS_NOT_EMPTY()),
     Field('cuisine_type', requires=IS_NOT_EMPTY()),
     Field('phone_number', requires=IS_NOT_EMPTY()),
@@ -31,11 +32,6 @@ db.define_table(
     Field('website', requires=IS_URL()),
     Field('created_by', default=get_user_email),  # links the foodtruck to email it is created by
 )
-db.food_truck.id.readable = db.food_truck.id.writable = False
-db.food_truck.created_by.readable = db.food_truck.created_by.writable = False
-# db.food_truck.availability.readable = db.food_truck.availability.writable = False
-# db.food_truck.address.readable = db.food_truck.address.writable = False
-# db.food_truck.cuisine_type.readable = db.food_truck.cuisine_type.writable = False
 
 # Food truck hours for that single food truck
 db.define_table(
@@ -45,8 +41,6 @@ db.define_table(
     Field('open_time', requires=IS_NOT_EMPTY()),
     Field('close_time')
 )
-db.food_truck_hours.id.readable = db.food_truck_hours.id.writable = False
-# db.food_truck_hours.food_truck_id.readable = db.food_truck_hours.food_truck_id.writable = False
 
 # Database table
 db.define_table(
@@ -57,8 +51,33 @@ db.define_table(
     Field('name'),   #The name
     Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user)
 )
+
+# Food Truck images (From review)
+db.define_table(
+    'images',
+    Field('image'), # Image that user uploads for a food truck listing
+    Field('food_truck_id', 'reference food_truck', ondelete='CASCADE'), # Truck that image is for
+    Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user)
+)
+
+#DB: Food truck
+db.food_truck.id.readable = db.food_truck.id.writable = False
+db.food_truck.created_by.readable = db.food_truck.created_by.writable = False
+# db.food_truck.availability.readable = db.food_truck.availability.writable = False
+# db.food_truck.address.readable = db.food_truck.address.writable = False
+# db.food_truck.cuisine_type.readable = db.food_truck.cuisine_type.writable = Fa
+
+# DB: Food Truck Hours
+db.food_truck_hours.id.readable = db.food_truck_hours.id.writable = False
+# db.food_truck_hours.food_truck_id.readable = db.food_truck_hours.food_truck_id.writable = False
+
+# DB: Review
 db.review.id.readable = db.review.id.writable = False
 db.review.food_truck_id.readable = db.review.food_truck_id.writable = False
 db.review.created_by.readable = db.review.created_by.writable = False
+
+# DB: Images
+db.images.food_truck_id.readable = db.images.food_truck_id.writable = False
+db.images.created_by.readable = db.images.created_by.writable = False
 
 db.commit()
