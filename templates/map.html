@@ -121,19 +121,14 @@
     </div>
 </div>
 
+<script
+        defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwSA0QWBxt4K01jIhJ9j5xTKXh2O4W3k&callback=initMap&v=weekly"
+></script>
 [[block page_scripts]]
 <!-- Loads the index-specific js for Vue -->
 <script>
     let file_upload_url = "[[=XML(file_upload_url)]]";
 </script>
 <script src="js/index.js"></script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwSA0QWBxt4K01jIhJ9j5xTKXh2O4W3k&callback=initMap&v=weekly"
-></script>
-
-<!--<script-->
-<!--        defer-->
-<!--        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwSA0QWBxt4K01jIhJ9j5xTKXh2O4W3k&callback=initMap&v=weekly"-->
-<!--&gt;</script>-->
-
 [[end]]
