@@ -9,3 +9,50 @@
 #top-nav {
     min-height: 5rem;
 }
+
+.auth-container {
+    max-width: 80%;
+    min-width: 400px;
+    margin: 20px auto 20px auto;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.form-group {
+    padding-bottom: 1rem;
+}
+
+#map-container {
+    height: calc(100vh - 6rem);
+    position: relative;
+}
+
+#map {
+    height: 100%;
+}
+
+#map-overlay {
+    position: absolute;
+    top: 3rem;
+    right: 4rem;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 80%;
+    overflow-y: scroll;
+    overflow-x: clip;
+}
+
+.ft-listing {
+    max-width: 540px;
+}
+
+.ft-listing-bottom {
+    position: absolute;
+    bottom: 1rem;
+    width: 100%;
+}
+
+.ft-hours tbody tr th {
+    padding-right: 2rem;
+}

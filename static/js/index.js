@@ -24,7 +24,6 @@ let init = (app) => {
         review_add_rating: 0,
         review_rating_display: 0,
         review_add_mode: false,
-        logged_in: false,
         current_user: null,
     };
 

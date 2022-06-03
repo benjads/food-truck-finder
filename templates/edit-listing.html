@@ -1,24 +1,5 @@
 [[extend 'layout.html']]
 
-<style>
-    .auth-container {
-        max-width: 80%;
-        min-width: 400px;
-        margin: 20px auto 20px auto;
-        border: 1px solid #e1e1e1;
-        border-radius: 10px;
-        padding: 20px;
-    }
-
-    .form-group {
-        padding-bottom: 1rem;
-    }
-
-    a.button {
-        margin-left: 10px;
-    }
-</style>
-
 <div class="auth-container">
     <h1 class="title text-center">[[=action_name]] a Listing</h1>
     <div id="ft-form">
@@ -57,10 +38,6 @@
         [[=form.custom.end ]]
     </div>
 </div>
-
-<script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwSA0QWBxt4K01jIhJ9j5xTKXh2O4W3k&libraries=places&callback=initSearch">
-</script>
 
 <script>
     const addressInput = document.getElementById('no_table_address');
