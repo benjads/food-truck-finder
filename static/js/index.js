@@ -12,6 +12,7 @@ let init = (app) => {
         trucks: [],
         query: "",
         query_results: [],
+        expanded: -1,
         // Upload Images
         selection_done: false,
         uploading: false,
@@ -22,7 +23,8 @@ let init = (app) => {
         review_add_rating: 0,
         review_rating_display: 0,
         review_add_mode: false,
-        current_user: -1,
+        logged_in: false,
+        current_user: null,
     };
 
     // Upload Images: This tis the file selected for upload
@@ -73,6 +75,7 @@ let init = (app) => {
                     _idx: truck.reviews.length
                 });
                 app.enumerate(truck.reviews);
+                truck.avg_rating = app.get_avg_rating(truck._idx);
                 app.reset_form();
                 app.set_add_status(false);
             });
@@ -88,6 +91,18 @@ let init = (app) => {
             app.vue.review_rating_display = num_stars;
         }
         
+    };
+    app.get_avg_rating = (t_idx) => {
+        let reviews = app.vue.trucks[t_idx].reviews;
+        if(reviews.length == 0){
+            return 0
+        }
+        let avg = 0;
+        
+        for(let review of reviews){
+            avg += review.stars;
+        }
+        return (avg/(reviews.length))
     };
     app.reset_form = function () {
         app.vue.review_add_text = "";
@@ -106,6 +121,7 @@ let init = (app) => {
                 if (truck.reviews[i].id === id) {
                     truck.reviews.splice(i, 1);
                     app.enumerate(truck.reviews);
+                    truck.avg_rating = app.get_avg_rating(truck._idx);
                     break;
                 }
             }
@@ -119,13 +135,14 @@ let init = (app) => {
         trucks.map((truck) => {
             truck.reviews = [];
             truck.expanded = false;
+            truck.avg_rating = 0;
         });
-        app.vue.current_user = -1;
+        app.vue.current_user = null;
     }
 
     app.toggle_expand_truck = (idx) => {
         let truck = app.vue.trucks[idx];
-        truck.expanded = true; // TODO figure out how to toggle only when clicking outside of card
+        truck.expanded = !truck.expanded; // TODO figure out how to toggle only when clicking outside of card
     };
 
     // Upload Images
@@ -174,6 +191,7 @@ let init = (app) => {
         set_stars: app.set_stars,
         stars_out: app.stars_out,
         stars_over: app.stars_over,
+        get_avg_rating: app.get_avg_rating,
         set_add_status: app.set_add_status,
         delete_review: app.delete_review,
         toggle_expand_truck: app.toggle_expand_truck,
@@ -200,18 +218,22 @@ let init = (app) => {
             app.enumerate(trucks);
             app.complete_truck(trucks);
             app.vue.trucks = trucks;
+            
             //console.log(app.vue.trucks);
         }).then(() => {
             for (let truck of app.vue.trucks) {
                 // load review for that truck
                 let food_truck_id = truck.id;
+                
                 axios.get(load_reviews_url,
                     {params: {food_truck_id: food_truck_id}}
                 ).then( (response) => {
                     truck.reviews = response.data.reviews;
                     app.enumerate(truck.reviews)
+                    truck.avg_rating = app.get_avg_rating(truck._idx);
                     app.vue.current_user = response.data.current_user;
                 })
+                
             }
         });
     };
@@ -219,6 +241,7 @@ let init = (app) => {
     // Call to the initializer.
     app.init();
 };
+
 
 // This takes the (empty) app object, and initializes it,
 // putting all the code i

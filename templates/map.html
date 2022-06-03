@@ -40,23 +40,24 @@
     <div id="vue-target" v-cloak>
         <div id="map-overlay">
             <div v-for="t in trucks">
-                <div @click="toggle_expand_truck(t._idx)" class="ft-listing card mb-3">
+                <div class="ft-listing card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img class="img-fluid rounded-start"
-                                 src="https://via.placeholder.com/300"/>
+                            <img @click="toggle_expand_truck(t._idx)" class="img-fluid rounded-start" src="https://via.placeholder.com/300"/>                           
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
                                 <h5 class="card-title">{{ t.name }}</h5>
                                 <p class="card-text fw-light fst-italic">{{ t.cuisine_type }}</p>
-
+                                <p name="card-text"> Reviews ({{t.reviews.length}})</p>
+                                <i v-if="Math.floor(t.avg_rating) > 0" v-for="star in Math.floor(t.avg_rating)" class="fas fa-star"></i>
+                                <i v-if="Math.floor(t.avg_rating) != t.avg_rating" class="fas fa-star-half"></i>
+                                
                                 <div v-if="t.expanded">
-
-                                    <h5>Reviews ({{t.reviews.length}})</h5>
+                                    <br>
+                                    
                                     <div class="section">
                                         <div v-if="review_add_mode" class="container block">
-                                            <br>
                                             <div class="form">
                                                 <div class="field">
                                                     <div class="control">
@@ -68,15 +69,13 @@
                                                 
                                                 <div class="field">
                                                     <div>
-                                                        <!-- <span @mouseout="stars_out"> -->
-                                                          <span @mouseout="stars_out"
-                                                                @mouseover="stars_over(star_idx)"
-                                                                @click="set_stars(star_idx)"
-                                                                v-for="star_idx in [1, 2, 3, 4, 5]">
-                                                            <i v-if="star_idx <= review_rating_display" class="fas fa-star"></i>
-                                                            <i v-if="star_idx > review_rating_display" class="far fa-star"></i>
-                                                          </span>
-                                                        <!-- </span> -->
+                                                        <span @mouseout="stars_out"
+                                                            @mouseover="stars_over(star_idx)"
+                                                            @click="set_stars(star_idx)"
+                                                            v-for="star_idx in [1, 2, 3, 4, 5]">
+                                                        <i v-if="star_idx <= review_rating_display" class="fas fa-star"></i>
+                                                        <i v-if="star_idx > review_rating_display" class="far fa-star"></i>
+                                                        </span>
                                                     </div>
                                                 </div>
                         
@@ -97,10 +96,10 @@
                                                 <div class="card mb-3">
                                                     <div class="card-body">
                                                         <p class="card-text">{{r.text}}</p>
-                                                        <p class="card-text text-small"><small>-{{r.name}} </small>
+                                                        <p class="card-text text-small"><small>- {{r.name}} </small>
                                                         </p>
                                                         <div class="mb-2">
-                                                            <i v-for="star in r.stars" class="fas fa-star icon-danger"></i>                                                           
+                                                            <i v-for="star in r.stars" class="fas fa-star"></i>                                                           
                                                         </div>
                                                         <button v-if="current_user == r.created_by"
                                                                 @click="delete_review(t._idx, r._idx)"
@@ -116,7 +115,9 @@
                                     </div>
 
                                     <div class="text-end">
-                                        <button @click="set_add_status(true)" type="button"
+                                        <button
+                                        v-if="current_user"
+                                        @click="set_add_status(true)" type="button"
                                                 class="btn btn-small btn-primary">Add Review
                                         </button>
                                     </div>

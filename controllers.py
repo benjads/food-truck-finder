@@ -201,6 +201,10 @@ def load_trucks():
 def load_reviews():
     truck_id = request.params.get('food_truck_id')
     reviews = db(db.review.food_truck_id == truck_id).select().as_list()
+    if(get_user()):
+        logged_in = True
+    else:
+        logged_in = False
     return dict(reviews=reviews, current_user=get_user())
 
 
