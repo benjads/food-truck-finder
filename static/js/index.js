@@ -139,6 +139,7 @@ let init = (app) => {
             truck.reviews = [];
             truck.expanded = false;
             truck.avg_rating = 0;
+            truck.marker = null;
         });
         app.vue.current_user = null;
     }
@@ -146,6 +147,8 @@ let init = (app) => {
     app.toggle_expand_truck = (idx) => {
         let truck = app.vue.trucks[idx];
         truck.expanded = !truck.expanded; // TODO figure out how to toggle only when clicking outside of card
+        map.setZoom(16);
+        map.panTo(truck.marker.position);
     };
 
     // Upload Images
@@ -225,6 +228,14 @@ let init = (app) => {
             //console.log(app.vue.trucks);
         }).then(() => {
             for (let truck of app.vue.trucks) {
+                // add marker
+                truck.marker = new google.maps.Marker({
+                    position: {lat: truck.lat, lng: truck.lng},
+                    map,
+                    title: truck.name,
+                    icon: 'img/ftf_marker.png',
+                });
+
                 // load review for that truck
                 let food_truck_id = truck.id;
 
@@ -255,15 +266,17 @@ init(app);
 let map;
 
 function initMap() {
-    let map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
         center: {lat: 36.968, lng: -122.057},
         zoom: 14,
-    });
-
-    let marker1 = new google.maps.Marker({
-        position: {lat: 36.960134, lng: -122.0177475},
-        map,
-        title: "Hello World!",
+        styles: [
+            {
+                featureType: "poi",
+                stylers: [
+                    {visibility: "off"}
+                ]
+            }
+        ]
     });
 }
 

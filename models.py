@@ -19,7 +19,7 @@ def get_time():
     return datetime.datetime.utcnow()
 
 
-cuisines = ['Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 
+cuisines = ['Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher',
             'Halal', 'Italian', 'Mediterranean', 'Chinese', 'German', 'Indian', 'Japanese', 'Korean', 'American']
 
 # Table for a single food truck
@@ -29,6 +29,8 @@ db.define_table(
     Field('name', requires=IS_NOT_EMPTY()),
     Field('address', requires=IS_NOT_EMPTY()),
     Field('cuisine_type', requires=IS_IN_SET(cuisines, multiple=True)),
+    Field('lat', 'double', requires=IS_FLOAT_IN_RANGE(-1e100, 1e100)),
+    Field('lng', 'double', requires=IS_FLOAT_IN_RANGE(-1e100, 1e100)),
     Field('phone_number', requires=IS_NOT_EMPTY()),
     Field('email', requires=IS_EMAIL()),
     Field('website', requires=IS_URL()),

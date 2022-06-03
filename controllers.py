@@ -73,6 +73,8 @@ def add_listing():
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
         Field('address', requires=IS_NOT_EMPTY()),
+        Field('lat', requires=IS_NOT_EMPTY()),
+        Field('lng', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_IN_SET(cuisines)),
         Field('phone_number', requires=IS_NOT_EMPTY()),
         Field('email', requires=IS_EMAIL()),
@@ -87,6 +89,8 @@ def add_listing():
         food_truck_id = db.food_truck.insert(
             name=form.vars['name'],
             address=form.vars['address'],
+            lat=form.vars['lat'],
+            lng=form.vars['lng'],
             cuisine_type=form.vars['cuisine_type'],
             phone_number=form.vars['phone_number'],
             email=form.vars['email'],
@@ -140,6 +144,8 @@ def edit_listing(food_truck_id=None):
         Field('name', requires=IS_NOT_EMPTY()),
         Field('address', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_IN_SET(cuisines)),
+        Field('lat', requires=IS_NOT_EMPTY()),
+        Field('lng', requires=IS_NOT_EMPTY()),
         Field('phone_number', requires=IS_NOT_EMPTY()),
         Field('email', requires=IS_EMAIL()),
         Field('website', requires=IS_URL())
@@ -159,10 +165,12 @@ def edit_listing(food_truck_id=None):
     FormStyleBootstrap4.widgets['cuisine_type'] = SelectWidget()
     form = Form(fields, record=curr, deletable=False, csrf_session=session, formstyle=FormStyleBootstrap4)
     if form.accepted:
-        food_truck_id = db.food_truck.update_or_insert(
+        db.food_truck.update_or_insert(
             curr.id,
             name=form.vars['name'],
             address=form.vars['address'],
+            lat=form.vars['lat'],
+            lng=form.vars['lng'],
             cuisine_type=form.vars['cuisine_type'],
             phone_number=form.vars['phone_number'],
             email=form.vars['email'],
@@ -265,4 +273,4 @@ def search():
             cuisine_results.append(truck['name'])
 
     return dict(truck_results=truck_results, cuisine_results=cuisine_results)
-    
+
