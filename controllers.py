@@ -54,6 +54,7 @@ def index():
         search_url=URL('search', signer=url_signer),
         my_callback_url=URL('my-callback', signer=url_signer),
         file_upload_url = URL('file_upload', signer=url_signer),
+        upload_thumbnail_url = URL('upload_thumbnail', signer=url_signer),
     )
 
 
