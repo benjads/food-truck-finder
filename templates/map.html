@@ -6,7 +6,7 @@
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img @click="toggle_expand_truck(t._idx)" class="img-fluid rounded-start"
-                             src="https://via.placeholder.com/300"/>
+                             src="https://via.placeholder.com/300"/> <!-- {{ t.thumbnail }}-->
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -17,6 +17,7 @@
                                class="fas fa-star"></i>
                             <i v-if="Math.floor(t.avg_rating) != t.avg_rating" class="fas fa-star-half"></i>
 
+                            <!-- TRUCK HOURS/ AVAILABILITY -->
                             <div v-if="t.expanded">
                                 <h5>Hours & Location</h5>
 
@@ -55,6 +56,7 @@
 
                                 <h6 class="text-center pb-3">{{ t.address }}</h6>
 
+                                <!-- IMAGES DISPLAY FOR LISTING -->
                                 <h5>Photos</h5>
                                 <div class="pb-3">
                                     <div class="row gx-0">
@@ -89,6 +91,7 @@
 
                                 <!-- UPLOAD IMAGES W/ PREVIEW -->
                                 <div class="section" id="vue-target" v-cloak>
+                                    <!-- Select image to upload -->
                                     <div v-if="!selection_done" class="field has-addons block">
                                     <p class="control">
                                         <div class="file is-info">
@@ -100,25 +103,30 @@
                                         </div>
                                     </p>
                                     </div>
+                                    <!-- Upload of file with preview of selected image -->
                                     <template v-if="selection_done && !uploaded">
-                                    <div class="block">
-                                        <img width="100px" :src="img_url" />
-                                    </div>
-                                    <div class="block">
-                                        <button class="button is-success" :disabled="uploading" @click="upload_file(t._idx)">
-                                        <span class="icon is-small">
-                                            <i v-if="!uploading" class="fa fa-upload"></i>
-                                            <i v-if="uploading" class="fa fa-spinner fa-pulse fa-fw"></i>
-                                        </span>
-                                        <span>Upload</span>
-                                        </button>
-                                    </div>
+                                        <!-- Image preview -->
+                                        <div class="blocks">
+                                            <img width="100px" :src="img_url" />
+                                        </div>
+                                        <!-- Upload button -->
+                                        <div class="block">
+                                            <button class="button is-success" :disabled="uploading" @click="upload_file(t._idx)">
+                                            <span class="icon is-small">
+                                                <i v-if="!uploading" class="fa fa-upload"></i>
+                                                <i v-if="uploading" class="fa fa-spinner fa-pulse fa-fw"></i>
+                                            </span>
+                                                <span>Upload</span>
+                                            </button>
+                                        </div>
                                     </template>
+                                    <!-- Confirmation of upload-->
                                     <div v-if="uploaded">
                                     <i class="fa fa-check"></i> Uploaded!
                                     </div>
                                 </div>
 
+                                <!-- ADD REVIEW -->
                                 <div class="section">
                                     <div v-if="review_add_mode" class="container block">
                                         <div class="form">
@@ -156,6 +164,8 @@
                                         </div>
                                         <br><br>
                                     </div>
+
+                                    <!-- REVIEWS DISPLAY -->
                                     <div class="container block">
                                         <div v-for="r in t.reviews">
                                             <div class="card mb-3">

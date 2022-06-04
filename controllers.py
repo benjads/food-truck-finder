@@ -250,7 +250,6 @@ def delete_review():
     return "ok"
 
 
-
 # Vue End Point : returns a list of food truck names if they match the user's search term
 @action('search')
 @action.uses(db)

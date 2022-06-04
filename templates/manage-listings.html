@@ -28,25 +28,25 @@
         </tr>
 
       <!-- Modal -->
-  <div class="modal fade" id="truck-del-[[=truck.id]]" tabindex="-1" aria-labelledby="truck-del-[[=truck.id]]" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          This action cannot be undone.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <a class="btn btn-danger" href="[[=URL('delete-listing', truck.id, signer=url_signer)]]">
-            <span>Delete</span>
-          </a>
+      <div class="modal fade" id="truck-del-[[=truck.id]]" tabindex="-1" aria-labelledby="truck-del-[[=truck.id]]" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <a class="btn btn-danger" href="[[=URL('delete-listing', truck.id, signer=url_signer)]]">
+                <span>Delete</span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
       [[pass]]
       </tbody>
     </table>
