@@ -39,11 +39,16 @@
     </div>
 </div>
 
+[[block page_scripts]]
+<script
+        defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArwSA0QWBxt4K01jIhJ9j5xTKXh2O4W3k&callback=initGoogle&v=weekly&libraries=places"
+></script>
 <script>
     const addressInput = document.getElementById('no_table_address');
 
     let geocoder;
-    function initSearch() {
+    function initGoogle() {
         const defaultBounds = new google.maps.LatLngBounds(
             new google.maps.LatLng(36.968, -122.057));
         new google.maps.places.SearchBox(addressInput, {
@@ -82,5 +87,6 @@
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
-    })
+    });
 </script>
+[[end]]

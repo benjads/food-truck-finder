@@ -264,7 +264,7 @@ init(app);
 
 let map;
 
-function initMap() {
+function initGoogle() {
     map = new google.maps.Map(document.getElementById("map"), {
         center: {lat: 36.968, lng: -122.057},
         zoom: 14,
@@ -279,4 +279,9 @@ function initMap() {
     });
 }
 
-window.initMap = initMap;
+window.initGoogle = initGoogle;
+
+// CODE FOR EDIT-LISTING
+if (window.location.pathname.includes('edit-listing')) {
+
+}
