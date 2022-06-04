@@ -18,14 +18,81 @@
                             <i v-if="Math.floor(t.avg_rating) != t.avg_rating" class="fas fa-star-half"></i>
 
                             <div v-if="t.expanded">
-                                <br>
+                                <h5>Hours & Location</h5>
+
+                                <table class="ft-hours mb-4">
+                                    <tbody>
+                                    <tr>
+                                        <th>Monday</th>
+                                        <td>11:00am - 10:00pm</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tuesday</th>
+                                        <td>11:00am - 10:00pm</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Wednesday</th>
+                                        <td>11:00am - 10:00pm</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Thursday</th>
+                                        <td>11:00am - 10:00pm</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Friday</th>
+                                        <td>11:00am - 10:00pm</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Saturday</th>
+                                        <td>11:00am - 10:00pm</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sunday</th>
+                                        <td>11:00am - 10:00pm</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <h6 class="text-center pb-3">{{ t.address }}</h6>
+
+                                <h5>Photos</h5>
+                                <div class="pb-3">
+                                    <div class="row gx-0">
+                                        <div class="col-4">
+                                            <img class="img-fluid"
+                                                 src="https://via.placeholder.com/300"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img class="img-fluid"
+                                                 src="https://via.placeholder.com/300"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img class="img-fluid"
+                                                 src="https://via.placeholder.com/300"/>
+                                        </div>
+                                    </div>
+                                    <div class="row gx-0">
+                                        <div class="col-4">
+                                            <img class="img-fluid"
+                                                 src="https://via.placeholder.com/300"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img class="img-fluid"
+                                                 src="https://via.placeholder.com/300"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img class="img-fluid"
+                                                 src="https://via.placeholder.com/300"/>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="section">
                                     <div v-if="review_add_mode" class="container block">
                                         <div class="form">
                                             <div class="field">
                                                 <div class="control">
-                                                        <textarea class="textarea" v-model="review_add_text"
+                                                        <textarea class="textarea form-control" v-model="review_add_text"
                                                                   placeholder="Leave a Review...">
                                                         </textarea>
                                                 </div>

@@ -214,41 +214,7 @@ let init = (app) => {
 
     // And this initializes it.
     app.init = () => {
-        // Put here any initialization code.
-        // Typically this is a server GET call to load the data.
 
-        // Load the food trucks, then for each food truck, load the reviews
-        axios.get(load_trucks_url).then((result) => {
-            let trucks = result.data.trucks;
-            app.enumerate(trucks);
-            app.complete_truck(trucks);
-            app.vue.trucks = trucks;
-
-            //console.log(app.vue.trucks);
-        }).then(() => {
-            for (let truck of app.vue.trucks) {
-                // add marker
-                truck.marker = new google.maps.Marker({
-                    position: {lat: truck.lat, lng: truck.lng},
-                    map,
-                    title: truck.name,
-                    icon: 'img/ftf_marker.png',
-                });
-
-                // load review for that truck
-                let food_truck_id = truck.id;
-
-                axios.get(load_reviews_url,
-                    {params: {food_truck_id: food_truck_id}}
-                ).then( (response) => {
-                    truck.reviews = response.data.reviews;
-                    app.enumerate(truck.reviews)
-                    truck.avg_rating = app.get_avg_rating(truck._idx);
-                    app.vue.current_user = response.data.current_user;
-                })
-
-            }
-        });
     };
 
     // Call to the initializer.
@@ -277,11 +243,36 @@ function initGoogle() {
             }
         ]
     });
+
+    axios.get(load_trucks_url).then((result) => {
+            let trucks = result.data.trucks;
+            app.enumerate(trucks);
+            app.complete_truck(trucks);
+            app.vue.trucks = trucks;
+        }).then(() => {
+            for (let truck of app.vue.trucks) {
+                // add marker
+                 truck.marker = new google.maps.Marker({
+                    position: {lat: truck.lat, lng: truck.lng},
+                    map,
+                    title: truck.name,
+                    icon: 'img/ftf_marker.png',
+                });
+
+                // load review for that truck
+                let food_truck_id = truck.id;
+
+                axios.get(load_reviews_url,
+                    {params: {food_truck_id: food_truck_id}}
+                ).then( (response) => {
+                    truck.reviews = response.data.reviews;
+                    app.enumerate(truck.reviews)
+                    truck.avg_rating = app.get_avg_rating(truck._idx);
+                    app.vue.current_user = response.data.current_user;
+                })
+
+            }
+        });
 }
 
 window.initGoogle = initGoogle;
-
-// CODE FOR EDIT-LISTING
-if (window.location.pathname.includes('edit-listing')) {
-
-}
