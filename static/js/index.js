@@ -150,7 +150,7 @@ let init = (app) => {
         map.panTo(truck.marker.position);
     };
 
-    // Upload Images
+    // Upload Images (w/ preview)
     app.select_file = function (event) {
         // Reads the file.
         let input = event.target;
@@ -171,7 +171,14 @@ let init = (app) => {
         app.vue.uploaded = true;
     };
 
-    app.upload_file = function () {
+    // Ultimate goal is to call this with adding a review for a truck
+        // Post will commit photos to 'images' db
+        // Users can delete the photos by deleting whole review? That will be easiest
+            // Therefore also link the images to the review id -> delete_review
+        // Will need load_images as well as decision on viewing them. First 6 will show and shift through
+    app.upload_file = function (t_idx) {
+        let truck = app.vue.trucks[t_idx]; // Specific truck images are added to
+
         if (app.file) {
             let file_type = app.file.type;
             let file_name = app.file.name;
@@ -187,6 +194,18 @@ let init = (app) => {
             req.open("PUT", full_url, true);
             req.send(app.file);
         }
+
+        // Add to Images DB with AJAX
+        axios.post(file_upload_url,
+            {
+                food_truck_id: truck.id,
+                image: app.vue.img_url,
+            }).then(function (response) {
+                image.data.push({
+                    id: response.data.id,
+                    created_by: response.data.created_by,
+                });
+            });
     };
 
 

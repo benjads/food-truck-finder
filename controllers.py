@@ -53,6 +53,7 @@ def index():
         load_reviews_url=URL('load-reviews', signer=url_signer),
         search_url=URL('search', signer=url_signer),
         my_callback_url=URL('my-callback', signer=url_signer),
+        file_upload_url = URL('file_upload', signer=url_signer),
     )
 
 

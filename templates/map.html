@@ -87,6 +87,38 @@
                                     </div>
                                 </div>
 
+                                <!-- UPLOAD IMAGES W/ PREVIEW -->
+                                <div class="section" id="vue-target" v-cloak>
+                                    <div v-if="!selection_done" class="field has-addons block">
+                                    <p class="control">
+                                        <div class="file is-info">
+                                        <label class="file-label">
+                                            <input class="file-input" type="file"
+                                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                                                @change="select_file($event)">
+                                        </label>
+                                        </div>
+                                    </p>
+                                    </div>
+                                    <template v-if="selection_done && !uploaded">
+                                    <div class="block">
+                                        <img width="100px" :src="img_url" />
+                                    </div>
+                                    <div class="block">
+                                        <button class="button is-success" :disabled="uploading" @click="upload_file(t._idx)">
+                                        <span class="icon is-small">
+                                            <i v-if="!uploading" class="fa fa-upload"></i>
+                                            <i v-if="uploading" class="fa fa-spinner fa-pulse fa-fw"></i>
+                                        </span>
+                                        <span>Upload</span>
+                                        </button>
+                                    </div>
+                                    </template>
+                                    <div v-if="uploaded">
+                                    <i class="fa fa-check"></i> Uploaded!
+                                    </div>
+                                </div>
+
                                 <div class="section">
                                     <div v-if="review_add_mode" class="container block">
                                         <div class="form">
