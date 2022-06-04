@@ -20,6 +20,7 @@ let init = (app) => {
         uploaded_file: "", // Upload images
         uploaded: false, // Upload images
         img_url: "", // Upload images
+        rows: [], // Truck Thumbnail
     };
 
     // Upload Images: This tis the file selected for upload
@@ -194,6 +195,29 @@ let init = (app) => {
             });
     };
 
+    app.upload_thumbnail = function (event, truck_idx) {
+        let input = event.target;
+        let file = input.files[0];
+        let row = app.vue.rows[truck_idx];
+        if (file) {
+            let reader = new FileReader();
+            reader.addEventListener("load", function () {
+                // Sends the image to the server.
+                axios.post(upload_thumbnail_url,
+                    {
+                        food_truck_id: row.id,
+                        thumbnail: reader.result,
+                    })
+                    .then(function () {
+                        // Sets the local preview.
+                        row.thumbnail = reader.result;
+
+                    });
+            });
+            reader.readAsDataURL(file);
+        }
+    };
+
     // This contains all the methods.
     app.methods = {
         // stars_out: app.stars_out,
@@ -205,6 +229,7 @@ let init = (app) => {
         search: app.search,
         select_file: app.select_file,
         upload_file: app.upload_file,
+        upload_thumbnail: app.upload_thumbnail,
     };
 
     // This creates the Vue instance.

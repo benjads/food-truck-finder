@@ -20,7 +20,8 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Food Truck Name</th>
+          <th>Food Truck</th>
+          <th>Thumbnail</th>
           <th>Address</th>
         <th></th>
         </tr>
@@ -29,6 +30,21 @@
       [[for truck in trucks:]]
         <tr>
           <td>[[=truck.name]]</td>
+          <td>
+            <!-- Food Truck Thumbnail -->
+            <div v-if="!truck.thumbnail">
+              <p class="control">
+                <div class="file is-info">
+                  <label class="file-label">
+                    <input class="file-input" type="file"
+                           accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                           @change="upload_thumbnail($event, truck._idx)">
+                  </label>
+                </div>
+              </p>
+            </div>
+            <img v-if="truck.thumbnail" width="50" :src="truck.thumbnail" />
+          </td>
           <td>[[=truck.address]]</td>
            <!-- Edit button -->
           <td>
