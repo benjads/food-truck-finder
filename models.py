@@ -54,23 +54,13 @@ db.define_table(
     Field('stars', 'integer', IS_INT_IN_RANGE(0, 5), requires=IS_NOT_EMPTY()),  # The star rating 0-5
     Field('text', requires=IS_NOT_EMPTY()),  # The review
     Field('name'),   #The name
+    Field('encoded_image'),
     Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user)
 )
-
-# Food Truck images (From review)
-db.define_table(
-    'image',
-    Field('encoded_image'), # Image that user uploads for a food truck listing
-    Field('food_truck_id', 'reference food_truck', ondelete='CASCADE'), # Truck that image is for
-    Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user)
-)
-
 #DB: Food truck
 db.food_truck.id.readable = db.food_truck.id.writable = False
 db.food_truck.created_by.readable = db.food_truck.created_by.writable = False
-# db.food_truck.availability.readable = db.food_truck.availability.writable = False
-# db.food_truck.address.readable = db.food_truck.address.writable = False
-# db.food_truck.cuisine_type.readable = db.food_truck.cuisine_type.writable = False
+
 
 # DB: Food Truck Hours
 db.food_truck_hours.id.readable = db.food_truck_hours.id.writable = False

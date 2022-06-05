@@ -60,49 +60,15 @@
                                 <h5>Photos</h5>
                                 <div class="pb-3">
                                     <div class="row gx-0">
-                                        <div class="col-4" v-for="img in t.images">
-                                            <img class="img-fluid"
-                                                 :src="img.encoded_image"/>
+                                        <div class="col-4" v-for="review in t.reviews">
+                                            <img v-if="review.encoded_image != null" class="img-fluid"
+                                                 :src="review.encoded_image"/>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- UPLOAD IMAGES W/ PREVIEW -->
-                                <div class="section" id="vue-target" v-cloak>
-                                    <!-- Select image to upload -->
-                                    <div v-if="!selection_done" class="field has-addons block">
-                                        <p class="control">
-                                            <div class="file is-info">
-                                            <label class="file-label">
-                                                <input class="file-input" type="file"
-                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-                                                    @change="select_file($event)">
-                                            </label>
-                                            </div>
-                                        </p>
-                                    </div>
-                                    <!-- Upload of file with preview of selected image -->
-                                    <template v-if="selection_done && !uploaded">
-                                        <!-- Image preview -->
-                                        <div class="blocks">
-                                            <img width="100px" :src="encoded_image" />
-                                        </div>
-                                        <!-- Upload button -->
-                                        <div class="block">
-                                            <button class="button is-success" :disabled="uploading" @click="upload_file(t._idx)">
-                                            <span class="icon is-small">
-                                                <i v-if="!uploading" class="fa fa-upload"></i>
-                                                <i v-if="uploading" class="fa fa-spinner fa-pulse fa-fw"></i>
-                                            </span>
-                                                <span>Upload</span>
-                                            </button>
-                                        </div>
-                                    </template>
-                                    <!-- Confirmation of upload-->
-                                    <div v-if="uploaded">
-                                    <i class="fa fa-check"></i> Uploaded!
-                                    </div>
-                                </div>
+                                
 
                                 <!-- ADD REVIEW -->
                                 <div class="section">
@@ -115,7 +81,6 @@
                                                         </textarea>
                                                 </div>
                                             </div>
-
                                             <div class="field">
                                                 <div>
                                                         <span @mouseout="stars_out"
@@ -129,7 +94,27 @@
                                                         </span>
                                                 </div>
                                             </div>
-
+                                            <div class="section" v-cloak>
+                                                <!-- Select image to upload -->
+                                                <div v-if="!selection_done" class="field has-addons block">
+                                                    <p class="control">
+                                                        <div class="file is-info">
+                                                        <label class="file-label">
+                                                            <input class="file-input" type="file"
+                                                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                                                                @change="select_file($event)">
+                                                        </label>
+                                                        </div>
+                                                    </p>
+                                                </div>
+                                                <!-- Upload of file with preview of selected image -->
+                                                <template v-if="selection_done && !uploaded">
+                                                    <!-- Image preview -->
+                                                    <div class="blocks">
+                                                        <img width="100px" :src="encoded_image" />
+                                                    </div>
+                                                </template>
+                                            </div>
                                             <div class="field">
                                                 <div class="control">
                                                     <input type="submit" @click="add_review(t._idx)" value="Post"

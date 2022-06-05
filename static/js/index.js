@@ -14,10 +14,11 @@ let init = (app) => {
         q_truck_results: [],
         q_cuisine_results: [],
         expanded: -1,
+        
         // Upload Images
         selection_done: false,
         selected_image: null,
-        uploading: false,
+
         uploaded_file: "",
         uploaded: false,
         encoded_image: "",
@@ -59,17 +60,20 @@ let init = (app) => {
 
     app.add_review = function (t_idx) {
         let truck = app.vue.trucks[t_idx];
+        app.upload_complete();
         axios.post(add_review_url,
             {
                 food_truck_id: truck.id,
                 text: app.vue.review_add_text,
                 stars: app.vue.review_add_rating,
+                encoded_image: app.vue.encoded_image,
                 // rating: num_stars,
             }).then(function (response) {
                 truck.reviews.push({
                     id: response.data.id,
                     name: response.data.name,
                     created_by: response.data.created_by,
+                    encoded_image: app.vue.encoded_image,
                     text: app.vue.review_add_text,
                     stars: app.vue.review_add_rating,
                     _idx: truck.reviews.length
@@ -79,6 +83,25 @@ let init = (app) => {
                 app.reset_form();
                 app.set_add_status(false);
             });
+    };
+    // Upload Images (w/ preview)
+    app.select_file = function (event) {
+        // Reads the file.
+        let input = event.target;
+        app.vue.selected_image = input.files[0];
+        if (app.vue.selected_image) {
+            app.vue.selection_done = true;
+            // We read the file.
+            let reader = new FileReader();
+            reader.addEventListener("load", function () {
+                app.vue.encoded_image = reader.result;
+            });
+            reader.readAsDataURL(app.vue.selected_image);
+        }
+    };
+
+    app.upload_complete = function () {
+        app.vue.uploaded = true;
     };
     app.set_stars = (num_stars) => {
         app.vue.review_add_rating = num_stars;
@@ -108,6 +131,9 @@ let init = (app) => {
         app.vue.review_add_text = "";
         app.vue.review_add_rating = 0;
         app.vue.review_rating_display = 0;
+        app.vue.uploaded = false;
+        app.vue.encoded_image = "";
+        app.vue.selection_done= false;
     };
     app.set_add_status = function (new_status) {
         app.vue.review_add_mode = new_status;
@@ -149,64 +175,20 @@ let init = (app) => {
         map.panTo(truck.marker.position);
     };
 
-    // Upload Images (w/ preview)
-    app.select_file = function (event) {
-        // Reads the file.
-        let input = event.target;
-        app.vue.selected_image = input.files[0];
-        if (app.vue.selected_image) {
-            app.vue.selection_done = true;
-            // We read the file.
-            let reader = new FileReader();
-            reader.addEventListener("load", function () {
-                app.vue.encoded_image = reader.result;
-            });
-            reader.readAsDataURL(app.vue.selected_image);
-        }
-    };
-
-    app.upload_complete = function () {
-        app.vue.uploading = false;
-        app.vue.uploaded = true;
-    };
-
-    app.upload_file = function (t_idx) {
-        let truck = app.vue.trucks[t_idx]; // Specific truck images are added to
-        app.upload_complete(); // Show that image was uploaded successfully
-
-        // Add to Images DB with AJAX
-        // console.log(truck.id);
-        // console.log(app.vue.upload_encoded);
-        axios.post(file_upload_url,
-            {
-                food_truck_id: truck.id,
-                encoded_image: app.vue.encoded_image,
-            }
-            ).then(function (result) {
-                truck.images.push({
-                    id: result.data.id,
-                    created_by: result.data.created_by,
-                    encoded_image: app.vue.encoded_image,
-                    _idx: truck.images.length,
-                });
-                app.enumerate(truck.images);
-            });
-    };
-
+    
 
     // This contains all the methods.
     app.methods = {
         add_review: app.add_review,
+        delete_review: app.delete_review,
+        select_file: app.select_file,
         set_stars: app.set_stars,
         stars_out: app.stars_out,
         stars_over: app.stars_over,
         get_avg_rating: app.get_avg_rating,
         set_add_status: app.set_add_status,
-        delete_review: app.delete_review,
         toggle_expand_truck: app.toggle_expand_truck,
         search: app.search,
-        select_file: app.select_file,
-        upload_file: app.upload_file,
     };
 
     // This creates the Vue instance.
@@ -273,14 +255,6 @@ function initGoogle() {
                     truck.reviews = response.data.reviews;
                     app.enumerate(truck.reviews)
                     truck.avg_rating = app.get_avg_rating(truck._idx);
-
-                });
-
-                axios.get(load_images_url,
-                    {params: {food_truck_id: food_truck_id}}
-                ).then( (res) => {
-                    truck.images = res.data.images;
-                    app.enumerate(truck.images);
                 });
 
             }

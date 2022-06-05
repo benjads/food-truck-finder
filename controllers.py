@@ -25,6 +25,7 @@ session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
 
+import re
 from py4web import action, request, abort, redirect, URL, Field
 from yatl.helpers import A
 
@@ -51,10 +52,8 @@ def index():
         add_review_url=URL('add-review', signer=url_signer),
         delete_review_url=URL('delete-review', signer=url_signer),
         load_reviews_url=URL('load-reviews', signer=url_signer),
-        load_images_url=URL('load-images', signer=url_signer),
         search_url=URL('search', signer=url_signer),
         my_callback_url=URL('my-callback', signer=url_signer),
-        file_upload_url=URL('file_upload', signer=url_signer),
         upload_thumbnail_url=URL('upload_thumbnail', signer=url_signer),
     )
 
@@ -251,6 +250,7 @@ def add_review():
     id = db.review.insert(
         food_truck_id=request.json.get('food_truck_id'),
         text=request.json.get('text'),
+        encoded_image= request.json.get('encoded_image'),
         stars=request.json.get('stars'),
         created_by=get_user(),
         name=name,
@@ -288,17 +288,3 @@ def search():
             cuisine_results.append(truck['name'])
 
     return dict(truck_results=truck_results, cuisine_results=cuisine_results)
-
-
-# Vue End Point : Inserts an encoded image url into the db, as well as the food truck id
-@action('file_upload', method="POST")
-@action.uses(db, session, auth.user)
-def file_upload():
-    # Insert image to images DB
-    db.image.insert(
-        food_truck_id=request.json.get('food_truck_id'),
-        encoded_image=request.json.get('encoded_image'),  # img url encoded in base64
-        created_by=get_user(),
-    )
-
-    return dict(id=id, created_by=get_user())
