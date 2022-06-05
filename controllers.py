@@ -51,10 +51,11 @@ def index():
         add_review_url=URL('add-review', signer=url_signer),
         delete_review_url=URL('delete-review', signer=url_signer),
         load_reviews_url=URL('load-reviews', signer=url_signer),
+        load_images_url=URL('load-images', signer=url_signer),
         search_url=URL('search', signer=url_signer),
         my_callback_url=URL('my-callback', signer=url_signer),
-        file_upload_url = URL('file_upload', signer=url_signer),
-        upload_thumbnail_url = URL('upload_thumbnail', signer=url_signer),
+        file_upload_url=URL('file_upload', signer=url_signer),
+        upload_thumbnail_url=URL('upload_thumbnail', signer=url_signer),
     )
 
 
@@ -208,11 +209,13 @@ def delete_listing(food_truck_id=None):
     # How do we get the POST body?
     redirect(URL('manage-listings'))
 
+
 @action('load-trucks')
 @action.uses(db)
 def load_trucks():
     trucks = db(db.food_truck).select().as_list()
-    return dict(trucks=trucks)
+    return dict(trucks=trucks, current_user=get_user())
+
 
 # This is our very first API function.
 @action('load-reviews')
@@ -221,7 +224,17 @@ def load_reviews():
     truck_id = request.params.get('food_truck_id')
     reviews = db(db.review.food_truck_id == truck_id).select().as_list()
 
-    return dict(reviews=reviews, current_user=get_user())
+    return dict(reviews=reviews)
+
+
+# This is our very first API function.
+@action('load-images')
+@action.uses(url_signer.verify(), db, auth)
+def load_images():
+    truck_id = request.params.get('food_truck_id')
+    images = db(db.image.food_truck_id == truck_id).select().as_list()
+
+    return dict(images=images)
 
 
 # The endpoint for the customer to add a review
@@ -272,3 +285,16 @@ def search():
 
     return dict(truck_results=truck_results, cuisine_results=cuisine_results)
 
+
+# Vue End Point
+@action('file_upload', method="POST")
+@action.uses(db, session, auth.user)
+def file_upload():
+    # Insert image to images DB
+    db.image.insert(
+        food_truck_id=request.json.get('food_truck_id'),
+        encoded_image=request.json.get('encoded_image'),  # img url encoded in base64
+        created_by=get_user(),
+    )
+
+    return dict(id=id, created_by=get_user())

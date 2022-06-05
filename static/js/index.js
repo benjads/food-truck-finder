@@ -10,25 +10,24 @@ let init = (app) => {
     // This is the Vue data.
     app.data = {
         trucks: [],
+        images: [],
         query: "",
         q_truck_results: [],
         q_cuisine_results: [],
         expanded: -1,
         // Upload Images
         selection_done: false,
+        selected_image: null,
         uploading: false,
         uploaded_file: "",
         uploaded: false,
-        img_url: "",
+        upload_encoded: "",
         review_add_text: "",
         review_add_rating: 0,
         review_rating_display: 0,
         review_add_mode: false,
         current_user: null,
     };
-
-    // Upload Images: This tis the file selected for upload
-    app.file = null;
 
     app.enumerate = (a) => {
         // This adds an _idx field to each element of the array.
@@ -136,6 +135,7 @@ let init = (app) => {
     app.complete_truck = (trucks) => {
         trucks.map((truck) => {
             truck.reviews = [];
+            truck.images = [];
             truck.expanded = false;
             truck.avg_rating = 0;
             truck.marker = null;
@@ -154,19 +154,19 @@ let init = (app) => {
     app.select_file = function (event) {
         // Reads the file.
         let input = event.target;
-        app.file = input.files[0];
-        if (app.file) {
+        app.vue.selected_image = input.files[0];
+        if (app.vue.selected_image) {
             app.vue.selection_done = true;
             // We read the file.
             let reader = new FileReader();
             reader.addEventListener("load", function () {
-                app.vue.img_url = reader.result;
+                app.vue.upload_encoded = reader.result;
             });
-            reader.readAsDataURL(app.file);
+            reader.readAsDataURL(app.vue.selected_image);
         }
     };
 
-    app.upload_complete = function (file_name, file_type) {
+    app.upload_complete = function () {
         app.vue.uploading = false;
         app.vue.uploaded = true;
     };
@@ -178,33 +178,24 @@ let init = (app) => {
         // Will need load_images as well as decision on viewing them. First 6 will show and shift through
     app.upload_file = function (t_idx) {
         let truck = app.vue.trucks[t_idx]; // Specific truck images are added to
-
-        if (app.file) {
-            let file_type = app.file.type;
-            let file_name = app.file.name;
-            let full_url = file_upload_url + "&file_name=" + encodeURIComponent(file_name)
-                + "&file_type=" + encodeURIComponent(file_type);
-            // Uploads the file, using the low-level streaming interface. This avoid any
-            // encoding.
-            app.vue.uploading = true;
-            let req = new XMLHttpRequest();
-            req.addEventListener("load", function () {
-                app.upload_complete(file_name, file_type)
-            });
-            req.open("PUT", full_url, true);
-            req.send(app.file);
-        }
+        app.upload_complete(); // Show that image was uploaded successfully
 
         // Add to Images DB with AJAX
+        console.log(truck.id);
+        console.log(app.vue.upload_encoded);
         axios.post(file_upload_url,
-            {
+             {
                 food_truck_id: truck.id,
-                image: app.vue.img_url,
-            }).then(function (response) {
-                image.data.push({
-                    id: response.data.id,
-                    created_by: response.data.created_by,
+                encoded_image: app.vue.upload_encoded,
+            }
+            ).then(function (result) {
+                truck.images.push({
+                    id: result.data.id,
+                    created_by: result.data.created_by,
+                    upload_encoded: app.vue.upload_encoded,
+                    _idx: truck.images.length,
                 });
+                app.enumerate(truck.images);
             });
     };
 
@@ -268,6 +259,7 @@ function initGoogle() {
             app.enumerate(trucks);
             app.complete_truck(trucks);
             app.vue.trucks = trucks;
+            app.vue.current_user = result.data.current_user;
         }).then(() => {
             for (let truck of app.vue.trucks) {
                 // add marker
@@ -287,7 +279,7 @@ function initGoogle() {
                     truck.reviews = response.data.reviews;
                     app.enumerate(truck.reviews)
                     truck.avg_rating = app.get_avg_rating(truck._idx);
-                    app.vue.current_user = response.data.current_user;
+
                 })
 
             }

@@ -93,21 +93,21 @@
                                 <div class="section" id="vue-target" v-cloak>
                                     <!-- Select image to upload -->
                                     <div v-if="!selection_done" class="field has-addons block">
-                                    <p class="control">
-                                        <div class="file is-info">
-                                        <label class="file-label">
-                                            <input class="file-input" type="file"
-                                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-                                                @change="select_file($event)">
-                                        </label>
-                                        </div>
-                                    </p>
+                                        <p class="control">
+                                            <div class="file is-info">
+                                            <label class="file-label">
+                                                <input class="file-input" type="file"
+                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                                                    @change="select_file($event)">
+                                            </label>
+                                            </div>
+                                        </p>
                                     </div>
                                     <!-- Upload of file with preview of selected image -->
                                     <template v-if="selection_done && !uploaded">
                                         <!-- Image preview -->
                                         <div class="blocks">
-                                            <img width="100px" :src="img_url" />
+                                            <img width="100px" :src="upload_encoded" />
                                         </div>
                                         <!-- Upload button -->
                                         <div class="block">

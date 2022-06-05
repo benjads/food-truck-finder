@@ -59,8 +59,8 @@ db.define_table(
 
 # Food Truck images (From review)
 db.define_table(
-    'images',
-    Field('image'), # Image that user uploads for a food truck listing
+    'image',
+    Field('encoded_image'), # Image that user uploads for a food truck listing
     Field('food_truck_id', 'reference food_truck', ondelete='CASCADE'), # Truck that image is for
     Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user)
 )
@@ -70,7 +70,7 @@ db.food_truck.id.readable = db.food_truck.id.writable = False
 db.food_truck.created_by.readable = db.food_truck.created_by.writable = False
 # db.food_truck.availability.readable = db.food_truck.availability.writable = False
 # db.food_truck.address.readable = db.food_truck.address.writable = False
-# db.food_truck.cuisine_type.readable = db.food_truck.cuisine_type.writable = Fa
+# db.food_truck.cuisine_type.readable = db.food_truck.cuisine_type.writable = False
 
 # DB: Food Truck Hours
 db.food_truck_hours.id.readable = db.food_truck_hours.id.writable = False
@@ -80,9 +80,5 @@ db.food_truck_hours.id.readable = db.food_truck_hours.id.writable = False
 db.review.id.readable = db.review.id.writable = False
 db.review.food_truck_id.readable = db.review.food_truck_id.writable = False
 db.review.created_by.readable = db.review.created_by.writable = False
-
-# DB: Images
-db.images.food_truck_id.readable = db.images.food_truck_id.writable = False
-db.images.created_by.readable = db.images.created_by.writable = False
 
 db.commit()
