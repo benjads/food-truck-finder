@@ -75,6 +75,7 @@ def add_listing():
                 'Italian', 'Mediterranean', 'Chinese', 'German', 'Indian', 'Japanese', 'Korean', 'American']
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
+        Field('thumbnail'),
         Field('address', requires=IS_NOT_EMPTY()),
         Field('lat', requires=IS_NOT_EMPTY()),
         Field('lng', requires=IS_NOT_EMPTY()),
@@ -91,6 +92,7 @@ def add_listing():
     if form.accepted:
         food_truck_id = db.food_truck.insert(
             name=form.vars['name'],
+            thumbnail=form.vars['thumbnail'],
             address=form.vars['address'],
             lat=form.vars['lat'],
             lng=form.vars['lng'],
@@ -145,6 +147,7 @@ def edit_listing(food_truck_id=None):
 
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
+        Field('thumbnail'),
         Field('address', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_IN_SET(cuisines)),
         Field('lat', requires=IS_NOT_EMPTY()),
@@ -171,6 +174,7 @@ def edit_listing(food_truck_id=None):
         db.food_truck.update_or_insert(
             curr.id,
             name=form.vars['name'],
+            thumbnail=form.vars['thumbnail'],
             address=form.vars['address'],
             lat=form.vars['lat'],
             lng=form.vars['lng'],
@@ -286,7 +290,7 @@ def search():
     return dict(truck_results=truck_results, cuisine_results=cuisine_results)
 
 
-# Vue End Point
+# Vue End Point : Inserts an encoded image url into the db, as well as the food truck id
 @action('file_upload', method="POST")
 @action.uses(db, session, auth.user)
 def file_upload():

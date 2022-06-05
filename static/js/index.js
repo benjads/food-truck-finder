@@ -280,7 +280,14 @@ function initGoogle() {
                     app.enumerate(truck.reviews)
                     truck.avg_rating = app.get_avg_rating(truck._idx);
 
-                })
+                });
+
+                axios.get(load_images_url,
+                    {params: {food_truck_id: food_truck_id}}
+                ).then( (res) => {
+                    truck.images = res.data.images;
+                    app.enumerate(truck.images);
+                });
 
             }
         });

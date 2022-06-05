@@ -56,35 +56,13 @@
 
                                 <h6 class="text-center pb-3">{{ t.address }}</h6>
 
-                                <!-- IMAGES DISPLAY FOR LISTING -->
+                                <!-- DISPLAY IMAGES FOR EXPANDED TRUCK -->
                                 <h5>Photos</h5>
                                 <div class="pb-3">
                                     <div class="row gx-0">
-                                        <div class="col-4">
+                                        <div class="col-4" v-for="img in t.images">
                                             <img class="img-fluid"
-                                                 src="https://via.placeholder.com/300"/>
-                                        </div>
-                                        <div class="col-4">
-                                            <img class="img-fluid"
-                                                 src="https://via.placeholder.com/300"/>
-                                        </div>
-                                        <div class="col-4">
-                                            <img class="img-fluid"
-                                                 src="https://via.placeholder.com/300"/>
-                                        </div>
-                                    </div>
-                                    <div class="row gx-0">
-                                        <div class="col-4">
-                                            <img class="img-fluid"
-                                                 src="https://via.placeholder.com/300"/>
-                                        </div>
-                                        <div class="col-4">
-                                            <img class="img-fluid"
-                                                 src="https://via.placeholder.com/300"/>
-                                        </div>
-                                        <div class="col-4">
-                                            <img class="img-fluid"
-                                                 src="https://via.placeholder.com/300"/>
+                                                 :src="img.encoded_image"/>
                                         </div>
                                     </div>
                                 </div>

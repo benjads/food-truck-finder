@@ -5,7 +5,7 @@
     <div id="ft-form">
         [[=form.custom.begin ]]
         [[for key in form.custom.wrappers: ]]
-        [[ if not (key.startswith('hours_') or key == 'lat' or key == 'lng'): ]]
+        [[ if not (key.startswith('hours_') or key == 'lat' or key == 'lng' or key == 'thumbnail'): ]]
         <div class="form-group">
             <label class="h4" for="no_table_[[=key ]]">[[=form.custom.labels[key] ]]</label>
             [[=form.custom.wrappers[key] ]]
@@ -30,6 +30,11 @@
             </div>
         </div>
         [[pass]]
+
+        <div class="form-group">
+            <label class="h4" for="no_table_thumbnail">Picture</label>
+            <input class="file-input" type="file" id="no_table_thumbnail" name="thumbnail" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+        </div>
 
         [[=form.custom.widgets['lat'] ]]
         [[=form.custom.widgets['lng'] ]]
@@ -75,6 +80,18 @@
     const ftForm = document.forms[0];
     ftForm.addEventListener('submit', function (event) {
         event.preventDefault();
+
+        const img_input = document.getElementById('no_table_thumbnail');
+        const selected_img = img_input.files[0];
+        if (selected_img) {
+            let reader = new FileReader();
+            reader.addEventListener("load", function () {
+                img_input.type = 'text';
+                img_input.value = reader.result;
+            });
+            reader.readAsDataURL(selected_img);
+        }
+
         geocoder.geocode({'address': addressInput.value}, function (results, status) {
             if (status === 'OK') {
                 const latField = document.getElementById('no_table_lat');
