@@ -10,7 +10,6 @@ let init = (app) => {
     // This is the Vue data.
     app.data = {
         trucks: [],
-        images: [],
         query: "",
         q_truck_results: [],
         q_cuisine_results: [],
@@ -21,7 +20,7 @@ let init = (app) => {
         uploading: false,
         uploaded_file: "",
         uploaded: false,
-        upload_encoded: "",
+        encoded_image: "",
         review_add_text: "",
         review_add_rating: 0,
         review_rating_display: 0,
@@ -160,7 +159,7 @@ let init = (app) => {
             // We read the file.
             let reader = new FileReader();
             reader.addEventListener("load", function () {
-                app.vue.upload_encoded = reader.result;
+                app.vue.encoded_image = reader.result;
             });
             reader.readAsDataURL(app.vue.selected_image);
         }
@@ -171,28 +170,23 @@ let init = (app) => {
         app.vue.uploaded = true;
     };
 
-    // Ultimate goal is to call this with adding a review for a truck
-        // Post will commit photos to 'images' db
-        // Users can delete the photos by deleting whole review? That will be easiest
-            // Therefore also link the images to the review id -> delete_review
-        // Will need load_images as well as decision on viewing them. First 6 will show and shift through
     app.upload_file = function (t_idx) {
         let truck = app.vue.trucks[t_idx]; // Specific truck images are added to
         app.upload_complete(); // Show that image was uploaded successfully
 
         // Add to Images DB with AJAX
-        console.log(truck.id);
-        console.log(app.vue.upload_encoded);
+        // console.log(truck.id);
+        // console.log(app.vue.upload_encoded);
         axios.post(file_upload_url,
-             {
+            {
                 food_truck_id: truck.id,
-                encoded_image: app.vue.upload_encoded,
+                encoded_image: app.vue.encoded_image,
             }
             ).then(function (result) {
                 truck.images.push({
                     id: result.data.id,
                     created_by: result.data.created_by,
-                    upload_encoded: app.vue.upload_encoded,
+                    encoded_image: app.vue.encoded_image,
                     _idx: truck.images.length,
                 });
                 app.enumerate(truck.images);

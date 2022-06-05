@@ -215,7 +215,7 @@ def delete_listing(food_truck_id=None):
 
 
 @action('load-trucks')
-@action.uses(db)
+@action.uses(db, auth)
 def load_trucks():
     trucks = db(db.food_truck).select().as_list()
     return dict(trucks=trucks, current_user=get_user())
