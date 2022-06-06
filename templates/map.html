@@ -5,12 +5,19 @@
             <div class="ft-listing card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img v-if= "t.thumbnail === ''" @click="toggle_expand_truck(t._idx)" class="img-fluid rounded-start"
-                             src="../static/img/ftf_logo_transparent.png"/>
-                        <img v-if= "t.thumbnail !== ''"  @click="toggle_expand_truck(t._idx)" class="img-fluid rounded-start"
+                        <img v-if= "t.thumbnail === ''" @click="toggle_expand_truck(t._idx)" class="rounded"
                              style="
-                                width:200px;
-                                height:200px;
+                                width:150px;
+                                height:150px;
+                                margin: 10px;
+                                object-fit: cover;
+                                overflow: hidden;"
+                             src="../static/img/ftf_logo_transparent.png"/>
+                        <img v-if= "t.thumbnail !== ''"  @click="toggle_expand_truck(t._idx)" class="rounded"
+                             style="
+                                width:150px;
+                                height:150px;
+                                margin: 10px;
                                 object-fit: cover;
                                 overflow: hidden;"
                             :src="t.thumbnail" />
@@ -20,7 +27,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">{{ t.name }} </h5>
+                            <h5 class="card-title" @click="toggle_expand_truck(t._idx)">{{ t.name }} </h5>
                             <i v-if="Math.floor(t.avg_rating) > 0" v-for="star in Math.floor(t.avg_rating)"
                                class="fas fa-star"></i>
                             <i v-if="Math.floor(t.avg_rating) != t.avg_rating" class="fas fa-star-half"></i>
@@ -71,32 +78,32 @@
                                     <div class="row gx-0">
                                         <!-- Shows max 3 images now rather than previous commits that loop through all images -->
                                         <div class="col-4">
-                                            <img v-if="(t.reviews.length >= 1) && t.reviews[0].encoded_image != null" class="img-fluid rounded"
+                                            <img v-if="(t.reviews.length >= 1) && t.reviews[0].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
                                                 :src="t.reviews[0].encoded_image"/>
                                         </div>
                                         <div class="col-4">
-                                            <img v-if="(t.reviews.length >= 2) && t.reviews[1].encoded_image != null" class="img-fluid rounded"
+                                            <img v-if="(t.reviews.length >= 2) && t.reviews[1].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
                                                 :src="t.reviews[1].encoded_image"/>
                                         </div>
                                         <div class="col-4">
-                                            <img v-if="(t.reviews.length >= 3) && t.reviews[2].encoded_image != null" class="img-fluid rounded"
+                                            <img v-if="(t.reviews.length >= 3) && t.reviews[2].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
                                                 :src="t.reviews[2].encoded_image"/>
                                         </div>
                                         <div class="col-4">
-                                            <img v-if="(t.reviews.length >= 4) && t.reviews[3].encoded_image != null" class="img-fluid rounded"
+                                            <img v-if="(t.reviews.length >= 4) && t.reviews[3].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
                                                 :src="t.reviews[3].encoded_image"/>
                                         </div>
                                         <div class="col-4">
-                                            <img v-if="(t.reviews.length >= 5) && t.reviews[4].encoded_image != null" class="img-fluid rounded"
+                                            <img v-if="(t.reviews.length >= 5) && t.reviews[4].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
                                                 :src="t.reviews[4].encoded_image"/>
                                         </div>
                                         <div class="col-4">
-                                            <img v-if="(t.reviews.length >= 6) && t.reviews[5].encoded_image != null" class="img-fluid rounded"
+                                            <img v-if="(t.reviews.length >= 6) && t.reviews[5].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
                                                 :src="t.reviews[5].encoded_image"/>
                                         </div>

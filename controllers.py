@@ -272,6 +272,15 @@ def delete_review():
 def view_reviews():
     return dict()
 
+@action('view-activity')
+@action.uses('view-activity.html', db, session, auth.user, url_signer)
+def view_activity():
+    trucks = db(db.food_truck.created_by == get_user_email()).select()
+    reviews = db(db.review.created_by == get_user_email()).select()
+
+    return dict(trucks=trucks, reviews=reviews)
+
+
 # Vue End Point : returns a list of food truck names if they match the user's search term
 @action('search')
 @action.uses(db)

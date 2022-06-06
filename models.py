@@ -54,8 +54,8 @@ db.define_table(
     Field('stars', 'integer', IS_INT_IN_RANGE(0, 5), requires=IS_NOT_EMPTY()),  # The star rating 0-5
     Field('text', requires=IS_NOT_EMPTY()),  # The review
     Field('name'),   #The name
-    Field('encoded_image'),
-    Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user)
+    Field('encoded_image', default=''), # image linked to review
+    Field('created_by', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user) # 'reference auth_user' causes my thing to break idk why
 )
 #DB: Food truck
 db.food_truck.id.readable = db.food_truck.id.writable = False
