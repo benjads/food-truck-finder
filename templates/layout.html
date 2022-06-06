@@ -34,43 +34,39 @@
                     </li>
                 </ul>
                 
-                <!-- Bootstrap Search bar -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <div class="input-group rounded">
-                            <input type="search" class="form-control rounded" v-model="query" @keyup="search"
-                                   placeholder="Search"/>
+                <!-- Bootstrap search bar -->
+                <div>
+                    <!-- search bar-->
+                    <form class="d-flex" role="search">
+                        <input type="search" class="form-control rounded" v-model="query" @keyup="search"
+                                placeholder="Search"/>    
+                    </form>
+                    <!-- Search results -->
+                    <div class="dropdown">
+                        <div v-if="query.length != 0 && (q_truck_results.length != 0 || q_cuisine_results.length != 0)" v-cloak>
+                            <ul class="dropdown-menu show">
+                                <!-- Search bar results for food trucks by name -->
+                                <div v-if="q_truck_results.length != 0">
+                                    <li><span class="dropdown-item-text text-center">Food Trucks</span></li>
+                                    <div v-for="r in q_truck_results">
+                                        <li>
+                                            <button class="dropdown-item" type="button" @click="search_toggle_expand_truck(r[1])">{{ r[0] }}</button>
+                                        </li>
+                                    </div>
+                                </div>
+                                <!-- Search bar results for food trucks by cuisine -->
+                                <div v-if="q_cuisine_results.length != 0">
+                                    <li><span class="dropdown-item-text text-center">Cuisine Types</span></li>
+                                    <div v-for="t in q_cuisine_results">
+                                        <li>
+                                            <button class="dropdown-item" type="button" @click="search_toggle_expand_truck(t[1])">{{ t[0] }}</button>
+                                        </li>
+                                    </div>
+                                </div>
+                            </ul>
                         </div>
-                        <!-- The results of the search for Food Trucks by name -->
-                        <div v-if="q_truck_results.length != 0" v-cloak>
-                            <div class="card-header bg-light text-center" >
-                                Food Trucks
-                            </div>
-                        </div>
-                        <div v-for="r in q_truck_results" v-cloak>
-                            <div class="card">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item" 
-                                        @click="search_toggle_expand_truck(r[1])">{{ r[0] }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- The results of the search for Food Trucks by cuisine -->
-                        <div v-if="q_cuisine_results.length != 0" v-cloak>
-                            <div class="card-header bg-light text-center">
-                                Cuisine Type
-                            </div>
-                        </div>
-                        <div v-for="t in q_cuisine_results" v-cloak>
-                            <div class="card">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item" 
-                                        @click="search_toggle_expand_truck(t[1])">{{ t[0] }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                      </div>
+                </div>
 
                 [[if globals().get('user'):]]
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

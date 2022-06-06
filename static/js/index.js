@@ -176,6 +176,9 @@ let init = (app) => {
             truck.expanded = true;
             map.setZoom(16);
             map.panTo(truck.marker.position);
+            // Once the user clicks on a food truck, get rid of the results, but keep the search term
+            app.vue.q_truck_results = [];
+            app.vue.q_cuisine_results = [];
         } else {
             truck.expanded = false;
             map.setZoom(14);
