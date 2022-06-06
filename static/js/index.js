@@ -43,6 +43,7 @@ let init = (app) => {
         // If the user searches for something, then this would return the result
         if (app.vue.query.length > 1) {
             axios.get(search_url, {params: {q: app.vue.query}}).then(function (result) {
+                // This returns [truck name, truck id]
                app.vue.q_truck_results = result.data.truck_results;
                app.vue.q_cuisine_results = result.data.cuisine_results;
             });
@@ -168,6 +169,14 @@ let init = (app) => {
         app.vue.current_user = null;
     }
 
+    // This is for the search bar map expanding
+    app.search_toggle_expand_truck = (index) => {
+        let truck = app.vue.trucks[index - 1];
+        truck.expanded = !truck.expanded;
+        map.setZoom(16);
+        map.panTo(truck.marker.position);
+    };
+
     app.toggle_expand_truck = (idx) => {
         let truck = app.vue.trucks[idx];
         truck.expanded = !truck.expanded; // TODO figure out how to toggle only when clicking outside of card
@@ -189,6 +198,9 @@ let init = (app) => {
         set_add_status: app.set_add_status,
         toggle_expand_truck: app.toggle_expand_truck,
         search: app.search,
+        select_file: app.select_file,
+        upload_file: app.upload_file,
+        search_toggle_expand_truck: app.search_toggle_expand_truck,
     };
 
     // This creates the Vue instance.
