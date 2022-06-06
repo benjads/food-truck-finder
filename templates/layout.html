@@ -33,10 +33,10 @@
                         <a aria-current="page" class="nav-link active" href="[[=URL('index')]]">Home</a>
                     </li>
                 </ul>
-
+                
                 <!-- Bootstrap Search bar -->
-                <ul class="navbar-nav me-auto mb-4 mb-lg-0">
-                    <li class="nav-item">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
                         <div class="input-group rounded">
                             <input type="search" class="form-control rounded" v-model="query" @keyup="search"
                                    placeholder="Search"/>
@@ -80,6 +80,8 @@
                             Hello, [[=globals().get('user',{}).get('first_name')]]
                         </a>
                         <ul aria-labelledby="navbarScrollingDropdown" class="dropdown-menu">
+                            <li><a class="dropdown-item" href="[[=URL('add-listing')]]">Add Listing</a></li>
+                            <li><a class="dropdown-item" href="[[=URL('manage-listings')]]">Manage Listings</a></li>
                             <li><a class="dropdown-item" href="[[=URL('auth/logout')]]">Logout</a></li>
                         </ul>
                     </li>
