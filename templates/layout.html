@@ -50,7 +50,8 @@
                         <div v-for="r in q_truck_results" v-cloak>
                             <div class="card">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">{{ r }}</li>
+                                    <li class="list-group-item" 
+                                        @click="search_toggle_expand_truck(r[1])">{{ r[0] }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -63,7 +64,8 @@
                         <div v-for="t in q_cuisine_results" v-cloak>
                             <div class="card">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">{{ t }}</li>
+                                    <li class="list-group-item" 
+                                        @click="search_toggle_expand_truck(t[1])">{{ t[0] }}</li>
                                 </ul>
                             </div>
                         </div>

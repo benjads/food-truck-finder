@@ -282,10 +282,10 @@ def search():
     for truck in food_trucks:
         # If search term is a substring in the name, then append it to the return list
         if q.lower() in truck['name'].lower():
-            truck_results.append(truck['name'])
+            truck_results.append([truck['name'], truck['id']])
         # If the search term matches with the cuisine type, then append it to the list
         if q.lower() in truck['cuisine_type'].lower():
-            cuisine_results.append(truck['name'])
+            cuisine_results.append([truck['name'], truck['id']])
 
     return dict(truck_results=truck_results, cuisine_results=cuisine_results)
 
