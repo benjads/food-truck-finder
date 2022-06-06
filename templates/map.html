@@ -60,14 +60,20 @@
                                 <h5>Photos</h5>
                                 <div class="pb-3">
                                     <div class="row gx-0">
-                                        <div class="col-4" v-for="review in t.reviews">
-                                            <img v-if="review.encoded_image != null" class="img-fluid"
-                                                 :src="review.encoded_image"/>
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 1) && t.reviews[0].encoded_image != null" class="img-fluid"
+                                            :src="t.reviews[0].encoded_image"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 2) && t.reviews[1].encoded_image != null" class="img-fluid"
+                                            :src="t.reviews[1].encoded_image"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 3) && t.reviews[2].encoded_image != null" class="img-fluid"
+                                            :src="t.reviews[2].encoded_image"/>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- UPLOAD IMAGES W/ PREVIEW -->
                                 
 
                                 <!-- ADD REVIEW -->
