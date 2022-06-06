@@ -114,12 +114,19 @@
                     <li class="nav-item">
                         <a aria-current="page" class="nav-link active" href="[[=URL('about-us')]]">About Us</a>
                     </li>
+                    [[if globals().get('user'):]]
                     <li class="nav-item">
                         <a aria-current="page" class="nav-link active" href="[[=URL('add-listing')]]">Add Listing</a>
                     </li>
                     <li class="nav-item">
                         <a aria-current="page" class="nav-link active" href="[[=URL('manage-listings')]]">Manage Listings</a>
                     </li>
+                    [[else:]]
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" href="[[=URL('auth/register')]]">Register an Account</a>
+                    </li>
+                    [[pass]]
+
                 </ul>
                 <div class="text-white">
                     © Copyright 2022 Food Truck Finder
