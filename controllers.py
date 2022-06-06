@@ -267,6 +267,10 @@ def delete_review():
     db(db.review.id == request.params.get('id')).delete()
     return "ok"
 
+@action('view-reviews')
+@action.uses('view-reviews.html', db, auth, url_signer)
+def view_reviews():
+    return dict()
 
 # Vue End Point : returns a list of food truck names if they match the user's search term
 @action('search')

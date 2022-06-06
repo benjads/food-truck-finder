@@ -56,12 +56,39 @@
                                 </table>
 
                                 <!-- DISPLAY IMAGES FOR EXPANDED TRUCK -->
-                                <h5>Photos</h5>
+                                <h5>Photos <a href="/food-truck-finder/view-reviews/">(See all)</a> </h5>
                                 <div class="pb-3">
                                     <div class="row gx-0">
-                                        <div class="col-4" v-for="review in t.reviews">
-                                            <img v-if="review.encoded_image != null" class="img-fluid rounded" style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
-                                                 :src="review.encoded_image"/>
+                                        <!-- Shows max 3 images now rather than previous commits that loop through all images -->
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 1) && t.reviews[0].encoded_image != null" class="img-fluid rounded"
+                                                style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                :src="t.reviews[0].encoded_image"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 2) && t.reviews[1].encoded_image != null" class="img-fluid rounded"
+                                                style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                :src="t.reviews[1].encoded_image"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 3) && t.reviews[2].encoded_image != null" class="img-fluid rounded"
+                                                style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                :src="t.reviews[2].encoded_image"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 4) && t.reviews[3].encoded_image != null" class="img-fluid rounded"
+                                                style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                :src="t.reviews[3].encoded_image"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 5) && t.reviews[4].encoded_image != null" class="img-fluid rounded"
+                                                style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                :src="t.reviews[4].encoded_image"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <img v-if="(t.reviews.length >= 6) && t.reviews[5].encoded_image != null" class="img-fluid rounded"
+                                                style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                :src="t.reviews[5].encoded_image"/>
                                         </div>
                                     </div>
                                 </div>
