@@ -70,8 +70,11 @@ def about_us():
 @action.uses('edit-listing.html', db, session, auth.user, url_signer)
 def add_listing():
     dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
-    cuisines = ['Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',
-                'Italian', 'Mediterranean', 'Chinese', 'German', 'Indian', 'Japanese', 'Korean', 'American']
+    cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
+                'Korean', 'Vietnamese', 'American'
+                ]
+    diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal', 'Gluten-free', ]
+
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
         Field('thumbnail'),
@@ -79,6 +82,7 @@ def add_listing():
         Field('lat', requires=IS_NOT_EMPTY()),
         Field('lng', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_IN_SET(cuisines)),
+        Field('dietary_options', requires=IS_IN_SET(diets)),
         Field('phone_number', requires=IS_NOT_EMPTY()),
         Field('email', requires=IS_EMAIL()),
         Field('website', requires=IS_URL())
@@ -88,6 +92,7 @@ def add_listing():
         fields.append(Field('hours_' + dotw + '_close'))
     FormStyleBootstrap4.widgets['cuisine_type'] = SelectWidget()
     form = Form(fields, csrf_session=session, formstyle=FormStyleBootstrap4)
+
     if form.accepted:
         food_truck_id = db.food_truck.insert(
             name=form.vars['name'],
@@ -96,6 +101,7 @@ def add_listing():
             lat=form.vars['lat'],
             lng=form.vars['lng'],
             cuisine_type=form.vars['cuisine_type'],
+            dietary_options=form.vars['dietary_options'],
             phone_number=form.vars['phone_number'],
             email=form.vars['email'],
             website=form.vars['website']
@@ -116,6 +122,9 @@ def add_listing():
             )
 
         redirect(URL('manage-listings'))
+    else: # debug
+        print('FAILED TO ADD FORM')
+
     # Either this is a GET request, or this is a POST but not accepted = with errors.
     return dict(action_name='Add', form=form)
 
@@ -141,14 +150,17 @@ def edit_listing(food_truck_id=None):
 
     dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
     # list of cuisine types here
-    cuisines = ['Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',
-                'Italian', 'Mediterranean', 'Chinese', 'German', 'Indian', 'Japanese', 'Korean', 'American']
+    cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
+                'Korean', 'Vietnamese', 'American'
+                ]
+    diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal', 'Gluten-free', ]
 
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
         Field('thumbnail'),
         Field('address', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_IN_SET(cuisines)),
+        Field('dietary_options', requires=IS_IN_SET(diets)),
         Field('lat', requires=IS_NOT_EMPTY()),
         Field('lng', requires=IS_NOT_EMPTY()),
         Field('phone_number', requires=IS_NOT_EMPTY()),
@@ -178,6 +190,7 @@ def edit_listing(food_truck_id=None):
             lat=form.vars['lat'],
             lng=form.vars['lng'],
             cuisine_type=form.vars['cuisine_type'],
+            dietary_options=form.vars['dietary_options'],
             phone_number=form.vars['phone_number'],
             email=form.vars['email'],
             website=form.vars['website']

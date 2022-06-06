@@ -31,7 +31,10 @@
                             <i v-if="Math.floor(t.avg_rating) > 0" v-for="star in Math.floor(t.avg_rating)"
                                class="fas fa-star"></i>
                             <i v-if="Math.floor(t.avg_rating) != t.avg_rating" class="fas fa-star-half"></i>
-                            <p class="card-text fw-light fst-italic" style="margin: 0;">{{ t.cuisine_type }}</p>
+                            <ul class="card-text fw-light fst-italic" style="display: flex; list-style: none; margin: 0;">
+                                <li >{{ t.cuisine_type }}</li>
+                                <li v-if="t.dietary_options !== 'None'">, {{ t.dietary_options }} options </li>
+                            </ul>
                             <p name="card-text"> Reviews ({{ t.reviews.length }})</p>
                             <h6 class="text-center pb-3">{{ t.address }}</h6>
 
