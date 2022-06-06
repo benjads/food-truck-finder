@@ -2,8 +2,8 @@
 
 <section class="section">
   <div class="auth-container">
-  <h1 class="title text-center">Manage Your Listings</h1>
-    <table class="table table-striped">
+    <h1 class="title text-center">Manage Your Listings</h1>
+    <table class="table">
       <thead>
         <tr>
           <th>Food Truck Name</th>
@@ -14,7 +14,7 @@
       <tbody>
       [[for truck in trucks:]]
         <tr>
-          <td>[[=truck.name]]</td>
+          <td >[[=truck.name]]</td>
           <td>[[=truck.address]]</td>
            <!-- Edit button -->
           <td>
