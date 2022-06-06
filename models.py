@@ -27,7 +27,7 @@ db.define_table(
     'food_truck',
     # food truck ID
     Field('name', requires=IS_NOT_EMPTY()),
-    Field('thumbnail'), # Image of food truck for listing
+    Field('thumbnail', default=''), # Image of food truck for listing
     Field('address', requires=IS_NOT_EMPTY()),
     Field('cuisine_type', requires=IS_IN_SET(cuisines, multiple=True)),
     Field('lat', 'double', requires=IS_FLOAT_IN_RANGE(-1e100, 1e100)),
