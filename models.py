@@ -22,7 +22,7 @@ def get_time():
 cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
             'Korean', 'Vietnamese', 'American'
             ]
-diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal', 'Gluten-free',]
+diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',]
 
 # Table for a single food truck
 db.define_table(

@@ -73,7 +73,7 @@ def add_listing():
     cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
                 'Korean', 'Vietnamese', 'American'
                 ]
-    diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal', 'Gluten-free', ]
+    diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal', ]
 
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
@@ -153,7 +153,7 @@ def edit_listing(food_truck_id=None):
     cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
                 'Korean', 'Vietnamese', 'American'
                 ]
-    diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal', 'Gluten-free', ]
+    diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',]
 
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
