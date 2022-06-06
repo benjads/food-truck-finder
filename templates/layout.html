@@ -42,7 +42,7 @@
                                    placeholder="Search"/>
                         </div>
                         <!-- The results of the search for Food Trucks by name -->
-                        <div v-if="q_truck_results.length != 0">
+                        <div v-if="q_truck_results.length != 0" v-cloak>
                             <div class="card-header bg-light text-center" >
                                 Food Trucks
                             </div>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <!-- The results of the search for Food Trucks by cuisine -->
-                        <div v-if="q_cuisine_results.length != 0">
+                        <div v-if="q_cuisine_results.length != 0" v-cloak>
                             <div class="card-header bg-light text-center">
                                 Cuisine Type
                             </div>
