@@ -172,16 +172,39 @@ let init = (app) => {
     // This is for the search bar map expanding
     app.search_toggle_expand_truck = (index) => {
         let truck = app.vue.trucks[index - 1];
-        truck.expanded = !truck.expanded;
-        map.setZoom(16);
-        map.panTo(truck.marker.position);
+        if (truck.expanded == false) {
+            truck.expanded = true;
+            map.setZoom(16);
+            map.panTo(truck.marker.position);
+        } else {
+            truck.expanded = false;
+            map.setZoom(14);
+            // Remove this if you just want to zoom out
+            // map.panTo({lat: 36.968, lng: -122.057}); // Centers the map back to original position
+        }
+        // truck.expanded = !truck.expanded;
+        // map.setZoom(16);
+        // map.panTo(truck.marker.position);
     };
 
+    // This is for the sidebar to expand the map when clicked on
     app.toggle_expand_truck = (idx) => {
         let truck = app.vue.trucks[idx];
-        truck.expanded = !truck.expanded; // TODO figure out how to toggle only when clicking outside of card
-        map.setZoom(16);
-        map.panTo(truck.marker.position);
+        // If we weren't zoomed in, now we want to zoom in, otherwise zoom out
+        if (truck.expanded == false) {
+            truck.expanded = true;
+            map.setZoom(16);
+            map.panTo(truck.marker.position);
+        } else {
+            truck.expanded = false;
+            map.setZoom(14);
+            // Remove this if you just want to zoom out
+            // map.panTo({lat: 36.968, lng: -122.057}); // Centers the map back to original position
+        }
+        // The original function to just zoom in
+        // truck.expanded = !truck.expanded; // TODO figure out how to toggle only when clicking outside of card
+        // map.setZoom(16);
+        // map.panTo(truck.marker.position);
     };
 
     
