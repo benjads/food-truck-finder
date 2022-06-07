@@ -84,34 +84,121 @@
                                         <div class="col-4">
                                             <img v-if="(t.reviews.length >= 1) && t.reviews[0].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                data-bs-toggle="modal" data-bs-target="#expandImage1"
                                                 :src="t.reviews[0].encoded_image"/>
                                         </div>
                                         <div class="col-4">
                                             <img v-if="(t.reviews.length >= 2) && t.reviews[1].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                data-bs-toggle="modal" data-bs-target="#expandImage2"
                                                 :src="t.reviews[1].encoded_image"/>
                                         </div>
                                         <div class="col-4">
                                             <img v-if="(t.reviews.length >= 3) && t.reviews[2].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                data-bs-toggle="modal" data-bs-target="#expandImage3"
                                                 :src="t.reviews[2].encoded_image"/>
                                         </div>
                                         <div class="col-4">
                                             <img v-if="(t.reviews.length >= 4) && t.reviews[3].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                data-bs-toggle="modal" data-bs-target="#expandImage4"
                                                 :src="t.reviews[3].encoded_image"/>
                                         </div>
                                         <div class="col-4">
                                             <img v-if="(t.reviews.length >= 5) && t.reviews[4].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                data-bs-toggle="modal" data-bs-target="#expandImage5"
                                                 :src="t.reviews[4].encoded_image"/>
                                         </div>
                                         <div class="col-4">
                                             <img v-if="(t.reviews.length >= 6) && t.reviews[5].encoded_image != ''" class="img-fluid rounded"
                                                 style="width:106px; height: 106px; margin: 2px; object-fit: cover; overflow: hidden;"
+                                                data-bs-toggle="modal" data-bs-target="#expandImage6"
                                                 :src="t.reviews[5].encoded_image"/>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- MODALS TO (IM SORRY, HACKY SOLUTION) -->
+                                <!-- Modal to expand image from Photos -->
+                                <div class="modal fade" id="expandImage1" tabindex="-1" role="dialog" aria-labelledby="expandImage1" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">My Photos</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                                        style="width: 100%;"
+                                        :src="t.reviews[0].encoded_image"/></a>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="expandImage2" tabindex="-1" role="dialog" aria-labelledby="expandImage2" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">My Photos</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                                        style="width: 100%;"
+                                        :src="t.reviews[1].encoded_image"/></a>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="expandImage3" tabindex="-1" role="dialog" aria-labelledby="expandImage3" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">My Photos</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                                        style="width: 100%;"
+                                        :src="t.reviews[2].encoded_image"/></a>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="expandImage4" tabindex="-1" role="dialog" aria-labelledby="expandImage4" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">My Photos</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                                        style="width: 100%;"
+                                        :src="t.reviews[3].encoded_image"/></a>
+                                    </div>
+                                  </div>
+                                </div>
+                             <div class="modal fade" id="expandImage5" tabindex="-1" role="dialog" aria-labelledby="expandImage5" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">My Photos</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                                        style="width: 100%;"
+                                        :src="t.reviews[4].encoded_image"/></a>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="expandImage6" tabindex="-1" role="dialog" aria-labelledby="expandImage6" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">My Photos</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                                        style="width: 100%;"
+                                        :src="t.reviews[5].encoded_image"/></a>
+                                    </div>
+                                  </div>
                                 </div>
 
                                 <!-- ADD REVIEW -->

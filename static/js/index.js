@@ -31,8 +31,7 @@ let init = (app) => {
     app.view_reviews_url = (idx) => {
         let truck = app.vue.trucks[idx];
         app.vue.reviews_url = "/food-truck-finder/view-reviews/" + truck.id;
-        
-        console.log(app.vue.reviews_url)
+
         return app.vue.reviews_url
     }
     app.enumerate = (a) => {
