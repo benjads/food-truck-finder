@@ -36,7 +36,8 @@ for item in settings.LOGGERS:
 # #######################################################
 # connect to db
 # #######################################################
-if os.environ.get("GAE_ENV"):
+# if os.environ.get("GAE_ENV"):
+if True:
     db = DAL(
         settings.CLOUD_DB_URI,
         migrate=settings.CLOUD_DB_MIGRATE,

@@ -21,14 +21,14 @@ DB_MIGRATE = True
 DB_FAKE_MIGRATE = False  # maybe?
 
 # Google Cloud Database
-CLOUD_DB_URI = "google:MySQLdb://{DB_USER}:{DB_PASSWORD}@/{DB_NAME}?unix_socket=/cloudsql/{DB_CONNECTION}".format(
+CLOUD_DB_URI = "mysql://{DB_USER}:{DB_PASSWORD}@/{DB_NAME}?unix_socket=/cloudsql/{DB_CONNECTION}".format(
     DB_USER=CLOUD_DB_USER,
     DB_NAME=CLOUD_DB_NAME,
     DB_PASSWORD=CLOUD_DB_PASSWORD,
     DB_CONNECTION=CLOUD_DB_CONNECTION
 )
 CLOUD_DB_POOL_SIZE = 1
-CLOUD_DB_MIGRATE = True
+CLOUD_DB_MIGRATE = False
 CLOUD_DB_FAKE_MIGRATE = False
 
 # location where static files are stored:
