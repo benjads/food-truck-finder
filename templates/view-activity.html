@@ -24,7 +24,13 @@
             [[for review in reviews:]]
                     [[if truck.id == review.food_truck_id:]]
                         <div class="auth-container" style="max-width: 100%;">
+                            <ul style="display: flex; list-style: none; padding: 0px;">
+                            [[for i in range(review.stars):]]
+                                <li><i class="fas fa-star"></i></li>
+                            [[pass]]
+                            </ul>
                             [[=review.text]]
+                            <p class="text-muted">- [[=review.name]]</p>
                         </div>
                     [[pass]]
             [[pass]]
