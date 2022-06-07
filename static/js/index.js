@@ -162,6 +162,7 @@ let init = (app) => {
         trucks.map((truck) => {
             truck.reviews = [];
             truck.images = [];
+            truck.hours = {};
             truck.expanded = false;
             truck.avg_rating = 0;
             truck.marker = null;
@@ -293,6 +294,11 @@ function initGoogle() {
                     app.enumerate(truck.reviews)
                     truck.avg_rating = app.get_avg_rating(truck._idx);
                 });
+                // load the hours for the food truck
+                axios.get(load_truck_hours_url, {params: {food_truck_id: food_truck_id}}).then( (result) => {
+                    truck.hours = result.data.hours;
+                });
+
 
             }
         });

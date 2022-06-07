@@ -18,7 +18,7 @@ def get_user():
 def get_time():
     return datetime.datetime.utcnow()
 
-
+dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
             'Korean', 'Vietnamese', 'American']
 diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal']

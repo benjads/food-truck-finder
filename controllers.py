@@ -32,7 +32,7 @@ from yatl.helpers import A
 from py4web.utils.form import *
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
-from .models import get_user_email, get_user, cuisines, diets
+from .models import get_user_email, get_user, cuisines, diets, dotws
 from pydal.validators import *
 
 # For search bar functionality
@@ -55,6 +55,7 @@ def index():
         search_url=URL('search', signer=url_signer),
         my_callback_url=URL('my-callback', signer=url_signer),
         upload_thumbnail_url=URL('upload_thumbnail', signer=url_signer),
+        load_truck_hours_url=URL('load_truck_hours', signer=url_signer),
     )
 
 
@@ -69,7 +70,7 @@ def about_us():
 @action('add-listing', method=["GET", "POST"])
 @action.uses('edit-listing.html', db, session, auth.user, url_signer)
 def add_listing():
-    dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+    # dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
     # cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
     #             'Korean', 'Vietnamese', 'American'
     #             ]
@@ -148,7 +149,7 @@ def edit_listing(food_truck_id=None):
     if curr is None:
         redirect(URL('index'))
 
-    dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+    # dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
     # list of cuisine types here
     # cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
     #             'Korean', 'Vietnamese', 'American'
@@ -319,3 +320,45 @@ def search():
             cuisine_results.append([truck['name'], truck['id']])
 
     return dict(truck_results=truck_results, cuisine_results=cuisine_results)
+
+# Vue End Point : returns a list of hours for display
+@action('load_truck_hours')
+@action.uses(db)
+def load_truck_hours():
+    id = request.params.get("food_truck_id")
+    table = db(db.food_truck_hours.food_truck_id == id).select()
+
+    # Store the dictionary with strings of the times they open and close
+    hours = {"Monday": None, "Tuesday": None, "Wednesday": None, "Thursday": None, 
+            "Friday": None, "Saturday": None, "Sunday": None}
+    for day in table:
+        d = day['dotw']
+        open_time = day['open_time']
+        close_time = day['close_time']
+        
+        # Create a time string
+        time = open_time +  " - " + close_time
+        # Associate the time
+        if d == "mon":
+            hours["Monday"] = time
+        elif d == "tue":
+            hours["Tuesday"] = time
+        elif d == "wed":
+            hours["Wednesday"] = time
+        elif d == "thu":
+            hours["Thursday"] = time
+        elif d == "fri":
+            hours["Friday"] = time
+        elif d == "sat":
+            hours["Saturday"] = time
+        elif d == "sun":
+            hours["Sunday"] = time
+
+    # Iterate over the dict, if someone didn't specify a time, the string is "Closed"
+    for x in hours:
+        if hours[x] == None:
+            hours[x] = "Closed"
+
+    return dict(hours=hours)
+
+
