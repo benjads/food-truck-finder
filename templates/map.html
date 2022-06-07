@@ -37,7 +37,7 @@
                             <h6 class="text-center pb-3">{{ t.address }}</h6>
 <!--                            TODO MENU OPTION HERE -->
                             <!-- TRUCK HOURS/ AVAILABILITY -->
-                            <div v-if="t.expanded">
+                            <div v-if="t.expanded"></div>
                                 <h5>Hours & Location</h5>
 
                                 <!-- Table for Food Truck Hours -->
@@ -76,7 +76,9 @@
 
                                 <!-- DISPLAY IMAGES FOR EXPANDED TRUCK -->
                                 <h5>Photos</h5>
+                                
                                 <div class="pb-3">
+                                
                                     <div class="row gx-0">
                                         <!-- Shows max 3 images now rather than previous commits that loop through all images -->
                                         <div class="col-4">
@@ -195,12 +197,9 @@
                                 </div>
 
                                 <div class="text-end">
-                                    <button
-                                            v-if="current_user"
-                                            @click="set_add_status(true)"
-                                            type="button"
-                                            class="btn btn-small btn-success">See All
-                                    </button>
+                                    <a :href="view_reviews_url(t._idx)">
+                                        <button type="button" class="btn btn-small btn-success">See All</button>
+                                    </a>
                                     <button
                                             v-if="current_user"
                                             @click="set_add_status(true)" type="button"
