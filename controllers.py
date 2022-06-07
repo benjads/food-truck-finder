@@ -73,7 +73,7 @@ def add_listing():
     cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
                 'Korean', 'Vietnamese', 'American'
                 ]
-    diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal', ]
+    # diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal', ]
 
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
@@ -82,7 +82,7 @@ def add_listing():
         Field('lat', requires=IS_NOT_EMPTY()),
         Field('lng', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_IN_SET(cuisines)),
-        Field('dietary_options', requires=IS_IN_SET(diets)),
+        # Field('dietary_options', requires=IS_IN_SET(diets)),
         Field('phone_number', requires=IS_NOT_EMPTY()),
         Field('email', requires=IS_EMAIL()),
         Field('website', requires=IS_URL())
@@ -101,7 +101,7 @@ def add_listing():
             lat=form.vars['lat'],
             lng=form.vars['lng'],
             cuisine_type=form.vars['cuisine_type'],
-            dietary_options=form.vars['dietary_options'],
+            # dietary_options=form.vars['dietary_options'],
             phone_number=form.vars['phone_number'],
             email=form.vars['email'],
             website=form.vars['website']
@@ -153,14 +153,14 @@ def edit_listing(food_truck_id=None):
     cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
                 'Korean', 'Vietnamese', 'American'
                 ]
-    diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',]
+    # diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',]
 
     fields = [
         Field('name', requires=IS_NOT_EMPTY()),
         Field('thumbnail'),
         Field('address', requires=IS_NOT_EMPTY()),
         Field('cuisine_type', requires=IS_IN_SET(cuisines)),
-        Field('dietary_options', requires=IS_IN_SET(diets)),
+        # Field('dietary_options', requires=IS_IN_SET(diets)),
         Field('lat', requires=IS_NOT_EMPTY()),
         Field('lng', requires=IS_NOT_EMPTY()),
         Field('phone_number', requires=IS_NOT_EMPTY()),
@@ -190,7 +190,7 @@ def edit_listing(food_truck_id=None):
             lat=form.vars['lat'],
             lng=form.vars['lng'],
             cuisine_type=form.vars['cuisine_type'],
-            dietary_options=form.vars['dietary_options'],
+            # dietary_options=form.vars['dietary_options'],
             phone_number=form.vars['phone_number'],
             email=form.vars['email'],
             website=form.vars['website']
@@ -279,23 +279,6 @@ def add_review():
 def delete_review():
     db(db.review.id == request.params.get('id')).delete()
     return "ok"
-
-@action('view-reviews/') # <food_truck_id:int>
-@action.uses('view-reviews.html', db, auth, url_signer)
-def view_reviews(food_truck_id):
-    # All the reviews for the current food truck
-    reviews = db(db.review.food_truck_id == food_truck_id).select()
-
-    return dict(reviews=reviews)
-
-@action('view-activity')
-@action.uses('view-activity.html', db, session, auth.user)
-def view_activity():
-    trucks = db(db.food_truck.created_by == get_user_email()).select()
-    reviews = db(db.review.created_by == get_user_email()).select()
-
-    # Unfinished
-    return dict(trucks=trucks, reviews=reviews, url_signer=url_signer)
 
 # Vue End Point : returns a list of food truck names if they match the user's search term
 @action('search')

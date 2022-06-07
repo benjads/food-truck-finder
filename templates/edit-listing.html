@@ -4,6 +4,7 @@
     <h1 class="title text-center">[[=action_name]] a Listing</h1>
     <div id="ft-form">
         [[=form.custom.begin ]]
+        [[=form.custom.__dict__ ]]
         [[for key in form.custom.wrappers: ]]
         [[ if not (key.startswith('hours_') or key == 'lat' or key == 'lng' or key == 'thumbnail'): ]]
         <div class="form-group">
@@ -99,7 +100,6 @@
 
                 const lngField = document.getElementById('no_table_lng');
                 lngField.value = results[0].geometry.location.lng();
-                ftForm.submit();
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }

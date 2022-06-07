@@ -20,9 +20,8 @@ def get_time():
 
 
 cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
-            'Korean', 'Vietnamese', 'American'
-            ]
-diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',]
+            'Korean', 'Vietnamese', 'American']
+# diets = ['None', 'Vegetarian', 'Vegan', 'Pescatarian', 'Gluten-free', 'Kosher', 'Halal',]
 
 # Table for a single food truck
 db.define_table(
@@ -32,7 +31,7 @@ db.define_table(
     Field('thumbnail', default=''), # Image of food truck for listing
     Field('address', requires=IS_NOT_EMPTY()),
     Field('cuisine_type', requires=IS_IN_SET(cuisines, multiple=True)),
-    Field('dietary_options', requires=IS_IN_SET(diets, multiple=True), default=''),
+    # Field('dietary_options', requires=IS_IN_SET(diets, multiple=True), default=''),
     Field('lat', 'double', requires=IS_FLOAT_IN_RANGE(-1e100, 1e100)),
     Field('lng', 'double', requires=IS_FLOAT_IN_RANGE(-1e100, 1e100)),
     Field('phone_number', requires=IS_NOT_EMPTY()),
@@ -58,12 +57,12 @@ db.define_table(
     Field('text', requires=IS_NOT_EMPTY()),  # The review
     Field('name'),   #The name
     Field('encoded_image', default=''), # image linked to review
-    Field('created_by', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user) # 'reference auth_user' causes my thing to break idk why
+    Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user) # 'reference auth_user' causes my thing to break idk why
 )
+
 #DB: Food truck
 db.food_truck.id.readable = db.food_truck.id.writable = False
 db.food_truck.created_by.readable = db.food_truck.created_by.writable = False
-
 
 # DB: Food Truck Hours
 db.food_truck_hours.id.readable = db.food_truck_hours.id.writable = False
