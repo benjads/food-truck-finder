@@ -3,7 +3,7 @@
 <h1 class="text-center pt-3">[[=truck.name]]</h1>
     <ul style="display: flex; list-style: none; padding: 0px; justify-content: center;">
         <li><h6 class="text-muted">[[=truck.cuisine_type]]</h6></li>
-        [[if truck.dietary_options != '':]]
+        [[if truck.dietary_options != 'None':]]
             <li><h6 class="text-muted">, <em>[[=truck.dietary_options]] options</em></h6></li>
         [[pass]]
     </ul>
