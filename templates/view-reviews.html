@@ -52,13 +52,24 @@
 
     [[for review in reviews:]]
         <div class="auth-container" style="max-width: 100%;">
-            <ul style="display: flex; list-style: none; padding: 0px;">
-            [[for i in range(review.stars):]]
-                <li><i class="fas fa-star"></i></li>
-            [[pass]]
-            </ul>
-            [[=review.text]]
-            <p class="text-muted">- [[=review.name]]</p>
+            <div style="display: flex; justify-content: space-between;">
+                <div>
+                    <ul style="display: flex; list-style: none; padding: 0px;">
+                    [[for i in range(review.stars):]]
+                        <li><i class="fas fa-star"></i></li>
+                    [[pass]]
+                    </ul>
+                    [[=review.text]]
+                    <p class="text-muted">- [[=review.name]]</p>
+                </div>
+                <div>
+                    [[if review.encoded_image != '':]]
+                        <img class="img-fluid rounded"
+                            style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
+                            src="review.encoded_image"/>
+                    [[pass]]
+                </div>
+            </div>
         </div>
     [[pass]]
 </div>
