@@ -12,9 +12,18 @@
 <div class="auth-container" style="border: none; padding: 0px">
     <!-- Truck Info -->
     <ul style=" display: flex; list-style: none; padding: 0px; ">
-        <li><img class="img-fluid rounded mr-3"
-            style="width:150px; height: 150px; margin-right: 25px; object-fit: cover; overflow: hidden;"
-            src="truck.thumbnail"/></li>
+        <li>
+            [[if truck.thumbnail != '':]]
+                <img class="img-fluid rounded mr-3"
+                style="width:150px; height: 150px; margin-right: 25px; object-fit: cover; overflow: hidden;"
+                src="truck.thumbnail"/>
+            [[else:]]
+                <img class="img-fluid rounded mr-3"
+                style="width:150px; height: 150px; margin-right: 25px; object-fit: cover; overflow: hidden;"
+                src="../static/img/ftf_logo_transparent.png"/>
+            [[pass]]
+
+        </li>
         <li>
             <h2>Truck Info</h2>
             <h6 class="text-muted"><strong>Address:</strong> [[=truck.address]]</h6>
@@ -28,7 +37,13 @@
 <div class="auth-container">
     <!-- View Photos -->
     <h2>Photos</h2>
-
+    [[for review in reviews:]]
+        [[if review.encoded_image != '':]]
+            <img class="img-fluid rounded"
+                style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
+                src="review.encoded_image"/>
+        [[pass]]
+    [[pass]]
 </div>
 
 <div class="auth-container">

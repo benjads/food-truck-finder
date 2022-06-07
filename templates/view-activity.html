@@ -4,16 +4,17 @@
     <!-- View Photos -->
     <h2>My Photos</h2>
     [[for review in reviews:]]
-        <img class="img-fluid rounded"
-            style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
-            src="review.encoded_image"/>
+        [[if review.encoded_image != '':]]
+            <img class="img-fluid rounded"
+                style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
+                src="review.encoded_image"/>
+        [[pass]]
     [[pass]]
 </div>
 
 <div class="auth-container">
     <!-- View Reviews -->
     <h2>My Reviews</h2>
-
 
     <!-- Separate review groupings by truck id-->
     [[for truck in trucks:]]
