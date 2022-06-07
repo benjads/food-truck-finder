@@ -11,7 +11,7 @@
         [[if review.encoded_image != '':]]
             <img class="img-fluid rounded"
                 style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
-                src="review.encoded_image"/>
+                src="[[=review.encoded_image]]"/>
         [[pass]]
     [[pass]]
 </div>
@@ -47,7 +47,7 @@
                                     [[if review.encoded_image != '':]]
                                         <img class="img-fluid rounded"
                                             style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
-                                            src="review.encoded_image"/>
+                                            src="[[=review.encoded_image]]"/>
                                     [[pass]]
                                 </div>
                             </div>
