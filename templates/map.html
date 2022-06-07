@@ -5,13 +5,11 @@
             <div class="ft-listing card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img v-if= "t.thumbnail === ''" @click="toggle_expand_truck(t._idx)" class="rounded"
+                        <img v-if= "t.thumbnail === ''" @click="toggle_expand_truck(t._idx)" class="img-fluid rounded-start"
                              style="
                                 width:150px;
                                 height:150px;
-                                margin: 10px;
-                                object-fit: cover;
-                                overflow: hidden;"
+                                margin: 10px;"
                              src="../static/img/ftf_logo_transparent.png"/>
                         <img v-if= "t.thumbnail !== ''"  @click="toggle_expand_truck(t._idx)" class="rounded"
                              style="
@@ -33,11 +31,11 @@
                             <i v-if="Math.floor(t.avg_rating) != t.avg_rating" class="fas fa-star-half"></i>
                             <ul class="card-text fw-light fst-italic" style="display: flex; list-style: none; margin: 0;">
                                 <li >{{ t.cuisine_type }}</li>
-                                <!-- <li v-if="t.dietary_options !== 'None'">, {{ t.dietary_options }} options </li> -->
+                                <li v-if="t.dietary_options !== 'None'">, {{ t.dietary_options }} options </li>
                             </ul>
                             <p name="card-text"> Reviews ({{ t.reviews.length }})</p>
                             <h6 class="text-center pb-3">{{ t.address }}</h6>
-
+<!--                            TODO MENU OPTION HERE -->
                             <!-- TRUCK HOURS/ AVAILABILITY -->
                             <div v-if="t.expanded">
                                 <h5>Hours & Location</h5>
@@ -76,7 +74,7 @@
                                 </table>
 
                                 <!-- DISPLAY IMAGES FOR EXPANDED TRUCK -->
-                                <h5>Photos <a href="/food-truck-finder/view-reviews/">(See all)</a> </h5>
+                                <h5>Photos</h5>
                                 <div class="pb-3">
                                     <div class="row gx-0">
                                         <!-- Shows max 3 images now rather than previous commits that loop through all images -->
