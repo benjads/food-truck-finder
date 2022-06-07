@@ -294,10 +294,9 @@ def view_reviews(food_truck_id):
 @action('view-activity')
 @action.uses('view-activity.html', db, session, auth.user)
 def view_activity():
-    trucks = db(db.food_truck.created_by == get_user_email()).select()
+    trucks = db(db.food_truck).select()
     reviews = db(db.review.created_by == get_user).select()
 
-    # Unfinished
     return dict(trucks=trucks, reviews=reviews, url_signer=url_signer)
 
 # Vue End Point : returns a list of food truck names if they match the user's search term
