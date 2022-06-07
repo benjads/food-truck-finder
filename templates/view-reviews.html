@@ -13,15 +13,14 @@
     <ul style=" display: flex; list-style: none; padding: 0px; ">
         <li>
             [[if truck.thumbnail != '':]]
-                <img class="img-fluid rounded mr-3"
+                <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#expandThumbnail"><img class="img-fluid rounded mr-3"
                     style="width:150px; height: 150px; margin-right: 25px; object-fit: cover; overflow: hidden;"
-                    src="[[=truck.thumbnail]]"/>
+                    src="[[=truck.thumbnail]]"/></a>
             [[else:]]
                 <img class="img-fluid rounded mr-3"
                     style="width:150px; height: 150px; margin-right: 25px; object-fit: cover; overflow: hidden;"
                     src="../static/img/ftf_logo_transparent.png"/>
             [[pass]]
-
         </li>
         <li>
             <h2>Truck Info</h2>
@@ -42,9 +41,24 @@
 
     [[for review in reviews:]]
         [[if review.encoded_image != '':]]
-            <img class="img-fluid rounded"
+            <img class="img-fluid rounded" data-bs-toggle="modal" data-bs-target="#expandImage[[=review. id]]"
                 style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
                 src="[[=review.encoded_image]]"/>
+
+                <!-- Modal to expand image from Photos -->
+                <div class="modal fade" id="expandImage[[=review.id]]" tabindex="-1" role="dialog" aria-labelledby="expandImage[[=review.id]]" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">[[=truck.name]]</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                        style="width: 100%;"
+                        src="[[=review.encoded_image]]"/></a>
+                    </div>
+                  </div>
+                </div>
         [[pass]]
     [[pass]]
 </div>
@@ -71,12 +85,42 @@
                 </div>
                 <div>
                     [[if review.encoded_image != '':]]
-                        <img class="img-fluid rounded"
+                        <img class="img-fluid rounded" data-bs-toggle="modal" data-bs-target="#expandReview[[=review.id]]"
                             style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
                             src="[[=review.encoded_image]]"/>
                     [[pass]]
                 </div>
             </div>
         </div>
+
+        <!-- Modal to expand image from review -->
+        <div class="modal fade" id="expandReview[[=review.id]]" tabindex="-1" role="dialog" aria-labelledby="expandReview[[=review.id]]" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">[[=truck.name]]</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                style="width: 100%;"
+                src="[[=review.encoded_image]]"/></a>
+            </div>
+          </div>
+        </div>
     [[pass]]
+</div>
+
+<!-- Modal to expand truck thumbnail -->
+<div class="modal fade" id="expandThumbnail" tabindex="-1" role="dialog" aria-labelledby="expandThumbnail" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">[[=truck.name]]</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <a href="javascript:;"><img class="img-fluid rounded mr-3"
+        style="width: 100%;"
+        src="[[=truck.thumbnail]]"/></a>
+    </div>
+  </div>
 </div>
