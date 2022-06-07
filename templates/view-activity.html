@@ -13,11 +13,21 @@
 <div class="auth-container">
     <!-- View Reviews -->
     <h2>My Reviews</h2>
-    [[for review in reviews:]]
-        <!-- Individual Review -->
-            [[=trucks]] review.food_truck_id
-        <div class="auth-container">
-            [[=review.text]]
+
+
+    <!-- Separate review groupings by truck id-->
+    [[for truck in trucks:]]
+        <!-- All reviews made for a truck-->
+        <div class="auth-container" style="max-width: 100%;">
+            <h4>[[=truck.name]] </h4>
+            <p class="text-muted">[[=truck.address]]</p>
+            [[for review in reviews:]]
+                    [[if truck.id == review.food_truck_id:]]
+                        <div class="auth-container" style="max-width: 100%;">
+                            [[=review.text]]
+                        </div>
+                    [[pass]]
+            [[pass]]
         </div>
     [[pass]]
 </div>
