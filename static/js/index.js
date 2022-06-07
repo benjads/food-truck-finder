@@ -123,15 +123,21 @@ let init = (app) => {
     };
     app.get_avg_rating = (t_idx) => {
         let reviews = app.vue.trucks[t_idx].reviews;
-        if(reviews.length == 0){
+        len = reviews.length;
+        if(len == 0){
             return 0
         }
         let avg = 0;
 
         for(let review of reviews){
-            avg += review.stars;
+            if(review.stars != 0){
+                avg += review.stars;
+            } else {
+                len--;
+            }
+            
         }
-        return (avg/(reviews.length))
+        return (avg/(len))
     };
     app.reset_form = function () {
         app.vue.review_add_text = "";
