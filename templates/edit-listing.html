@@ -4,7 +4,6 @@
     <h1 class="title text-center">[[=action_name]] a Listing</h1>
     <div id="ft-form">
         [[=form.custom.begin ]]
-        [[=form.custom.__dict__ ]]
         [[for key in form.custom.wrappers: ]]
         [[ if not (key.startswith('hours_') or key == 'lat' or key == 'lng' or key == 'thumbnail'): ]]
         <div class="form-group">
@@ -34,7 +33,7 @@
 
         <div class="form-group">
             <label class="h4" for="no_table_thumbnail">Picture</label>
-            <input class="file-input" type="file" id="no_table_thumbnail" name="thumbnail" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+            [[=form.custom.widgets['thumbnail'] ]]
         </div>
 
         [[=form.custom.widgets['lat'] ]]
@@ -52,6 +51,7 @@
 ></script>
 <script>
     const addressInput = document.getElementById('no_table_address');
+    const img_input = document.getElementById('no_table_thumbnail');
 
     let geocoder;
     function initGoogle() {
@@ -76,6 +76,10 @@
         // Hide lat/lng fields
         document.getElementById('no_table_lat').style.display = 'none';
         document.getElementById('no_table_lng').style.display = 'none';
+
+        img_input.classList.add('file-input');
+        img_input.setAttribute('type', 'file');
+        img_input.setAttribute('accept', '.jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*');
     });
 
     const ftForm = addressInput.form;
@@ -91,6 +95,8 @@
                 img_input.value = reader.result;
             });
             reader.readAsDataURL(selected_img);
+        } else {
+            img_input.type = 'text';
         }
 
         geocoder.geocode({'address': addressInput.value}, function (results, status) {
