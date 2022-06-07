@@ -78,7 +78,7 @@
         document.getElementById('no_table_lng').style.display = 'none';
     });
 
-    const ftForm = document.forms[0];
+    const ftForm = addressInput.form;
     ftForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -100,6 +100,7 @@
 
                 const lngField = document.getElementById('no_table_lng');
                 lngField.value = results[0].geometry.location.lng();
+                ftForm.submit();
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
