@@ -280,13 +280,15 @@ def delete_review():
     db(db.review.id == request.params.get('id')).delete()
     return "ok"
 
-@action('view-reviews/') # <food_truck_id:int>
-@action.uses('view-reviews.html', db, auth, url_signer)
+@action('view-reviews/<food_truck_id:int>') # <food_truck_id:int>
+@action.uses('view-reviews.html', db, auth)
 def view_reviews(food_truck_id):
-    # All the reviews for the current food truck
+    # All the reviews for the currents food truck
+    trucks = db(db.food_truck.id == food_truck_id).select()
     reviews = db(db.review.food_truck_id == food_truck_id).select()
+    truck = trucks[0] # trucks is a list of 1 object so we are just getting the single truck item
 
-    return dict(reviews=reviews)
+    return dict(truck=truck, reviews=reviews)
 
 @action('view-activity')
 @action.uses('view-activity.html', db, session, auth.user)

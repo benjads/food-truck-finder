@@ -18,7 +18,10 @@
           <td>[[=truck.address]]</td>
            <!-- Edit button -->
           <td>
-            <a class="btn btn-primary" href="[[=URL('edit-listing', truck.id, signer=url_signer)]]">
+             <a class="btn btn-primary" href="[[=URL('view-reviews', truck.id)]]">
+              <span>View</span>
+            </a>
+            <a class="btn btn-warning" href="[[=URL('edit-listing', truck.id, signer=url_signer)]]">
               <span>Edit</span>
             </a>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#truck-del-[[=truck.id]]">

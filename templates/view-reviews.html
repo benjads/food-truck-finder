@@ -1,5 +1,30 @@
 [[extend 'layout.html']]
 
+<h1 class="text-center pt-3">[[=truck.name]]</h1>
+    <ul style="display: flex; list-style: none; padding: 0px; justify-content: center;">
+        <li><h6 class="text-muted">[[=truck.cuisine_type]]</h6></li>
+        [[if truck.dietary_options != '':]]
+            <li><h6 class="text-muted">, <em>[[=truck.dietary_options]] options</em></h6></li>
+        [[pass]]
+    </ul>
+
+
+<div class="auth-container" style="border: none; padding: 0px">
+    <!-- Truck Info -->
+    <ul style=" display: flex; list-style: none; padding: 0px; ">
+        <li><img class="img-fluid rounded mr-3"
+            style="width:150px; height: 150px; margin-right: 25px; object-fit: cover; overflow: hidden;"
+            src="truck.thumbnail"/></li>
+        <li>
+            <h2>Truck Info</h2>
+            <h6 class="text-muted"><strong>Address:</strong> [[=truck.address]]</h6>
+            <h6 class="text-muted"><strong>Website:</strong> [[=truck.website]]</h6>
+            <h6 class="text-muted"><strong>Email:</strong> [[=truck.email]]</h6>
+            <h6 class="text-muted"><strong>Phone Number:</strong> [[=truck.phone_number]]</h6>
+        </li>
+    </ul>
+</div>
+
 <div class="auth-container">
     <!-- View Photos -->
     <h2>Photos</h2>
@@ -10,4 +35,15 @@
     <!-- View Reviews -->
     <h2>Reviews</h2>
 
+    [[for review in reviews:]]
+        <div class="auth-container" style="max-width: 100%;">
+            <ul style="display: flex; list-style: none; padding: 0px;">
+            [[for i in range(review.stars):]]
+                <li><i class="fas fa-star"></i></li>
+            [[pass]]
+            </ul>
+            [[=review.text]]
+            <p class="text-muted">- [[=review.name]]</p>
+        </div>
+    [[pass]]
 </div>
