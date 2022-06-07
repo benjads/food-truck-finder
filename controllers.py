@@ -294,10 +294,21 @@ def view_reviews(food_truck_id):
 @action('view-activity')
 @action.uses('view-activity.html', db, session, auth.user)
 def view_activity():
-    trucks = db(db.food_truck).select()
     reviews = db(db.review.created_by == get_user).select()
+    trucks = db(db.food_truck).select()
+    truck_ids = []
+    truck_objects = []
 
-    return dict(trucks=trucks, reviews=reviews, url_signer=url_signer)
+    # list of all food truck ids that user left review for
+    for review in reviews:
+        if not (review.food_truck_id in truck_ids):
+            truck_ids.append(review.food_truck_id)
+
+    for truck in trucks:
+        if truck.id in truck_ids:
+            truck_objects.append(truck)
+
+    return dict(trucks=truck_objects, reviews=reviews, url_signer=url_signer)
 
 # Vue End Point : returns a list of food truck names if they match the user's search term
 @action('search')

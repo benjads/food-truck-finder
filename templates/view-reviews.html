@@ -37,6 +37,10 @@
 <div class="auth-container">
     <!-- View Photos -->
     <h2>Photos</h2>
+    [[if len(reviews) == 0:]]
+        <p class="text-muted">No photos yet.</p>
+    [[pass]]
+
     [[for review in reviews:]]
         [[if review.encoded_image != '':]]
             <img class="img-fluid rounded"
@@ -49,6 +53,10 @@
 <div class="auth-container">
     <!-- View Reviews -->
     <h2>Reviews</h2>
+
+    [[if len(reviews) == 0:]]
+        <p class="text-muted">No reviews yet.</p>
+    [[pass]]
 
     [[for review in reviews:]]
         <div class="auth-container" style="max-width: 100%;">
