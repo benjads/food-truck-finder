@@ -313,7 +313,7 @@ def search():
         if q.lower() in truck['name'].lower():
             truck_results.append([truck['name'], truck['id']])
         # If the search term matches with the cuisine type, then append it to the list
-        if q.lower() in truck['cuisine_type'].lower():
+        if q.lower() in truck['cuisine_type'].lower() or q.lower() in truck['dietary_options'].lower():
             cuisine_results.append([truck['name'], truck['id']])
 
     return dict(truck_results=truck_results, cuisine_results=cuisine_results)

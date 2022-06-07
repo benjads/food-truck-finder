@@ -2,13 +2,21 @@
 
 <div class="auth-container">
     <!-- View Photos -->
-    <h2>Photos</h2>
+    <h2>My Photos</h2>
+    [[for review in reviews:]]
+        <img class="img-fluid rounded"
+            style="width:100px; height: 100px; margin: 5px 2px 5px 2px; object-fit: cover; overflow: hidden;"
+            :src="review.encoded_image"/>
+    [[pass]]
 </div>
 
 <div class="auth-container">
     <!-- View Reviews -->
-    <h2>Reviews</h2>
+    <h2>My Reviews</h2>
     [[for review in reviews:]]
-        [[=review]]
+        <!-- Individual Review -->
+        <div class="auth-container">
+            [[=review.text]]
+        </div>
     [[pass]]
 </div>
