@@ -347,7 +347,7 @@ def load_truck_hours():
         close_time = day['close_time']
         
         # Create a time string
-        time = open_time +  " - " + close_time
+        time = create_time(open_time, close_time)
         # Associate the time
         if d == "mon":
             hours["Monday"] = time
@@ -371,4 +371,45 @@ def load_truck_hours():
 
     return dict(hours=hours)
 
+# Regular Expression Pattern matching to display the food truck's opening/closing times nicely
+def create_time(opening, closing):
+
+    a = ""
+    b = ""
+
+    # 00:00 -> 12:59 am
+    # 13:00 -> 23:59 pm
+    am = "(0[0-9]|1[0-2]:[0-5][0-9])"
+    am2 = "(0[1-9]:[0-5][0-9])"
+    pm = "(1[2-9]|2[0-3]:[0-5][0-9])"
+
+    # Pattern match for opening
+    if re.match(am, opening) is not None:
+        if re.match(am2, opening) is not None:
+            a = opening[1:] + "am"
+        else:
+            a = opening + "am"
+    if re.match(pm, opening) is not None:
+        left = opening[:-3]
+        right = opening[3:]
+        left = int(left)
+        if left != 12:
+            left -= 12
+        a = str(left) + ":" + right + "pm"
+
+    # Pattern match for closing
+    if re.match(am, closing) is not None:
+        if re.match(am2, closing) is not None:
+            b = closing[1:] + "am"
+        else:
+            b = closing + "am"
+    if re.match(pm, closing) is not None:
+        left = closing[:-3]
+        right = closing[3:]
+        left = int(left)
+        if left != 12:
+            left -= 12
+        b = str(left) + ":" + right + "pm"
+    
+    return a + " - " + b
 
