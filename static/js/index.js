@@ -13,7 +13,7 @@ let init = (app) => {
         query: "",
         q_truck_results: [],
         q_cuisine_results: [],
-        expanded: -1,
+        reviews_url: "/food-truck-finder/view-reviews/1",
         
         // Upload Images
         selection_done: false,
@@ -28,7 +28,12 @@ let init = (app) => {
         review_add_mode: false,
         current_user: null,
     };
+    app.view_reviews_url = (idx) => {
+        let truck = app.vue.trucks[idx];
+        app.vue.reviews_url = "/food-truck-finder/view-reviews/" + truck.id;
 
+        return app.vue.reviews_url
+    }
     app.enumerate = (a) => {
         // This adds an _idx field to each element of the array.
         let k = 0;
@@ -118,15 +123,21 @@ let init = (app) => {
     };
     app.get_avg_rating = (t_idx) => {
         let reviews = app.vue.trucks[t_idx].reviews;
-        if(reviews.length == 0){
+        len = reviews.length;
+        if(len == 0){
             return 0
         }
         let avg = 0;
 
         for(let review of reviews){
-            avg += review.stars;
+            if(review.stars != 0){
+                avg += review.stars;
+            } else {
+                len--;
+            }
+            
         }
-        return (avg/(reviews.length))
+        return (avg/(len))
     };
     app.reset_form = function () {
         app.vue.review_add_text = "";
@@ -190,7 +201,7 @@ let init = (app) => {
         // map.setZoom(16);
         // map.panTo(truck.marker.position);
     };
-
+    
     // This is for the sidebar to expand the map when clicked on
     app.toggle_expand_truck = (idx) => {
         let truck = app.vue.trucks[idx];
@@ -216,6 +227,7 @@ let init = (app) => {
     // This contains all the methods.
     app.methods = {
         add_review: app.add_review,
+        view_reviews_url: app.view_reviews_url,
         delete_review: app.delete_review,
         select_file: app.select_file,
         set_stars: app.set_stars,

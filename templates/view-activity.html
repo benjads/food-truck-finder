@@ -1,5 +1,7 @@
 [[extend 'layout.html']]
 
+<h1 class="text-center pt-3">My Activity</h1>
+
 <div class="auth-container">
     <!-- View Photos -->
     <h2>My Photos</h2>
@@ -9,10 +11,25 @@
 
     [[for review in reviews:]]
         [[if review.encoded_image != '':]]
-            <img class="img-fluid rounded"
+            <img class="img-fluid rounded" data-bs-toggle="modal" data-bs-target="#expandImage[[=review. id]]"
                 style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
                 src="[[=review.encoded_image]]"/>
         [[pass]]
+
+        <!-- Modal to expand image from Photos -->
+        <div class="modal fade" id="expandImage[[=review.id]]" tabindex="-1" role="dialog" aria-labelledby="expandImage[[=review.id]]" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">My Photos</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                style="width: 100%;"
+                src="[[=review.encoded_image]]"/></a>
+            </div>
+          </div>
+        </div>
     [[pass]]
 </div>
 
@@ -31,29 +48,43 @@
             <h4>[[=truck.name]] </h4>
             <p class="text-muted">[[=truck.address]]</p>
             [[for review in reviews:]]
-                    [[if truck.id == review.food_truck_id:]]
-                        <div class="auth-container" style="max-width: 100%;">
-                            <div style="display: flex; justify-content: space-between;">
-                                <div>
-                                    <ul style="display: flex; list-style: none; padding: 0px;">
-                                    [[for i in range(review.stars):]]
-                                        <li><i class="fas fa-star"></i></li>
-                                    [[pass]]
-                                    </ul>
-                                    [[=review.text]]
-                                    <p class="text-muted">- [[=review.name]]</p>
-                                </div>
-                                <div>
-                                    [[if review.encoded_image != '':]]
-                                        <img class="img-fluid rounded"
-                                            style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
-                                            src="[[=review.encoded_image]]"/>
-                                    [[pass]]
-                                </div>
+                [[if truck.id == review.food_truck_id:]]
+                    <div class="auth-container" style="max-width: 100%;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <ul style="display: flex; list-style: none; padding: 0px;">
+                                [[for i in range(review.stars):]]
+                                    <li><i class="fas fa-star"></i></li>
+                                [[pass]]
+                                </ul>
+                                [[=review.text]]
+                                <p class="text-muted">- [[=review.name]]</p>
+                            </div>
+                            <div>
+                                [[if review.encoded_image != '':]]
+                                    <img class="img-fluid rounded"  data-bs-toggle="modal" data-bs-target="#expandReview[[=review. id]]"
+                                        style="width:100px; height: 100px; margin: 5px 3px 5px 3px; object-fit: cover; overflow: hidden;"
+                                        src="[[=review.encoded_image]]"/>
+                                [[pass]]
                             </div>
                         </div>
-                    [[pass]]
-            [[pass]]
+                    </div>
+                [[pass]]
+                <!-- Modal to expand image from Photos -->
+                    <div class="modal fade" id="expandReview[[=review.id]]" tabindex="-1" role="dialog" aria-labelledby="expandReview[[=review.id]]" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">My Reviews</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <a href="javascript:;"><img class="img-fluid rounded mr-3"
+                            style="width: 100%;"
+                            src="[[=review.encoded_image]]"/></a>
+                        </div>
+                      </div>
+                    </div>
+                [[pass]]
         </div>
     [[pass]]
 </div>
