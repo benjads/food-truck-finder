@@ -197,6 +197,12 @@
                                 <div class="text-end">
                                     <button
                                             v-if="current_user"
+                                            @click="set_add_status(true)"
+                                            type="button"
+                                            class="btn btn-small btn-success">See All
+                                    </button>
+                                    <button
+                                            v-if="current_user"
                                             @click="set_add_status(true)" type="button"
                                             class="btn btn-small btn-primary">Add Review
                                     </button>
