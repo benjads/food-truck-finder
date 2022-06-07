@@ -6,7 +6,7 @@
     [[for review in reviews:]]
         <img class="img-fluid rounded"
             style="width:100px; height: 100px; margin: 5px 2px 5px 2px; object-fit: cover; overflow: hidden;"
-            :src="review.encoded_image"/>
+            src="review.encoded_image"/>
     [[pass]]
 </div>
 
@@ -15,6 +15,7 @@
     <h2>My Reviews</h2>
     [[for review in reviews:]]
         <!-- Individual Review -->
+            [[=trucks]] review.food_truck_id
         <div class="auth-container">
             [[=review.text]]
         </div>

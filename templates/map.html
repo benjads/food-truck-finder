@@ -35,9 +35,11 @@
                             </ul>
                             <p name="card-text"> Reviews ({{ t.reviews.length }})</p>
                             <h6 class="text-center pb-3">{{ t.address }}</h6>
+
 <!--                            TODO MENU OPTION HERE -->
                             <!-- TRUCK HOURS/ AVAILABILITY -->
                             <div v-if="t.expanded">
+                                <h6 class="text-center pb-3" style="color: blue;">{{ t.website }}</h6>
                                 <h5>Hours & Location</h5>
 
                                 <table class="ft-hours mb-4">
