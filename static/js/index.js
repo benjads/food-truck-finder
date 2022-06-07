@@ -225,7 +225,6 @@ let init = (app) => {
         toggle_expand_truck: app.toggle_expand_truck,
         search: app.search,
         select_file: app.select_file,
-        upload_file: app.upload_file,
         search_toggle_expand_truck: app.search_toggle_expand_truck,
     };
 
