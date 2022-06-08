@@ -18,6 +18,7 @@ def get_user():
 def get_time():
     return datetime.datetime.utcnow()
 
+
 dotws = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 cuisines = ['Italian', 'Mediterranean', 'German', 'Mexican', 'Thai', 'Chinese', 'Indian', 'Japanese',
             'Korean', 'Vietnamese', 'American']
@@ -28,7 +29,7 @@ db.define_table(
     'food_truck',
     # food truck ID
     Field('name', requires=IS_NOT_EMPTY()),
-    Field('thumbnail', default=''), # Image of food truck for listing
+    Field('thumbnail', 'blob', default=''),  # Image of food truck for listing
     Field('address', requires=IS_NOT_EMPTY()),
     Field('cuisine_type', requires=IS_IN_SET(cuisines, multiple=True)),
     Field('dietary_options', requires=IS_IN_SET(diets, multiple=True), default=''),
@@ -55,12 +56,13 @@ db.define_table(
     Field('food_truck_id', 'reference food_truck', ondelete='CASCADE'),
     Field('stars', 'integer', IS_INT_IN_RANGE(0, 5), requires=IS_NOT_EMPTY()),  # The star rating 0-5
     Field('text', requires=IS_NOT_EMPTY()),  # The review
-    Field('name'),   #The name
-    Field('encoded_image', default=''), # image linked to review
-    Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user) # 'reference auth_user' causes my thing to break idk why
+    Field('name'),  # The name
+    Field('encoded_image', 'blob', default=''),  # image linked to review
+    Field('created_by', 'reference auth_user', requires=IS_NOT_EMPTY(), ondelete='CASCADE', default=get_user)
+    # 'reference auth_user' causes my thing to break idk why
 )
 
-#DB: Food truck
+# DB: Food truck
 db.food_truck.id.readable = db.food_truck.id.writable = False
 db.food_truck.created_by.readable = db.food_truck.created_by.writable = False
 

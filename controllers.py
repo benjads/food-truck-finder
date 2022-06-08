@@ -50,10 +50,10 @@ def index():
         # COMPLETE: return here any signed URLs you need.
         load_trucks_url=URL('load-trucks', signer=url_signer),
         add_review_url=URL('add-review', signer=url_signer),
+        view_reviews_url=URL('view-reviews'),
         delete_review_url=URL('delete-review', signer=url_signer),
         load_reviews_url=URL('load-reviews', signer=url_signer),
         search_url=URL('search', signer=url_signer),
-        my_callback_url=URL('my-callback', signer=url_signer),
         upload_thumbnail_url=URL('upload_thumbnail', signer=url_signer),
         load_truck_hours_url=URL('load_truck_hours', signer=url_signer),
     )

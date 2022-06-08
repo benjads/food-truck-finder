@@ -21,6 +21,7 @@ DB_MIGRATE = True
 DB_FAKE_MIGRATE = False  # maybe?
 
 # Google Cloud Database
+# CLOUD_DB_URI = "mysql://{DB_USER}:{DB_PASSWORD}@{DB_CONNECTION}/{DB_NAME}".format(
 CLOUD_DB_URI = "mysql://{DB_USER}:{DB_PASSWORD}@/{DB_NAME}?unix_socket=/cloudsql/{DB_CONNECTION}".format(
     DB_USER=CLOUD_DB_USER,
     DB_NAME=CLOUD_DB_NAME,
