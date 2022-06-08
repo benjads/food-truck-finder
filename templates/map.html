@@ -29,7 +29,7 @@
                             <i v-if="Math.floor(t.avg_rating) > 0" v-for="star in Math.floor(t.avg_rating)"
                                class="fas fa-star"></i>
                             <i v-if="Math.floor(t.avg_rating) != t.avg_rating" class="fas fa-star-half"></i>
-                            <ul class="card-text fw-light fst-italic" style="display: flex; list-style: none; margin: 0;">
+                            <ul class="card-text fw-light fst-italic ft-cuisine-type">
                                 <li >{{ t.cuisine_type }}</li>
                                 <li v-if="t.dietary_options !== 'None'">, {{ t.dietary_options }} options </li>
                             </ul>
@@ -126,7 +126,7 @@
                                                 </div>
                                             </div>
                                             <div class="field">
-                                                <div>
+                                                <div class="pt-2">
                                                         <span @mouseout="stars_out"
                                                               @mouseover="stars_over(star_idx)"
                                                               @click="set_stars(star_idx)"
@@ -154,7 +154,7 @@
                                                 <!-- Upload of file with preview of selected image -->
                                                 <template v-if="selection_done && !uploaded">
                                                     <!-- Image preview -->
-                                                    <div class="blocks">
+                                                    <div class="blocks pb-2">
                                                         <img width="100px" :src="encoded_image" />
                                                     </div>
                                                 </template>

@@ -56,3 +56,10 @@
 .ft-hours tbody tr th {
     padding-right: 2rem;
 }
+
+.ft-cuisine-type {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
